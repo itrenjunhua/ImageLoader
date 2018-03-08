@@ -34,13 +34,16 @@ public class ImageInfoConfig {
     private Fragment fragment;
     private android.support.v4.app.Fragment fragmentV4;
 
+    private String url;
+
     public ImageInfoConfig(View target, Context context, Activity activity,
-                           Fragment fragment, android.support.v4.app.Fragment fragmentV4) {
+                           Fragment fragment, android.support.v4.app.Fragment fragmentV4, String url) {
         this.target = target;
         this.context = context;
         this.activity = activity;
         this.fragment = fragment;
         this.fragmentV4 = fragmentV4;
+        this.url = url;
     }
 
     public View getTarget() {
@@ -63,6 +66,10 @@ public class ImageInfoConfig {
         return fragmentV4;
     }
 
+    public String getUrl() {
+        return url;
+    }
+
     public static class Builder {
         private View target;
         private Context context;
@@ -70,6 +77,8 @@ public class ImageInfoConfig {
         private Activity activity;
         private Fragment fragment;
         private android.support.v4.app.Fragment fragmentV4;
+
+        private String url;
 
         public Builder() {
         }
@@ -99,8 +108,13 @@ public class ImageInfoConfig {
             return this;
         }
 
+        public Builder url(String url) {
+            this.url = url;
+            return this;
+        }
+
         public ImageInfoConfig build() {
-            return new ImageInfoConfig(target, context, activity, fragment, fragmentV4);
+            return new ImageInfoConfig(target, context, activity, fragment, fragmentV4, url);
         }
     }
 }
