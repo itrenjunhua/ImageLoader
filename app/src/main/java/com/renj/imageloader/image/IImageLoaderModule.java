@@ -1,6 +1,6 @@
 package com.renj.imageloader.image;
 
-import android.content.Context;
+import android.app.Application;
 import android.support.annotation.NonNull;
 
 /**
@@ -18,11 +18,11 @@ import android.support.annotation.NonNull;
  */
 public interface IImageLoaderModule {
     /**
-     * 对框架进行初始化
+     * 对框架进行初始化，参数必须为 {@link Application} ，强制在 Application 类中初始化
      *
-     * @param context 上下文
+     * @param application {@link Application}
      */
-    void init(Context context);
+    void init(Application application);
 
     /**
      * 从网络中加载图片

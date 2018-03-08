@@ -1,13 +1,18 @@
 package com.renj.imageloader.image;
 
-import android.content.Context;
+import android.app.Application;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.GlideBuilder;
 import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.RequestManager;
+import com.bumptech.glide.load.DecodeFormat;
+import com.bumptech.glide.load.engine.cache.InternalCacheDiskCacheFactory;
+import com.bumptech.glide.load.engine.cache.LruResourceCache;
+import com.bumptech.glide.request.RequestOptions;
 
 /**
  * ======================================================================
@@ -23,11 +28,24 @@ import com.bumptech.glide.RequestManager;
  * ======================================================================
  */
 public class GlideLoaderModule implements IImageLoaderModule {
+    // 磁盘缓存大小 50M
+    public static final int DISK_CACHE_SIZE = 50 * 1024 * 1024;
+    // 内存缓存
+    public static final long MEMORY_CACHE_SIZE = (Runtime.getRuntime().maxMemory() / 8);
+    // 缓存目录
+    public static final String DISK_CACHE_NAME = "glide_cache";
     private Glide glide;
 
     @Override
-    public void init(Context context) {
-        glide = Glide.get(context);
+    public void init(Application application) {
+        RequestOptions options = new RequestOptions()
+                .formatOf(DecodeFormat.PREFER_ARGB_8888);
+
+        glide = new GlideBuilder()
+                .setMemoryCache(new LruResourceCache(MEMORY_CACHE_SIZE))
+                .setDiskCache(new InternalCacheDiskCacheFactory(application, DISK_CACHE_NAME, DISK_CACHE_SIZE))
+                .setDefaultRequestOptions(options)
+                .build(application);
     }
 
     @Override
@@ -49,7 +67,7 @@ public class GlideLoaderModule implements IImageLoaderModule {
         if (imageInfoConfig.getBitmap() != null)
             return requestManager.load(imageInfoConfig.getBitmap());
 
-        if (imageInfoConfig.getDrawableId() != -1)
+        if (imageInfoConfig.getDrawableId() > 0)
             return requestManager.load(imageInfoConfig.getDrawableId());
 
         if (imageInfoConfig.getBytes() != null)
@@ -98,6 +116,13 @@ public class GlideLoaderModule implements IImageLoaderModule {
 
     @Override
     public void clearDiskCache() {
-        glide.clearDiskCache();
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                // 必须在子线程中调用
+                glide.clearDiskCache();
+            }
+        });
+        thread.start();
     }
 }
