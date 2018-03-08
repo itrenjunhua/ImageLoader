@@ -3,7 +3,14 @@ package com.renj.imageloader.image;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.support.annotation.DrawableRes;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
+
+import java.io.File;
 
 /**
  * ======================================================================
@@ -27,23 +34,34 @@ public class ImageInfoConfig {
      * 上下文
      */
     private Context context;
-    /**
-     * 当选择Glide框架时，with() 方法可以传递context之外，还可以传递一下参数
-     **/
+    /***当选择Glide框架时，with() 方法可以传递context之外，还可以传递一下参数***/
     private Activity activity;
+    private FragmentActivity fragmentActivity;
     private Fragment fragment;
     private android.support.v4.app.Fragment fragmentV4;
 
-    private String url;
+    /***************图片路径信息********************/
+    private String url; // 网络图片路径
+    private String filePath; //文件路径
+    private File file; //文件路径
+    @DrawableRes
+    private int drawableId;  //资源id
+    private Uri uri;
+    private byte[] bytes;
+    private Bitmap bitmap;
+    private Drawable drawable;
 
-    public ImageInfoConfig(View target, Context context, Activity activity,
-                           Fragment fragment, android.support.v4.app.Fragment fragmentV4, String url) {
-        this.target = target;
-        this.context = context;
-        this.activity = activity;
-        this.fragment = fragment;
-        this.fragmentV4 = fragmentV4;
-        this.url = url;
+    public ImageInfoConfig(Builder builder) {
+        this.target = builder.target;
+        this.context = builder.context;
+        this.activity = builder.activity;
+        this.fragmentActivity = builder.fragmentActivity;
+        this.fragment = builder.fragment;
+        this.fragmentV4 = builder.fragmentV4;
+        this.url = builder.url;
+        this.filePath = builder.filePath;
+        this.file = builder.file;
+        this.drawableId = builder.drawableId;
     }
 
     public View getTarget() {
@@ -58,6 +76,10 @@ public class ImageInfoConfig {
         return activity;
     }
 
+    public FragmentActivity getFragmentActivity() {
+        return fragmentActivity;
+    }
+
     public Fragment getFragment() {
         return fragment;
     }
@@ -70,15 +92,53 @@ public class ImageInfoConfig {
         return url;
     }
 
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public File getFile() {
+        return file;
+    }
+
+    public int getDrawableId() {
+        return drawableId;
+    }
+
+    public Uri getUri() {
+        return uri;
+    }
+
+    public byte[] getBytes() {
+        return bytes;
+    }
+
+    public Bitmap getBitmap() {
+        return bitmap;
+    }
+
+    public Drawable getDrawable() {
+        return drawable;
+    }
+
     public static class Builder {
         private View target;
         private Context context;
-        /* 当选择Glide框架时，with() 方法可以传递context之外，还可以传递一下参数 */
+        /*** 当选择Glide框架时，with() 方法可以传递context之外，还可以传递一下参数 ***/
         private Activity activity;
+        private FragmentActivity fragmentActivity;
         private Fragment fragment;
         private android.support.v4.app.Fragment fragmentV4;
 
-        private String url;
+        /***************图片路径信息********************/
+        private String url; // 网络图片路径
+        private String filePath; //文件路径
+        private File file; //文件路径
+        @DrawableRes
+        private int drawableId;  //资源id
+        private Uri uri;
+        private byte[] bytes;
+        private Bitmap bitmap;
+        private Drawable drawable;
 
         public Builder() {
         }
@@ -98,6 +158,11 @@ public class ImageInfoConfig {
             return this;
         }
 
+        public Builder fragmentActivity(FragmentActivity fragmentActivity) {
+            this.fragmentActivity = fragmentActivity;
+            return this;
+        }
+
         public Builder fragment(Fragment fragment) {
             this.fragment = fragment;
             return this;
@@ -113,8 +178,43 @@ public class ImageInfoConfig {
             return this;
         }
 
+        public Builder filePath(String filePath) {
+            this.filePath = filePath;
+            return this;
+        }
+
+        public Builder file(File file) {
+            this.file = file;
+            return this;
+        }
+
+        public Builder drawableId(@DrawableRes int drawableId) {
+            this.drawableId = drawableId;
+            return this;
+        }
+
+        public Builder uri(Uri uri) {
+            this.uri = uri;
+            return this;
+        }
+
+        public Builder bytes(byte[] bytes) {
+            this.bytes = bytes;
+            return this;
+        }
+
+        public Builder bitmap(Bitmap drawable) {
+            this.bitmap = bitmap;
+            return this;
+        }
+
+        public Builder drawable(Drawable drawable) {
+            this.drawable = drawable;
+            return this;
+        }
+
         public ImageInfoConfig build() {
-            return new ImageInfoConfig(target, context, activity, fragment, fragmentV4, url);
+            return new ImageInfoConfig(this);
         }
     }
 }

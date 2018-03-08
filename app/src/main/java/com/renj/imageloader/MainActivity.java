@@ -28,7 +28,8 @@ public class MainActivity extends AppCompatActivity {
                 String url = "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=4258600537,2998618099&fm=27&gp=0.jpg";
                 ImageInfoConfig config = new ImageInfoConfig.Builder()
                         .context(getApplication())
-                        .url(url)
+                        //.url(url)
+                        .drawableId(R.mipmap.ic_launcher)
                         .target(imageView)
                         .build();
                 ImageLoader.getImageLoaderModule().loadImage(config);
