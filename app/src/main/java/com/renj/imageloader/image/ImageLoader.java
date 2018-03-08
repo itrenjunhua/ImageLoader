@@ -1,5 +1,8 @@
 package com.renj.imageloader.image;
 
+import android.content.Context;
+import android.support.annotation.NonNull;
+
 /**
  * ======================================================================
  * <p>
@@ -19,13 +22,13 @@ public class ImageLoader {
     private ImageLoader() {
     }
 
-    @org.jetbrains.annotations.Contract("null -> fail")
-    public static void initImageLoader(IImageLoaderModule iImageLoaderModule) {
-        if (iImageLoaderModule == null)
+    @org.jetbrains.annotations.Contract("null,null -> fail; _,null -> fail; null,_ -> fail")
+    public static void initImageLoader(@NonNull Context context, @NonNull IImageLoaderModule iImageLoaderModule) {
+        if (iImageLoaderModule == null || context == null)
             throw new NullPointerException("initImageLoader() 方法参数不能为 null");
 
         ImageLoader.iImageLoaderModule = iImageLoaderModule;
-        iImageLoaderModule.init();
+        iImageLoaderModule.init(context);
     }
 
     @org.jetbrains.annotations.Contract(pure = true)

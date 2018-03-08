@@ -1,8 +1,7 @@
 package com.renj.imageloader.image;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.view.View;
 
 /**
  * ======================================================================
@@ -20,16 +19,17 @@ import android.view.View;
 public interface IImageLoaderModule {
     /**
      * 对框架进行初始化
+     *
+     * @param context 上下文
      */
-    void init();
+    void init(Context context);
 
     /**
      * 从网络中加载图片
      *
-     * @param view            显示图片的控件
-     * @param imageInfoConfig 图片信息
+     * @param imageInfoConfig {@link ImageInfoConfig} 对象
      */
-    void loadImage(@NonNull View view, @Nullable ImageInfoConfig imageInfoConfig);
+    void loadImage(@NonNull ImageInfoConfig imageInfoConfig);
 
     /**
      * 清除内存缓存
