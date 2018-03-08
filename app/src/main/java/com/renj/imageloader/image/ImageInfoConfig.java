@@ -14,7 +14,7 @@ package com.renj.imageloader.image;
  * ======================================================================
  */
 public class ImageInfoConfig {
-    private ImageInfoConfig() {
+    protected ImageInfoConfig() {
     }
 
     public static class Builder {
