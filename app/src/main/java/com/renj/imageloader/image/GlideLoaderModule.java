@@ -10,6 +10,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.resource.gif.GifDrawable;
+import com.renj.imageloader.image.loader.IImageLoaderModule;
+import com.renj.imageloader.image.loader.ImageInfoConfig;
 
 /**
  * ======================================================================

@@ -3,7 +3,7 @@ package com.renj.imageloader;
 import android.app.Application;
 
 import com.renj.imageloader.image.GlideLoaderModule;
-import com.renj.imageloader.image.ImageLoader;
+import com.renj.imageloader.image.loader.ImageLoader;
 
 /**
  * ======================================================================

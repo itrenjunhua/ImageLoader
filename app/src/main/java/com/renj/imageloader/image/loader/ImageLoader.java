@@ -1,4 +1,4 @@
-package com.renj.imageloader.image;
+package com.renj.imageloader.image.loader;
 
 import android.app.Application;
 import android.support.annotation.NonNull;
@@ -17,8 +17,6 @@ import android.support.annotation.NonNull;
  * ======================================================================
  */
 public class ImageLoader {
-    private static IImageLoaderModule iImageLoaderModule;
-
     private ImageLoader() {
     }
 
@@ -27,15 +25,14 @@ public class ImageLoader {
         if (iImageLoaderModule == null || application == null)
             throw new NullPointerException("initImageLoader() 方法参数不能为 null");
 
-        ImageLoader.iImageLoaderModule = iImageLoaderModule;
-        iImageLoaderModule.init(application);
+        ImageLoaderUitls.init(application, iImageLoaderModule);
     }
 
     @org.jetbrains.annotations.Contract(pure = true)
     public static IImageLoaderModule getImageLoaderModule() {
-        if (iImageLoaderModule == null)
+        if (ImageLoaderUitls.getImageLoaderModule() == null)
             throw new IllegalStateException("没有调用 ImageLoader.initImageLoader(IImageLoaderModule) 方法进行初始化");
 
-        return ImageLoader.iImageLoaderModule;
+        return ImageLoaderUitls.getImageLoaderModule();
     }
 }

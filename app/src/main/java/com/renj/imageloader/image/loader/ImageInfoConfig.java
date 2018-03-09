@@ -1,4 +1,4 @@
-package com.renj.imageloader.image;
+package com.renj.imageloader.image.loader;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -50,8 +50,12 @@ public class ImageInfoConfig {
     private byte[] bytes;
     private Bitmap bitmap;
     private Drawable drawable;
+
     private boolean isGif;
     private boolean isBitmap;
+
+    private int width;
+    private int height;
 
     public ImageInfoConfig(Builder builder) {
         this.target = builder.target;
@@ -130,6 +134,32 @@ public class ImageInfoConfig {
         return isBitmap;
     }
 
+    public int getWidth() {
+        if (width <= 0) {
+            //先去imageview里取,如果为0,则赋值成matchparent
+            if (target != null) {
+                width = target.getMeasuredWidth();
+            }
+            if (width <= 0) {
+                width = ImageLoaderUitls.getWinWidth();
+            }
+        }
+        return width;
+    }
+
+    public int getHeight() {
+        if (height <= 0) {
+            //先去imageview里取,如果为0,则赋值成matchparent
+            if (target != null) {
+                height = target.getMeasuredWidth();
+            }
+            if (height <= 0) {
+                height = ImageLoaderUitls.getWinHeight();
+            }
+        }
+        return height;
+    }
+
     public static class Builder {
         private View target;
         private Context context;
@@ -149,8 +179,12 @@ public class ImageInfoConfig {
         private byte[] bytes;
         private Bitmap bitmap;
         private Drawable drawable;
+
         private boolean isGif;
         private boolean isBitmap;
+
+        private int width;
+        private int height;
 
         public Builder() {
         }
@@ -215,7 +249,7 @@ public class ImageInfoConfig {
             return this;
         }
 
-        public Builder bitmap(Bitmap drawable) {
+        public Builder bitmap(Bitmap bitmap) {
             this.bitmap = bitmap;
             return this;
         }
@@ -227,6 +261,16 @@ public class ImageInfoConfig {
 
         public Builder asBitmap() {
             this.isBitmap = true;
+            return this;
+        }
+
+        public Builder width(int width) {
+            this.width = width;
+            return this;
+        }
+
+        public Builder bitmap(int height) {
+            this.height = height;
             return this;
         }
 

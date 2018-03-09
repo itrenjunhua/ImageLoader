@@ -1,4 +1,4 @@
-package com.renj.imageloader.image;
+package com.renj.imageloader.image.loader;
 
 import android.app.Application;
 import android.support.annotation.NonNull;
