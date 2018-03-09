@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.resource.gif.GifDrawable;
+import com.bumptech.glide.request.RequestOptions;
 import com.renj.imageloader.image.loader.IImageLoaderModule;
 import com.renj.imageloader.image.loader.ImageInfoConfig;
 
@@ -38,22 +39,46 @@ public class GlideLoaderModule implements IImageLoaderModule {
     public void loadImage(@NonNull ImageInfoConfig imageInfoConfig) {
         RequestManager requestManager = createRequestManager(imageInfoConfig);
 
-        RequestBuilder requestBuilder;
-
         if (imageInfoConfig.isBitmap()) {
             RequestBuilder<Bitmap> bitmapRequestBuilder = requestManager.asBitmap();
-            requestBuilder = loadPath(bitmapRequestBuilder, imageInfoConfig);
+            RequestBuilder<Bitmap> requestBuilder = loadPath(bitmapRequestBuilder, imageInfoConfig);
+            builderControler(imageInfoConfig, requestBuilder);
         } else if (imageInfoConfig.isGif()) {
             RequestBuilder<GifDrawable> gifDrawableRequestBuilder = requestManager.asGif();
-            requestBuilder = loadPath(gifDrawableRequestBuilder, imageInfoConfig);
+            RequestBuilder<GifDrawable> requestBuilder = loadPath(gifDrawableRequestBuilder, imageInfoConfig);
+            builderControler(imageInfoConfig, requestBuilder);
         } else {
             RequestBuilder<Drawable> drawableRequestBuilder = requestManager.asDrawable();
-            requestBuilder = loadPath(drawableRequestBuilder, imageInfoConfig);
+            RequestBuilder<Drawable> requestBuilder = loadPath(drawableRequestBuilder, imageInfoConfig);
+            builderControler(imageInfoConfig, requestBuilder);
         }
+    }
 
+    private <T> void builderControler(@NonNull ImageInfoConfig imageInfoConfig, RequestBuilder<T> requestBuilder) {
+        initInfoConfig(requestBuilder, imageInfoConfig);
+        intoOf(requestBuilder, imageInfoConfig);
+    }
+
+    private <T> void intoOf(RequestBuilder<T> requestBuilder, @NonNull ImageInfoConfig imageInfoConfig) {
         if (imageInfoConfig.getTarget() instanceof ImageView) {
             requestBuilder.into((ImageView) imageInfoConfig.getTarget());
         }
+    }
+
+    @NonNull
+    private <T> RequestBuilder<T> initInfoConfig(@NonNull RequestBuilder<T> requestBuilder, @NonNull ImageInfoConfig imageInfoConfig) {
+        if (imageInfoConfig.getThumbnail() > 0)
+            requestBuilder.thumbnail(imageInfoConfig.getThumbnail());
+
+        RequestOptions requestOptions = new RequestOptions();
+        if (imageInfoConfig.getWidth() > 0 && imageInfoConfig.getHeight() > 0)
+            requestOptions.override(imageInfoConfig.getWidth(), imageInfoConfig.getHeight());
+        if (imageInfoConfig.getWidth() > 0 && imageInfoConfig.getHeight() <= 0)
+            requestOptions.override(imageInfoConfig.getWidth());
+        if (imageInfoConfig.getHeight() > 0 && imageInfoConfig.getWidth() <= 0)
+            requestOptions.override(imageInfoConfig.getHeight());
+
+        return requestBuilder.apply(requestOptions);
     }
 
     @NonNull
@@ -102,6 +127,9 @@ public class GlideLoaderModule implements IImageLoaderModule {
 
         if (imageInfoConfig.getTarget() != null)
             return Glide.with(imageInfoConfig.getTarget());
+
+        if (application != null)
+            return Glide.with(application);
 
         throw new NullPointerException("Glide 获取不到 Context");
     }

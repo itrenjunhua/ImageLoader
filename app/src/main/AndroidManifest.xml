@@ -14,7 +14,7 @@
         android:theme="@style/AppTheme">
 
         <meta-data android:name="com.renj.imageloader.image.MyGlideModule"
-            android:value="GlideModule"/>
+            android:value="AppGlideModule"/>
 
         <activity android:name=".MainActivity">
             <intent-filter>

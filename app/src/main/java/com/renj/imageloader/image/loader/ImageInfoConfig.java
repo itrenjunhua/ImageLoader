@@ -7,6 +7,9 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.FloatRange;
+import android.support.annotation.IntRange;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 
@@ -56,6 +59,7 @@ public class ImageInfoConfig {
 
     private int width;
     private int height;
+    private float thumbnail; // 缩略图缩放倍数
 
     public ImageInfoConfig(Builder builder) {
         this.target = builder.target;
@@ -68,6 +72,15 @@ public class ImageInfoConfig {
         this.filePath = builder.filePath;
         this.file = builder.file;
         this.drawableId = builder.drawableId;
+        this.uri = builder.uri;
+        this.bytes = builder.bytes;
+        this.bitmap = builder.bitmap;
+        this.drawable = builder.drawable;
+        this.isGif = builder.isGif;
+        this.isBitmap = builder.isBitmap;
+        this.width = builder.width;
+        this.height = builder.height;
+        this.thumbnail = builder.thumbnail;
     }
 
     public View getTarget() {
@@ -160,6 +173,10 @@ public class ImageInfoConfig {
         return height;
     }
 
+    public float getThumbnail() {
+        return thumbnail;
+    }
+
     public static class Builder {
         private View target;
         private Context context;
@@ -183,53 +200,57 @@ public class ImageInfoConfig {
         private boolean isGif;
         private boolean isBitmap;
 
+        @IntRange(from = 0)
         private int width;
+        @IntRange(from = 0)
         private int height;
+        @FloatRange(from = 0)
+        private float thumbnail;
 
         public Builder() {
         }
 
-        public Builder target(View target) {
+        public Builder target(@NonNull View target) {
             this.target = target;
             return this;
         }
 
-        public Builder context(Context context) {
+        public Builder context(@NonNull Context context) {
             this.context = context;
             return this;
         }
 
-        public Builder activity(Activity activity) {
+        public Builder activity(@NonNull Activity activity) {
             this.activity = activity;
             return this;
         }
 
-        public Builder fragmentActivity(FragmentActivity fragmentActivity) {
+        public Builder fragmentActivity(@NonNull FragmentActivity fragmentActivity) {
             this.fragmentActivity = fragmentActivity;
             return this;
         }
 
-        public Builder fragment(Fragment fragment) {
+        public Builder fragment(@NonNull Fragment fragment) {
             this.fragment = fragment;
             return this;
         }
 
-        public Builder fragmentV4(android.support.v4.app.Fragment fragmentV4) {
+        public Builder fragmentV4(@NonNull android.support.v4.app.Fragment fragmentV4) {
             this.fragmentV4 = fragmentV4;
             return this;
         }
 
-        public Builder url(String url) {
+        public Builder url(@NonNull String url) {
             this.url = url;
             return this;
         }
 
-        public Builder filePath(String filePath) {
+        public Builder filePath(@NonNull String filePath) {
             this.filePath = filePath;
             return this;
         }
 
-        public Builder file(File file) {
+        public Builder file(@NonNull File file) {
             this.file = file;
             return this;
         }
@@ -239,17 +260,17 @@ public class ImageInfoConfig {
             return this;
         }
 
-        public Builder uri(Uri uri) {
+        public Builder uri(@NonNull Uri uri) {
             this.uri = uri;
             return this;
         }
 
-        public Builder bytes(byte[] bytes) {
+        public Builder bytes(@NonNull byte[] bytes) {
             this.bytes = bytes;
             return this;
         }
 
-        public Builder bitmap(Bitmap bitmap) {
+        public Builder bitmap(@NonNull Bitmap bitmap) {
             this.bitmap = bitmap;
             return this;
         }
@@ -264,13 +285,18 @@ public class ImageInfoConfig {
             return this;
         }
 
-        public Builder width(int width) {
+        public Builder width(@IntRange(from = 0) int width) {
             this.width = width;
             return this;
         }
 
-        public Builder bitmap(int height) {
+        public Builder height(@IntRange(from = 0) int height) {
             this.height = height;
+            return this;
+        }
+
+        public Builder thumbnail(@FloatRange(from = 0) float thumbnail) {
+            this.thumbnail = thumbnail;
             return this;
         }
 
