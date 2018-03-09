@@ -7,14 +7,9 @@ import android.support.annotation.NonNull;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.GlideBuilder;
 import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.RequestManager;
-import com.bumptech.glide.load.DecodeFormat;
-import com.bumptech.glide.load.engine.cache.InternalCacheDiskCacheFactory;
-import com.bumptech.glide.load.engine.cache.LruResourceCache;
 import com.bumptech.glide.load.resource.gif.GifDrawable;
-import com.bumptech.glide.request.RequestOptions;
 
 /**
  * ======================================================================
@@ -30,27 +25,11 @@ import com.bumptech.glide.request.RequestOptions;
  * ======================================================================
  */
 public class GlideLoaderModule implements IImageLoaderModule {
-    // 磁盘缓存大小 50M
-    private static final int DISK_CACHE_SIZE = 50 * 1024 * 1024;
-    // 内存缓存
-    private static final long MEMORY_CACHE_SIZE = (Runtime.getRuntime().maxMemory() / 8);
-    // 缓存目录
-    private static final String DISK_CACHE_NAME = "glide_cache";
     private Application application;
 
     @Override
     public void init(Application application) {
         this.application = application;
-
-        RequestOptions options = RequestOptions
-                .formatOf(DecodeFormat.PREFER_ARGB_8888);
-
-        GlideBuilder glideBuilder = new GlideBuilder()
-                .setMemoryCache(new LruResourceCache(MEMORY_CACHE_SIZE))
-                .setDiskCache(new InternalCacheDiskCacheFactory(application, DISK_CACHE_NAME, DISK_CACHE_SIZE))
-                .setDefaultRequestOptions(options);
-
-        Glide.init(application,glideBuilder);
     }
 
     @Override
