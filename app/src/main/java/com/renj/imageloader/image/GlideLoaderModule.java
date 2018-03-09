@@ -31,27 +31,30 @@ import com.bumptech.glide.request.RequestOptions;
  */
 public class GlideLoaderModule implements IImageLoaderModule {
     // 磁盘缓存大小 50M
-    public static final int DISK_CACHE_SIZE = 50 * 1024 * 1024;
+    private static final int DISK_CACHE_SIZE = 50 * 1024 * 1024;
     // 内存缓存
-    public static final long MEMORY_CACHE_SIZE = (Runtime.getRuntime().maxMemory() / 8);
+    private static final long MEMORY_CACHE_SIZE = (Runtime.getRuntime().maxMemory() / 8);
     // 缓存目录
-    public static final String DISK_CACHE_NAME = "glide_cache";
-    private Glide glide;
+    private static final String DISK_CACHE_NAME = "glide_cache";
+    private Application application;
 
     @Override
     public void init(Application application) {
-        RequestOptions options = new RequestOptions()
+        this.application = application;
+
+        RequestOptions options = RequestOptions
                 .formatOf(DecodeFormat.PREFER_ARGB_8888);
 
-        glide = new GlideBuilder()
+        GlideBuilder glideBuilder = new GlideBuilder()
                 .setMemoryCache(new LruResourceCache(MEMORY_CACHE_SIZE))
                 .setDiskCache(new InternalCacheDiskCacheFactory(application, DISK_CACHE_NAME, DISK_CACHE_SIZE))
-                .setDefaultRequestOptions(options)
-                .build(application);
+                .setDefaultRequestOptions(options);
+
+        Glide.init(application,glideBuilder);
     }
 
     @Override
-    public void loadImage(@NonNull final ImageInfoConfig imageInfoConfig) {
+    public void loadImage(@NonNull ImageInfoConfig imageInfoConfig) {
         RequestManager requestManager = createRequestManager(imageInfoConfig);
 
         RequestBuilder requestBuilder;
@@ -123,8 +126,28 @@ public class GlideLoaderModule implements IImageLoaderModule {
     }
 
     @Override
+    public void pause() {
+        Glide.with(application).pauseRequestsRecursive();
+    }
+
+    @Override
+    public void resume() {
+        Glide.with(application).resumeRequestsRecursive();
+    }
+
+    @Override
     public void clearMemoryCache() {
-        glide.clearMemory();
+        Glide.get(application).clearMemory();
+    }
+
+    @Override
+    public void trimMemory(int level) {
+        Glide.get(application).onTrimMemory(level);
+    }
+
+    @Override
+    public void clearAllMemoryCaches() {
+        Glide.get(application).onLowMemory();
     }
 
     @Override
@@ -133,7 +156,7 @@ public class GlideLoaderModule implements IImageLoaderModule {
             @Override
             public void run() {
                 // 必须在子线程中调用
-                glide.clearDiskCache();
+                Glide.get(application).clearDiskCache();
             }
         });
         thread.start();

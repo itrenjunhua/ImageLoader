@@ -32,9 +32,31 @@ public interface IImageLoaderModule {
     void loadImage(@NonNull ImageInfoConfig imageInfoConfig);
 
     /**
+     * 暂停加载
+     */
+    void pause();
+
+    /**
+     * 开始加载
+     */
+    void resume();
+
+    /**
      * 清除内存缓存
      */
     void clearMemoryCache();
+
+    /**
+     * 根据级别清除内存中的缓存
+     *
+     * @param level 需要清除的级别
+     */
+    void trimMemory(int level);
+
+    /**
+     * 清除所有内存缓存
+     */
+    void clearAllMemoryCaches();
 
     /**
      * 清除磁盘缓存
