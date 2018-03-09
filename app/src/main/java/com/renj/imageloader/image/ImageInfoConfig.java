@@ -50,6 +50,8 @@ public class ImageInfoConfig {
     private byte[] bytes;
     private Bitmap bitmap;
     private Drawable drawable;
+    private boolean isGif;
+    private boolean isBitmap;
 
     public ImageInfoConfig(Builder builder) {
         this.target = builder.target;
@@ -120,6 +122,14 @@ public class ImageInfoConfig {
         return drawable;
     }
 
+    public boolean isGif() {
+        return isGif;
+    }
+
+    public boolean isBitmap() {
+        return isBitmap;
+    }
+
     public static class Builder {
         private View target;
         private Context context;
@@ -139,6 +149,8 @@ public class ImageInfoConfig {
         private byte[] bytes;
         private Bitmap bitmap;
         private Drawable drawable;
+        private boolean isGif;
+        private boolean isBitmap;
 
         public Builder() {
         }
@@ -208,8 +220,13 @@ public class ImageInfoConfig {
             return this;
         }
 
-        public Builder drawable(Drawable drawable) {
-            this.drawable = drawable;
+        public Builder asGif() {
+            this.isGif = true;
+            return this;
+        }
+
+        public Builder asBitmap() {
+            this.isBitmap = true;
             return this;
         }
 

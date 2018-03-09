@@ -1,6 +1,7 @@
 package com.renj.imageloader.image;
 
 import android.app.Application;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.widget.ImageView;
@@ -12,6 +13,7 @@ import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.DecodeFormat;
 import com.bumptech.glide.load.engine.cache.InternalCacheDiskCacheFactory;
 import com.bumptech.glide.load.engine.cache.LruResourceCache;
+import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.bumptech.glide.request.RequestOptions;
 
 /**
@@ -52,7 +54,18 @@ public class GlideLoaderModule implements IImageLoaderModule {
     public void loadImage(@NonNull final ImageInfoConfig imageInfoConfig) {
         RequestManager requestManager = createRequestManager(imageInfoConfig);
 
-        RequestBuilder<Drawable> requestBuilder = loadPath(requestManager, imageInfoConfig);
+        RequestBuilder requestBuilder;
+
+        if (imageInfoConfig.isBitmap()) {
+            RequestBuilder<Bitmap> bitmapRequestBuilder = requestManager.asBitmap();
+            requestBuilder = loadPath(bitmapRequestBuilder, imageInfoConfig);
+        } else if (imageInfoConfig.isGif()) {
+            RequestBuilder<GifDrawable> gifDrawableRequestBuilder = requestManager.asGif();
+            requestBuilder = loadPath(gifDrawableRequestBuilder, imageInfoConfig);
+        } else {
+            RequestBuilder<Drawable> drawableRequestBuilder = requestManager.asDrawable();
+            requestBuilder = loadPath(drawableRequestBuilder, imageInfoConfig);
+        }
 
         if (imageInfoConfig.getTarget() instanceof ImageView) {
             requestBuilder.into((ImageView) imageInfoConfig.getTarget());
@@ -60,30 +73,30 @@ public class GlideLoaderModule implements IImageLoaderModule {
     }
 
     @NonNull
-    private RequestBuilder<Drawable> loadPath(RequestManager requestManager, ImageInfoConfig imageInfoConfig) {
+    private <T> RequestBuilder<T> loadPath(RequestBuilder<T> requestBuilder, ImageInfoConfig imageInfoConfig) {
         if (imageInfoConfig.getDrawable() != null)
-            return requestManager.load(imageInfoConfig.getDrawable());
+            return requestBuilder.load(imageInfoConfig.getDrawable());
 
         if (imageInfoConfig.getBitmap() != null)
-            return requestManager.load(imageInfoConfig.getBitmap());
+            return requestBuilder.load(imageInfoConfig.getBitmap());
 
         if (imageInfoConfig.getDrawableId() > 0)
-            return requestManager.load(imageInfoConfig.getDrawableId());
+            return requestBuilder.load(imageInfoConfig.getDrawableId());
 
         if (imageInfoConfig.getBytes() != null)
-            return requestManager.load(imageInfoConfig.getBytes());
+            return requestBuilder.load(imageInfoConfig.getBytes());
 
         if (imageInfoConfig.getUri() != null)
-            return requestManager.load(imageInfoConfig.getUri());
+            return requestBuilder.load(imageInfoConfig.getUri());
 
         if (imageInfoConfig.getFilePath() != null)
-            return requestManager.load(imageInfoConfig.getFilePath());
+            return requestBuilder.load(imageInfoConfig.getFilePath());
 
         if (imageInfoConfig.getFile() != null)
-            return requestManager.load(imageInfoConfig.getFile());
+            return requestBuilder.load(imageInfoConfig.getFile());
 
         // imageInfoConfig.getUrl() 也可能为 null
-        return requestManager.load(imageInfoConfig.getUrl());
+        return requestBuilder.load(imageInfoConfig.getUrl());
     }
 
     @NonNull

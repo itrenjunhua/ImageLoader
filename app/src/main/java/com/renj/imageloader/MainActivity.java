@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
                         .url(url)
                         //.drawableId(R.mipmap.ic_launcher)
                         .target(imageView)
+                        .asBitmap()
                         .build();
                 ImageLoader.getImageLoaderModule().loadImage(config);
             }
