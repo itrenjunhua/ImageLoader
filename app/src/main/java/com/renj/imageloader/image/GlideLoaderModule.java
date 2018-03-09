@@ -42,20 +42,20 @@ public class GlideLoaderModule implements IImageLoaderModule {
         if (imageInfoConfig.isBitmap()) {
             RequestBuilder<Bitmap> bitmapRequestBuilder = requestManager.asBitmap();
             RequestBuilder<Bitmap> requestBuilder = loadPath(bitmapRequestBuilder, imageInfoConfig);
-            builderControler(imageInfoConfig, requestBuilder);
+            builderControl(requestBuilder,imageInfoConfig);
         } else if (imageInfoConfig.isGif()) {
             RequestBuilder<GifDrawable> gifDrawableRequestBuilder = requestManager.asGif();
             RequestBuilder<GifDrawable> requestBuilder = loadPath(gifDrawableRequestBuilder, imageInfoConfig);
-            builderControler(imageInfoConfig, requestBuilder);
+            builderControl(requestBuilder,imageInfoConfig);
         } else {
             RequestBuilder<Drawable> drawableRequestBuilder = requestManager.asDrawable();
             RequestBuilder<Drawable> requestBuilder = loadPath(drawableRequestBuilder, imageInfoConfig);
-            builderControler(imageInfoConfig, requestBuilder);
+            builderControl(requestBuilder,imageInfoConfig);
         }
     }
 
-    private <T> void builderControler(@NonNull ImageInfoConfig imageInfoConfig, RequestBuilder<T> requestBuilder) {
-        initInfoConfig(requestBuilder, imageInfoConfig);
+    private <T> void builderControl(RequestBuilder<T> requestBuilder,@NonNull ImageInfoConfig imageInfoConfig) {
+        requestBuilder = initInfoConfig(requestBuilder, imageInfoConfig);
         intoOf(requestBuilder, imageInfoConfig);
     }
 
@@ -66,7 +66,7 @@ public class GlideLoaderModule implements IImageLoaderModule {
     }
 
     @NonNull
-    private <T> RequestBuilder<T> initInfoConfig(@NonNull RequestBuilder<T> requestBuilder, @NonNull ImageInfoConfig imageInfoConfig) {
+    private <T> RequestBuilder<T> initInfoConfig(RequestBuilder<T> requestBuilder, @NonNull ImageInfoConfig imageInfoConfig) {
         if (imageInfoConfig.getThumbnail() > 0)
             requestBuilder.thumbnail(imageInfoConfig.getThumbnail());
 
@@ -82,7 +82,7 @@ public class GlideLoaderModule implements IImageLoaderModule {
     }
 
     @NonNull
-    private <T> RequestBuilder<T> loadPath(RequestBuilder<T> requestBuilder, ImageInfoConfig imageInfoConfig) {
+    private <T> RequestBuilder<T> loadPath(RequestBuilder<T> requestBuilder, @NonNull ImageInfoConfig imageInfoConfig) {
         if (imageInfoConfig.getDrawable() != null)
             return requestBuilder.load(imageInfoConfig.getDrawable());
 
@@ -109,7 +109,7 @@ public class GlideLoaderModule implements IImageLoaderModule {
     }
 
     @NonNull
-    private RequestManager createRequestManager(ImageInfoConfig imageInfoConfig) {
+    private RequestManager createRequestManager(@NonNull ImageInfoConfig imageInfoConfig) {
         if (imageInfoConfig.getFragmentV4() != null)
             return Glide.with(imageInfoConfig.getFragmentV4());
 

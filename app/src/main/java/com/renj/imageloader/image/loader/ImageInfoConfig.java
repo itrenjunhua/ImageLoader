@@ -29,15 +29,9 @@ import java.io.File;
  * ======================================================================
  */
 public class ImageInfoConfig {
-    /**
-     * 显示图片目标View
-     */
-    private View target;
-    /**
-     * 上下文
-     */
+    private View target; // 图片展示目标控件
     private Context context;
-    /***当选择Glide框架时，with() 方法可以传递context之外，还可以传递一下参数***/
+    /*** 当选择Glide框架时，with() 方法可以传递context之外，还可以传递一下参数 ***/
     private Activity activity;
     private FragmentActivity fragmentActivity;
     private Fragment fragment;
@@ -45,23 +39,26 @@ public class ImageInfoConfig {
 
     /***************图片路径信息********************/
     private String url; // 网络图片路径
-    private String filePath; //文件路径
-    private File file; //文件路径
+    private String filePath; // 文件路径
+    private File file; // 文件路径
     @DrawableRes
-    private int drawableId;  //资源id
-    private Uri uri;
-    private byte[] bytes;
-    private Bitmap bitmap;
-    private Drawable drawable;
+    private int drawableId;  // 资源id
+    private Uri uri; // 图片 uri
+    private byte[] bytes; // 图片字节数组
+    private Bitmap bitmap; // Bitmap对象
+    private Drawable drawable; // Drawable 对象
 
-    private boolean isGif;
-    private boolean isBitmap;
+    private boolean isGif; // 是否 Gif 图片
+    private boolean isBitmap; // 是否作为 Bitmap 显示
 
-    private int width;
-    private int height;
+    @IntRange(from = 0)
+    private int width; // 图片宽
+    @IntRange(from = 0)
+    private int height; // 图片高
+    @FloatRange(from = 0)
     private float thumbnail; // 缩略图缩放倍数
 
-    public ImageInfoConfig(Builder builder) {
+    private ImageInfoConfig(Builder builder) {
         this.target = builder.target;
         this.context = builder.context;
         this.activity = builder.activity;
@@ -178,7 +175,7 @@ public class ImageInfoConfig {
     }
 
     public static class Builder {
-        private View target;
+        private View target; // 图片展示目标控件
         private Context context;
         /*** 当选择Glide框架时，with() 方法可以传递context之外，还可以传递一下参数 ***/
         private Activity activity;
@@ -188,24 +185,24 @@ public class ImageInfoConfig {
 
         /***************图片路径信息********************/
         private String url; // 网络图片路径
-        private String filePath; //文件路径
-        private File file; //文件路径
+        private String filePath; // 文件路径
+        private File file; // 文件路径
         @DrawableRes
-        private int drawableId;  //资源id
-        private Uri uri;
-        private byte[] bytes;
-        private Bitmap bitmap;
-        private Drawable drawable;
+        private int drawableId;  // 资源id
+        private Uri uri; // 图片 uri
+        private byte[] bytes; // 图片字节数组
+        private Bitmap bitmap; // Bitmap对象
+        private Drawable drawable; // Drawable 对象
 
-        private boolean isGif;
-        private boolean isBitmap;
+        private boolean isGif; // 是否 Gif 图片
+        private boolean isBitmap; // 是否作为 Bitmap 显示
 
         @IntRange(from = 0)
-        private int width;
+        private int width; // 图片宽
         @IntRange(from = 0)
-        private int height;
+        private int height; // 图片高
         @FloatRange(from = 0)
-        private float thumbnail;
+        private float thumbnail; // 缩略图缩放倍数
 
         public Builder() {
         }
@@ -272,6 +269,11 @@ public class ImageInfoConfig {
 
         public Builder bitmap(@NonNull Bitmap bitmap) {
             this.bitmap = bitmap;
+            return this;
+        }
+
+        public Builder drawable(@NonNull Drawable drawable) {
+            this.drawable = drawable;
             return this;
         }
 

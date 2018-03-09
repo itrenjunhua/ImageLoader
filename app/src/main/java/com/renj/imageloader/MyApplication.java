@@ -25,4 +25,21 @@ public class MyApplication extends Application {
 
         ImageLoader.initImageLoader(this,new GlideLoaderModule());
     }
+
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        ImageLoader.getImageLoaderModule().clearAllMemoryCaches();
+    }
+
+    @Override
+    public void onTrimMemory(int level) {
+        super.onTrimMemory(level);
+        ImageLoader.getImageLoaderModule().trimMemory(level);
+    }
 }
