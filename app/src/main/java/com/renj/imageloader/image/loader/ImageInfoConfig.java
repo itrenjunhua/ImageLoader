@@ -50,6 +50,8 @@ public class ImageInfoConfig {
 
     private boolean isGif; // 是否 Gif 图片
     private boolean isBitmap; // 是否作为 Bitmap 显示
+    private boolean isSkipMemory; // 是否跳过内存缓存
+    private boolean isSkipDisk; // 是否跳过磁盘缓存
 
     @IntRange(from = 0)
     private int width; // 图片宽
@@ -75,6 +77,8 @@ public class ImageInfoConfig {
         this.drawable = builder.drawable;
         this.isGif = builder.isGif;
         this.isBitmap = builder.isBitmap;
+        this.isSkipMemory = builder.isSkipMemory;
+        this.isSkipDisk = builder.isSkipDisk;
         this.width = builder.width;
         this.height = builder.height;
         this.thumbnail = builder.thumbnail;
@@ -144,6 +148,14 @@ public class ImageInfoConfig {
         return isBitmap;
     }
 
+    public boolean isSkipMemory() {
+        return isSkipMemory;
+    }
+
+    public boolean isSkipDisk() {
+        return isSkipDisk;
+    }
+
     public int getWidth() {
         if (width <= 0) {
             //先去imageview里取,如果为0,则赋值成matchparent
@@ -196,6 +208,8 @@ public class ImageInfoConfig {
 
         private boolean isGif; // 是否 Gif 图片
         private boolean isBitmap; // 是否作为 Bitmap 显示
+        private boolean isSkipMemory; // 是否跳过内存缓存
+        private boolean isSkipDisk; // 是否跳过磁盘缓存
 
         @IntRange(from = 0)
         private int width; // 图片宽
@@ -284,6 +298,16 @@ public class ImageInfoConfig {
 
         public Builder asBitmap() {
             this.isBitmap = true;
+            return this;
+        }
+
+        public Builder skipMemory() {
+            this.isSkipMemory = true;
+            return this;
+        }
+
+        public Builder skipDisk() {
+            this.isSkipDisk = true;
             return this;
         }
 

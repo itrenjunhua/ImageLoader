@@ -1,6 +1,7 @@
 package com.renj.imageloader.image;
 
 import android.app.Application;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.RequestManager;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.bumptech.glide.request.RequestOptions;
 import com.renj.imageloader.image.loader.IImageLoaderModule;
@@ -36,25 +38,35 @@ public class GlideLoaderModule implements IImageLoaderModule {
     }
 
     @Override
+    public void loadImage(@NonNull Context context, @NonNull String url, @NonNull ImageView imageView) {
+        ImageInfoConfig imageInfoConfig = new ImageInfoConfig.Builder()
+                .context(context)
+                .url(url)
+                .target(imageView)
+                .build();
+        loadImage(imageInfoConfig);
+    }
+
+    @Override
     public void loadImage(@NonNull ImageInfoConfig imageInfoConfig) {
         RequestManager requestManager = createRequestManager(imageInfoConfig);
 
         if (imageInfoConfig.isBitmap()) {
             RequestBuilder<Bitmap> bitmapRequestBuilder = requestManager.asBitmap();
             RequestBuilder<Bitmap> requestBuilder = loadPath(bitmapRequestBuilder, imageInfoConfig);
-            builderControl(requestBuilder,imageInfoConfig);
+            builderControl(requestBuilder, imageInfoConfig);
         } else if (imageInfoConfig.isGif()) {
             RequestBuilder<GifDrawable> gifDrawableRequestBuilder = requestManager.asGif();
             RequestBuilder<GifDrawable> requestBuilder = loadPath(gifDrawableRequestBuilder, imageInfoConfig);
-            builderControl(requestBuilder,imageInfoConfig);
+            builderControl(requestBuilder, imageInfoConfig);
         } else {
             RequestBuilder<Drawable> drawableRequestBuilder = requestManager.asDrawable();
             RequestBuilder<Drawable> requestBuilder = loadPath(drawableRequestBuilder, imageInfoConfig);
-            builderControl(requestBuilder,imageInfoConfig);
+            builderControl(requestBuilder, imageInfoConfig);
         }
     }
 
-    private <T> void builderControl(RequestBuilder<T> requestBuilder,@NonNull ImageInfoConfig imageInfoConfig) {
+    private <T> void builderControl(RequestBuilder<T> requestBuilder, @NonNull ImageInfoConfig imageInfoConfig) {
         requestBuilder = initInfoConfig(requestBuilder, imageInfoConfig);
         intoOf(requestBuilder, imageInfoConfig);
     }
@@ -77,6 +89,9 @@ public class GlideLoaderModule implements IImageLoaderModule {
             requestOptions.override(imageInfoConfig.getWidth());
         if (imageInfoConfig.getHeight() > 0 && imageInfoConfig.getWidth() <= 0)
             requestOptions.override(imageInfoConfig.getHeight());
+
+        requestOptions.skipMemoryCache(imageInfoConfig.isSkipMemory());
+        requestOptions.diskCacheStrategy(imageInfoConfig.isSkipDisk() ? DiskCacheStrategy.NONE : DiskCacheStrategy.AUTOMATIC);
 
         return requestBuilder.apply(requestOptions);
     }
