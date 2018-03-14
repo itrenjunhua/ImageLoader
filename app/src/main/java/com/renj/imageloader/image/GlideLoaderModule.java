@@ -71,12 +71,18 @@ public class GlideLoaderModule implements IImageLoaderModule {
         intoOf(requestBuilder, imageInfoConfig);
     }
 
+    /**
+     * 加载图片到指定控件
+     */
     private <T> void intoOf(RequestBuilder<T> requestBuilder, @NonNull ImageInfoConfig imageInfoConfig) {
         if (imageInfoConfig.getTarget() instanceof ImageView) {
             requestBuilder.into((ImageView) imageInfoConfig.getTarget());
         }
     }
 
+    /**
+     * 配置图片信息到 Glide 请求中
+     */
     @NonNull
     private <T> RequestBuilder<T> initInfoConfig(RequestBuilder<T> requestBuilder, @NonNull ImageInfoConfig imageInfoConfig) {
         if (imageInfoConfig.getThumbnail() > 0)
@@ -96,6 +102,9 @@ public class GlideLoaderModule implements IImageLoaderModule {
         return requestBuilder.apply(requestOptions);
     }
 
+    /**
+     * 确定图片加载路径
+     */
     @NonNull
     private <T> RequestBuilder<T> loadPath(RequestBuilder<T> requestBuilder, @NonNull ImageInfoConfig imageInfoConfig) {
         if (imageInfoConfig.getDrawable() != null)
@@ -123,6 +132,9 @@ public class GlideLoaderModule implements IImageLoaderModule {
         return requestBuilder.load(imageInfoConfig.getUrl());
     }
 
+    /**
+     * 创建 RequestManager 对象
+     */
     @NonNull
     private RequestManager createRequestManager(@NonNull ImageInfoConfig imageInfoConfig) {
         if (imageInfoConfig.getFragmentV4() != null)
