@@ -53,6 +53,11 @@ public class ImageInfoConfig {
     private boolean isSkipMemory; // 是否跳过内存缓存
     private boolean isSkipDisk; // 是否跳过磁盘缓存
 
+    @DrawableRes
+    private int errorImageId; // 加载错误时显示的图片
+    @DrawableRes
+    private int loadingImageId; // 正在加载时显示的图片
+
     @IntRange(from = 0)
     private int width; // 图片宽
     @IntRange(from = 0)
@@ -79,6 +84,8 @@ public class ImageInfoConfig {
         this.isBitmap = builder.isBitmap;
         this.isSkipMemory = builder.isSkipMemory;
         this.isSkipDisk = builder.isSkipDisk;
+        this.errorImageId = builder.errorImageId;
+        this.loadingImageId = builder.loadingImageId;
         this.width = builder.width;
         this.height = builder.height;
         this.thumbnail = builder.thumbnail;
@@ -156,6 +163,14 @@ public class ImageInfoConfig {
         return isSkipDisk;
     }
 
+    public int getErrorImageId() {
+        return errorImageId;
+    }
+
+    public int getLoadingImageId() {
+        return loadingImageId;
+    }
+
     public int getWidth() {
         if (width <= 0) {
             //先去imageview里取,如果为0,则赋值成matchparent
@@ -210,6 +225,11 @@ public class ImageInfoConfig {
         private boolean isBitmap; // 是否作为 Bitmap 显示
         private boolean isSkipMemory; // 是否跳过内存缓存
         private boolean isSkipDisk; // 是否跳过磁盘缓存
+
+        @DrawableRes
+        private int errorImageId; // 加载错误时显示的图片
+        @DrawableRes
+        private int loadingImageId; // 正在加载时显示的图片
 
         @IntRange(from = 0)
         private int width; // 图片宽
@@ -406,6 +426,22 @@ public class ImageInfoConfig {
          */
         public Builder skipDiskCache() {
             this.isSkipDisk = true;
+            return this;
+        }
+
+        /**
+         * 正在加载时显示的图片
+         */
+        public Builder loadingImageId(@DrawableRes int loadingImageId) {
+            this.loadingImageId = loadingImageId;
+            return this;
+        }
+
+        /**
+         * 加载失败时显示的图片
+         */
+        public Builder errorImageId(@DrawableRes int errorImageId) {
+            this.errorImageId = errorImageId;
             return this;
         }
 

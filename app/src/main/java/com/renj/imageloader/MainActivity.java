@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
                         .context(MainActivity.this)
                         .url(url)
                         //.drawableId(R.mipmap.ic_launcher)
+                        .loadingImageId(R.mipmap.ic_launcher_round)
                         .target(imageView)
                         .asBitmap()
                         .width(300)

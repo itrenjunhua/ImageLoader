@@ -67,7 +67,7 @@ public class GlideLoaderModule implements IImageLoaderModule {
     }
 
     private <T> void builderControl(RequestBuilder<T> requestBuilder, @NonNull ImageInfoConfig imageInfoConfig) {
-        requestBuilder = initInfoConfig(requestBuilder, imageInfoConfig);
+        requestBuilder = initImageInfoConfig(requestBuilder, imageInfoConfig);
         intoOf(requestBuilder, imageInfoConfig);
     }
 
@@ -84,20 +84,25 @@ public class GlideLoaderModule implements IImageLoaderModule {
      * 配置图片信息到 Glide 请求中
      */
     @NonNull
-    private <T> RequestBuilder<T> initInfoConfig(RequestBuilder<T> requestBuilder, @NonNull ImageInfoConfig imageInfoConfig) {
+    private <T> RequestBuilder<T> initImageInfoConfig(RequestBuilder<T> requestBuilder, @NonNull ImageInfoConfig imageInfoConfig) {
         if (imageInfoConfig.getThumbnail() > 0)
             requestBuilder.thumbnail(imageInfoConfig.getThumbnail());
 
         RequestOptions requestOptions = new RequestOptions();
         if (imageInfoConfig.getWidth() > 0 && imageInfoConfig.getHeight() > 0)
-            requestOptions.override(imageInfoConfig.getWidth(), imageInfoConfig.getHeight());
+            requestOptions = requestOptions.override(imageInfoConfig.getWidth(), imageInfoConfig.getHeight());
         if (imageInfoConfig.getWidth() > 0 && imageInfoConfig.getHeight() <= 0)
-            requestOptions.override(imageInfoConfig.getWidth());
+            requestOptions = requestOptions.override(imageInfoConfig.getWidth());
         if (imageInfoConfig.getHeight() > 0 && imageInfoConfig.getWidth() <= 0)
-            requestOptions.override(imageInfoConfig.getHeight());
+            requestOptions = requestOptions.override(imageInfoConfig.getHeight());
 
-        requestOptions.skipMemoryCache(imageInfoConfig.isSkipMemory());
-        requestOptions.diskCacheStrategy(imageInfoConfig.isSkipDisk() ? DiskCacheStrategy.NONE : DiskCacheStrategy.AUTOMATIC);
+        requestOptions = requestOptions.skipMemoryCache(imageInfoConfig.isSkipMemory());
+        requestOptions = requestOptions.diskCacheStrategy(imageInfoConfig.isSkipDisk() ? DiskCacheStrategy.NONE : DiskCacheStrategy.AUTOMATIC);
+
+        if (imageInfoConfig.getErrorImageId() > 0)
+            requestOptions = requestOptions.error(imageInfoConfig.getErrorImageId());
+        if (imageInfoConfig.getLoadingImageId() > 0)
+            requestOptions = requestOptions.placeholder(imageInfoConfig.getLoadingImageId());
 
         return requestBuilder.apply(requestOptions);
     }
