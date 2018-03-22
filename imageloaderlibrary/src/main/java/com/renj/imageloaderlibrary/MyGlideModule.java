@@ -1,4 +1,4 @@
-package com.renj.imageloader.image;
+package com.renj.imageloaderlibrary;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

@@ -6,8 +6,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import com.renj.imageloader.image.loader.ImageInfoConfig;
-import com.renj.imageloader.image.loader.ImageLoader;
+import com.renj.imageloaderlibrary.loader.ImageInfoConfig;
+import com.renj.imageloaderlibrary.loader.ImageLoader;
 
 public class MainActivity extends AppCompatActivity {
 

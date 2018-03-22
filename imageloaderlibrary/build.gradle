@@ -1,13 +1,11 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 26
-
-
+    compileSdkVersion COMPILE_SDK_VERSION
 
     defaultConfig {
-        minSdkVersion 14
-        targetSdkVersion 26
+        minSdkVersion MIN_SDK_VERSION
+        targetSdkVersion TARGET_SDK_VERSION
         versionCode 1
         versionName "1.0"
 
@@ -27,8 +25,15 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation 'com.android.support:appcompat-v7:26.1.0'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    // support
+    implementation 'com.android.support:appcompat-v7:' + ANDROID_SUPPORT_V7
+    // test
+    testImplementation 'junit:junit:' + JUNIT_SUPPORT
+    androidTestImplementation 'com.android.support.test:runner:' + SUPPORT_TEST_RUNNER
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:' + SUPPORT_TEST_ESPRESSO
+    // jetbrains 注解
+    implementation 'org.jetbrains:annotations-java5:' + JETBRAINS_ANNOTATIONS_VERSION
+    // Glide 图片加载库
+    implementation 'com.github.bumptech.glide:glide:' + IMAGE_GLIDE_VERSION
+    annotationProcessor 'com.github.bumptech.glide:compiler:' + IMAGE_GLIDE_VERSION
 }

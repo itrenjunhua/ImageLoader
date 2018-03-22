@@ -1,11 +1,11 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion COMPILE_SDK_VERSION
     defaultConfig {
         applicationId "com.renj.imageloader"
-        minSdkVersion 17
-        targetSdkVersion 27
+        minSdkVersion MIN_SDK_VERSION
+        targetSdkVersion TARGET_SDK_VERSION
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -19,14 +19,14 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:appcompat-v7:27.0.2'
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-
-    compile 'org.jetbrains:annotations-java5:15.0'
-    compile 'com.github.bumptech.glide:glide:4.6.1'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.6.1'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    // support
+    implementation 'com.android.support:appcompat-v7:' + ANDROID_SUPPORT_V7
+    implementation 'com.android.support.constraint:constraint-layout:' + ANDROID_SUPPORT_CONSTRAINT
+    // test
+    testImplementation 'junit:junit:' + JUNIT_SUPPORT
+    androidTestImplementation 'com.android.support.test:runner:' + SUPPORT_TEST_RUNNER
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:' + SUPPORT_TEST_ESPRESSO
+    // 导入图片加载库
+    implementation project(':imageloaderlibrary')
 }

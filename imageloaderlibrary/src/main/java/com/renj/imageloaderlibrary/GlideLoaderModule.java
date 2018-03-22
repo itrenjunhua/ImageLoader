@@ -1,4 +1,4 @@
-package com.renj.imageloader.image;
+package com.renj.imageloaderlibrary;
 
 import android.app.Application;
 import android.content.Context;
@@ -13,8 +13,8 @@ import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.bumptech.glide.request.RequestOptions;
-import com.renj.imageloader.image.loader.IImageLoaderModule;
-import com.renj.imageloader.image.loader.ImageInfoConfig;
+import com.renj.imageloaderlibrary.loader.IImageLoaderModule;
+import com.renj.imageloaderlibrary.loader.ImageInfoConfig;
 
 /**
  * ======================================================================

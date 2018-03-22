@@ -2,8 +2,8 @@ package com.renj.imageloader;
 
 import android.app.Application;
 
-import com.renj.imageloader.image.GlideLoaderModule;
-import com.renj.imageloader.image.loader.ImageLoader;
+import com.renj.imageloaderlibrary.GlideLoaderModule;
+import com.renj.imageloaderlibrary.loader.ImageLoader;
 
 /**
  * ======================================================================

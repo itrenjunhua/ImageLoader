@@ -1,4 +1,4 @@
-package com.renj.imageloader.image.loader;
+package com.renj.imageloaderlibrary.loader;
 
 import android.app.Activity;
 import android.app.Fragment;
