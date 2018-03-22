@@ -27,7 +27,7 @@ task clean(type: Delete) {
 
 ext {
     COMPILE_SDK_VERSION = 27
-    MIN_SDK_VERSION = 14
+    MIN_SDK_VERSION = 17
     TARGET_SDK_VERSION = 27
 
     ANDROID_SUPPORT_V7 = "27.0.2"
