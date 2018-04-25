@@ -178,7 +178,7 @@ public class ImageInfoConfig {
                 width = target.getMeasuredWidth();
             }
             if (width <= 0) {
-                width = ImageLoaderUitls.getWinWidth();
+                width = ImageLoaderUtils.getWinWidth();
             }
         }
         return width;
@@ -191,7 +191,7 @@ public class ImageInfoConfig {
                 height = target.getMeasuredWidth();
             }
             if (height <= 0) {
-                height = ImageLoaderUitls.getWinHeight();
+                height = ImageLoaderUtils.getWinHeight();
             }
         }
         return height;

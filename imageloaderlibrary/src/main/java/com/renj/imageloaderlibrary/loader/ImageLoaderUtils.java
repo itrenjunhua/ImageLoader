@@ -19,7 +19,7 @@ import android.view.WindowManager;
  * <p>
  * ======================================================================
  */
-/*public*/ class ImageLoaderUitls {
+/*public*/ class ImageLoaderUtils {
     private static Application application;
     private static IImageLoaderModule iImageLoaderModule;
     private static int winWidth;
@@ -32,14 +32,14 @@ import android.view.WindowManager;
      * @param iImageLoaderModule {@link IImageLoaderModule} 对象
      */
     static void init(@NonNull Application application, @NonNull IImageLoaderModule iImageLoaderModule) {
-        ImageLoaderUitls.application = application;
-        ImageLoaderUitls.iImageLoaderModule = iImageLoaderModule;
+        ImageLoaderUtils.application = application;
+        ImageLoaderUtils.iImageLoaderModule = iImageLoaderModule;
         WindowManager wm = (WindowManager) application.getSystemService(Context.WINDOW_SERVICE);
 
         Point point = new Point();
         wm.getDefaultDisplay().getRealSize(point);
-        ImageLoaderUitls.winWidth = point.x;
-        ImageLoaderUitls.winHeight = point.y;
+        ImageLoaderUtils.winWidth = point.x;
+        ImageLoaderUtils.winHeight = point.y;
 
         iImageLoaderModule.init(application);
     }

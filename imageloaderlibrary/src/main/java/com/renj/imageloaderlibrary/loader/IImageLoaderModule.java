@@ -24,7 +24,7 @@ public interface IImageLoaderModule {
      *
      * @param application {@link Application}
      */
-    void init(Application application);
+    void init(@NonNull Application application);
 
     /**
      * 简单的加载网络图片

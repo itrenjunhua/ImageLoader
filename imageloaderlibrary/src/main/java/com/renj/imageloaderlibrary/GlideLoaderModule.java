@@ -33,7 +33,7 @@ public class GlideLoaderModule implements IImageLoaderModule {
     private Application application;
 
     @Override
-    public void init(Application application) {
+    public void init(@NonNull Application application) {
         this.application = application;
     }
 

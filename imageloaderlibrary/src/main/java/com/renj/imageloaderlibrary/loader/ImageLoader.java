@@ -25,14 +25,14 @@ public class ImageLoader {
         if (iImageLoaderModule == null || application == null)
             throw new NullPointerException("initImageLoader() 方法参数不能为 null");
 
-        ImageLoaderUitls.init(application, iImageLoaderModule);
+        ImageLoaderUtils.init(application, iImageLoaderModule);
     }
 
     @org.jetbrains.annotations.Contract(pure = true)
     public static IImageLoaderModule getImageLoaderModule() {
-        if (ImageLoaderUitls.getImageLoaderModule() == null)
+        if (ImageLoaderUtils.getImageLoaderModule() == null)
             throw new IllegalStateException("没有调用 ImageLoader.initImageLoader(IImageLoaderModule) 方法进行初始化");
 
-        return ImageLoaderUitls.getImageLoaderModule();
+        return ImageLoaderUtils.getImageLoaderModule();
     }
 }
