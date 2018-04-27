@@ -48,6 +48,7 @@ public class ImageInfoConfig {
     private Bitmap bitmap; // Bitmap对象
     private Drawable drawable; // Drawable 对象
 
+    private Object tag; // 标记
     private boolean isGif; // 是否 Gif 图片
     private boolean isBitmap; // 是否作为 Bitmap 显示
     private boolean isSkipMemory; // 是否跳过内存缓存
@@ -80,6 +81,7 @@ public class ImageInfoConfig {
         this.bytes = builder.bytes;
         this.bitmap = builder.bitmap;
         this.drawable = builder.drawable;
+        this.tag = builder.tag;
         this.isGif = builder.isGif;
         this.isBitmap = builder.isBitmap;
         this.isSkipMemory = builder.isSkipMemory;
@@ -145,6 +147,10 @@ public class ImageInfoConfig {
 
     public Drawable getDrawable() {
         return drawable;
+    }
+
+    public Object getTag() {
+        return tag;
     }
 
     public boolean isGif() {
@@ -221,6 +227,7 @@ public class ImageInfoConfig {
         private Bitmap bitmap; // Bitmap对象
         private Drawable drawable; // Drawable 对象
 
+        private Object tag; // 标记
         private boolean isGif; // 是否 Gif 图片
         private boolean isBitmap; // 是否作为 Bitmap 显示
         private boolean isSkipMemory; // 是否跳过内存缓存
@@ -394,6 +401,16 @@ public class ImageInfoConfig {
          */
         public Builder drawable(@NonNull Drawable drawable) {
             this.drawable = drawable;
+            return this;
+        }
+
+        /**
+         * 设置Tag
+         *
+         * @param tag Tag 对象
+         */
+        public Builder tag(Object tag) {
+            this.tag = tag;
             return this;
         }
 

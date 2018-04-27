@@ -13,7 +13,6 @@ import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.bumptech.glide.request.RequestOptions;
-import com.renj.imageloaderlibrary.loader.IImageLoaderModule;
 import com.renj.imageloaderlibrary.loader.ImageInfoConfig;
 
 /**
@@ -29,7 +28,7 @@ import com.renj.imageloaderlibrary.loader.ImageInfoConfig;
  * <p>
  * ======================================================================
  */
-public class GlideLoaderModule implements IImageLoaderModule {
+public class GlideLoaderModule implements IGlideLoaderModule {
     private Application application;
 
     @Override

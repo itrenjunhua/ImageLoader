@@ -23,7 +23,7 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        ImageLoader.initImageLoader(this,new GlideLoaderModule());
+        ImageLoader.initImageLoader(this, new GlideLoaderModule());
     }
 
     @Override
@@ -34,12 +34,12 @@ public class MyApplication extends Application {
     @Override
     public void onLowMemory() {
         super.onLowMemory();
-        ImageLoader.getImageLoaderModule().clearAllMemoryCaches();
+        ImageLoader.<GlideLoaderModule>getImageLoaderModule().clearAllMemoryCaches();
     }
 
     @Override
     public void onTrimMemory(int level) {
         super.onTrimMemory(level);
-        ImageLoader.getImageLoaderModule().trimMemory(level);
+        ImageLoader.<GlideLoaderModule>getImageLoaderModule().trimMemory(level);
     }
 }

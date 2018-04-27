@@ -21,7 +21,7 @@ public class ImageLoader {
     }
 
     @org.jetbrains.annotations.Contract("null,null -> fail; _,null -> fail; null,_ -> fail")
-    public static void initImageLoader(@NonNull Application application, @NonNull IImageLoaderModule iImageLoaderModule) {
+    public static <T extends IImageLoaderModule> void initImageLoader(@NonNull Application application, @NonNull T iImageLoaderModule) {
         if (iImageLoaderModule == null || application == null)
             throw new NullPointerException("initImageLoader() 方法参数不能为 null");
 
@@ -29,10 +29,10 @@ public class ImageLoader {
     }
 
     @org.jetbrains.annotations.Contract(pure = true)
-    public static IImageLoaderModule getImageLoaderModule() {
+    public static <T extends IImageLoaderModule> T getImageLoaderModule() {
         if (ImageLoaderUtils.getImageLoaderModule() == null)
             throw new IllegalStateException("没有调用 ImageLoader.initImageLoader(IImageLoaderModule) 方法进行初始化");
 
-        return ImageLoaderUtils.getImageLoaderModule();
+        return (T) ImageLoaderUtils.getImageLoaderModule();
     }
 }
