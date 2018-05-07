@@ -2,9 +2,6 @@ package com.renj.imageloader;
 
 import android.app.Application;
 
-import com.renj.imageloaderlibrary.GlideLoaderModule;
-import com.renj.imageloaderlibrary.loader.ImageLoader;
-
 /**
  * ======================================================================
  * <p>
@@ -23,7 +20,7 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        ImageLoader.initImageLoader(this, new GlideLoaderModule());
+        ImageLoaderManager.init(this);
     }
 
     @Override
@@ -34,12 +31,12 @@ public class MyApplication extends Application {
     @Override
     public void onLowMemory() {
         super.onLowMemory();
-        ImageLoader.<GlideLoaderModule>getImageLoaderModule().clearAllMemoryCaches();
+        ImageLoaderManager.getImageLoader().clearAllMemoryCaches();
     }
 
     @Override
     public void onTrimMemory(int level) {
         super.onTrimMemory(level);
-        ImageLoader.<GlideLoaderModule>getImageLoaderModule().trimMemory(level);
+        ImageLoaderManager.getImageLoader().trimMemory(level);
     }
 }

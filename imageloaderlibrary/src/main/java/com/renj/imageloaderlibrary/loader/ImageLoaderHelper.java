@@ -10,13 +10,13 @@ import android.support.annotation.NonNull;
  * <p>
  * 创建时间：2018-03-09   15:11
  * <p>
- * 描述：工具类
+ * 描述：LoaderModule 帮助类
  * <p>
  * 修订历史：
  * <p>
  * ======================================================================
  */
-/*public*/ class ImageLoaderUtils<T extends IImageLoaderModule> {
+/*public*/ class ImageLoaderHelper<T extends IImageLoaderModule> {
     private Application application;
     private T iImageLoaderModule;
 
@@ -26,7 +26,7 @@ import android.support.annotation.NonNull;
      * @param application        {@link Application} 对象
      * @param iImageLoaderModule {@link IImageLoaderModule} 对象
      */
-    void init(@NonNull Application application, @NonNull T iImageLoaderModule) {
+    void initImageLoaderUtils(@NonNull Application application, @NonNull T iImageLoaderModule) {
         this.application = application;
         this.iImageLoaderModule = iImageLoaderModule;
 
@@ -45,9 +45,10 @@ import android.support.annotation.NonNull;
     }
 
     /**
-     * 获取 {@link IImageLoaderModule} 对象
+     * 获取 {@link IImageLoaderModule} 子类对象
      *
-     * @return {@link IImageLoaderModule} 对象
+     * @param <T> {@link IImageLoaderModule} 子类对象
+     * @return {@link IImageLoaderModule} 子类对象
      */
     @org.jetbrains.annotations.Contract(pure = true)
     <T extends IImageLoaderModule> T getImageLoaderModule() {

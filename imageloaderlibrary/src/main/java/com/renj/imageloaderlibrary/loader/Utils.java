@@ -12,13 +12,13 @@ import android.view.WindowManager;
  * <p>
  * 创建时间：2018-05-07   16:09
  * <p>
- * 描述：
+ * 描述：常用方法工具类
  * <p>
  * 修订历史：
  * <p>
  * ======================================================================
  */
-public class Utils {
+/*public*/ class Utils {
     private static int winWidth;
     private static int winHeight;
 

@@ -1,13 +1,12 @@
 package com.renj.imageloader;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
 import com.renj.imageloaderlibrary.loader.ImageInfoConfig;
-import com.renj.imageloaderlibrary.loader.ImageLoader;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
                         .height(200)
                         .thumbnail(0.2f)
                         .build();
-                ImageLoader.getImageLoaderModule().loadImage(config);
+                ImageLoaderManager.getImageLoader().loadImage(config);
             }
         });
     }
