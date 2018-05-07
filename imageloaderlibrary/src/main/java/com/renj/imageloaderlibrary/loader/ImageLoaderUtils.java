@@ -1,10 +1,7 @@
 package com.renj.imageloaderlibrary.loader;
 
 import android.app.Application;
-import android.content.Context;
-import android.graphics.Point;
 import android.support.annotation.NonNull;
-import android.view.WindowManager;
 
 /**
  * ======================================================================
@@ -19,11 +16,9 @@ import android.view.WindowManager;
  * <p>
  * ======================================================================
  */
-/*public*/ class ImageLoaderUtils {
-    private static Application application;
-    private static IImageLoaderModule iImageLoaderModule;
-    private static int winWidth;
-    private static int winHeight;
+/*public*/ class ImageLoaderUtils<T extends IImageLoaderModule> {
+    private Application application;
+    private T iImageLoaderModule;
 
     /**
      * 初始化方法
@@ -31,16 +26,11 @@ import android.view.WindowManager;
      * @param application        {@link Application} 对象
      * @param iImageLoaderModule {@link IImageLoaderModule} 对象
      */
-    static void init(@NonNull Application application, @NonNull IImageLoaderModule iImageLoaderModule) {
-        ImageLoaderUtils.application = application;
-        ImageLoaderUtils.iImageLoaderModule = iImageLoaderModule;
-        WindowManager wm = (WindowManager) application.getSystemService(Context.WINDOW_SERVICE);
+    void init(@NonNull Application application, @NonNull T iImageLoaderModule) {
+        this.application = application;
+        this.iImageLoaderModule = iImageLoaderModule;
 
-        Point point = new Point();
-        wm.getDefaultDisplay().getRealSize(point);
-        ImageLoaderUtils.winWidth = point.x;
-        ImageLoaderUtils.winHeight = point.y;
-
+        Utils.initUtils(application);
         iImageLoaderModule.init(application);
     }
 
@@ -50,7 +40,7 @@ import android.view.WindowManager;
      * @return {@link Application} 对象
      */
     @org.jetbrains.annotations.Contract(pure = true)
-    static Application getApplication() {
+    Application getApplication() {
         return application;
     }
 
@@ -60,27 +50,7 @@ import android.view.WindowManager;
      * @return {@link IImageLoaderModule} 对象
      */
     @org.jetbrains.annotations.Contract(pure = true)
-    static IImageLoaderModule getImageLoaderModule() {
-        return iImageLoaderModule;
-    }
-
-    /**
-     * 获取屏幕的宽
-     *
-     * @return 屏幕的宽
-     */
-    @org.jetbrains.annotations.Contract(pure = true)
-    static int getWinWidth() {
-        return winWidth;
-    }
-
-    /**
-     * 获取屏幕的高
-     *
-     * @return 屏幕的高
-     */
-    @org.jetbrains.annotations.Contract(pure = true)
-    static int getWinHeight() {
-        return winHeight;
+    <T extends IImageLoaderModule> T getImageLoaderModule() {
+        return (T) iImageLoaderModule;
     }
 }

@@ -17,22 +17,26 @@ import android.support.annotation.NonNull;
  * ======================================================================
  */
 public class ImageLoader {
+    public static ImageLoaderUtils imageLoaderUtils;
+
     private ImageLoader() {
     }
 
     @org.jetbrains.annotations.Contract("null,null -> fail; _,null -> fail; null,_ -> fail")
     public static <T extends IImageLoaderModule> void initImageLoader(@NonNull Application application, @NonNull T iImageLoaderModule) {
+        imageLoaderUtils = new ImageLoaderUtils<T>();
+
         if (iImageLoaderModule == null || application == null)
             throw new NullPointerException("initImageLoader() 方法参数不能为 null");
 
-        ImageLoaderUtils.init(application, iImageLoaderModule);
+        imageLoaderUtils.init(application, iImageLoaderModule);
     }
 
     @org.jetbrains.annotations.Contract(pure = true)
     public static <T extends IImageLoaderModule> T getImageLoaderModule() {
-        if (ImageLoaderUtils.getImageLoaderModule() == null)
+        if (imageLoaderUtils == null || imageLoaderUtils.getImageLoaderModule() == null)
             throw new IllegalStateException("没有调用 ImageLoader.initImageLoader(IImageLoaderModule) 方法进行初始化");
 
-        return (T) ImageLoaderUtils.getImageLoaderModule();
+        return (T) imageLoaderUtils.getImageLoaderModule();
     }
 }
