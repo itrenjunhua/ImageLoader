@@ -30,7 +30,10 @@ import android.support.annotation.NonNull;
  *  }
  * }
  *
- * // 在类中使用：
+ * // 在 {@link Application} 类中初始化
+ * ImageLoaderManager.init(this);
+ *
+ * // 在类中加载图片使用：
  * ImageLoaderManager.getImageLoader().loadImage({@link ImageInfoConfig});
  * </code></pre>
  * <p>
