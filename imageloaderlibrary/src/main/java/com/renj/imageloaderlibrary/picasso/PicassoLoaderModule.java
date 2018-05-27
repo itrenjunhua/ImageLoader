@@ -10,6 +10,8 @@ import com.renj.imageloaderlibrary.loader.ImageInfoConfig;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
 
+import java.io.File;
+
 /**
  * ======================================================================
  * <p>
@@ -56,6 +58,9 @@ public class PicassoLoaderModule implements IImageLoaderModule {
      */
     @NonNull
     private RequestCreator loadPath(Picasso picasso, @NonNull ImageInfoConfig imageInfoConfig) {
+        if (imageInfoConfig.getFilePath() != null)
+            return picasso.load(new File(imageInfoConfig.getFilePath()));
+
         if (imageInfoConfig.getFile() != null)
             return picasso.load(imageInfoConfig.getFile());
 
