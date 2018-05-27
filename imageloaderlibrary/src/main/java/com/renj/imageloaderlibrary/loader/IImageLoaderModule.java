@@ -38,7 +38,8 @@ public interface IImageLoaderModule {
     /**
      * 根据配置信息加载图片
      *
-     * @param imageInfoConfig {@link ImageInfoConfig} 对象
+     * @param imageInfoConfig {@code T extends ImageInfoConfig} 对象
+     * @param <T>             {@code T extends ImageInfoConfig}
      */
-    void loadImage(@NonNull ImageInfoConfig imageInfoConfig);
+    <T extends ImageInfoConfig> void loadImage(@NonNull T imageInfoConfig);
 }

@@ -3,11 +3,8 @@ package com.renj.imageloaderlibrary.loader;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.DrawableRes;
-import android.support.annotation.FloatRange;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
@@ -22,7 +19,7 @@ import java.io.File;
  * <p>
  * 创建时间：2018-03-08   10:32
  * <p>
- * 描述：加载图片信息配置
+ * 描述：加载图片信息配置基类
  * <p>
  * 修订历史：
  * <p>
@@ -44,13 +41,7 @@ public class ImageInfoConfig {
     @DrawableRes
     private int drawableId;  // 资源id
     private Uri uri; // 图片 uri
-    private byte[] bytes; // 图片字节数组
-    private Bitmap bitmap; // Bitmap对象
-    private Drawable drawable; // Drawable 对象
 
-    private Object tag; // 标记
-    private boolean isGif; // 是否 Gif 图片
-    private boolean isBitmap; // 是否作为 Bitmap 显示
     private boolean isSkipMemory; // 是否跳过内存缓存
     private boolean isSkipDisk; // 是否跳过磁盘缓存
 
@@ -63,10 +54,8 @@ public class ImageInfoConfig {
     private int width; // 图片宽
     @IntRange(from = 0)
     private int height; // 图片高
-    @FloatRange(from = 0)
-    private float thumbnail; // 缩略图缩放倍数
 
-    private ImageInfoConfig(Builder builder) {
+    protected ImageInfoConfig(Builder builder) {
         this.target = builder.target;
         this.context = builder.context;
         this.activity = builder.activity;
@@ -78,19 +67,12 @@ public class ImageInfoConfig {
         this.file = builder.file;
         this.drawableId = builder.drawableId;
         this.uri = builder.uri;
-        this.bytes = builder.bytes;
-        this.bitmap = builder.bitmap;
-        this.drawable = builder.drawable;
-        this.tag = builder.tag;
-        this.isGif = builder.isGif;
-        this.isBitmap = builder.isBitmap;
         this.isSkipMemory = builder.isSkipMemory;
         this.isSkipDisk = builder.isSkipDisk;
         this.errorImageId = builder.errorImageId;
         this.loadingImageId = builder.loadingImageId;
         this.width = builder.width;
         this.height = builder.height;
-        this.thumbnail = builder.thumbnail;
     }
 
     public View getTarget() {
@@ -137,30 +119,6 @@ public class ImageInfoConfig {
         return uri;
     }
 
-    public byte[] getBytes() {
-        return bytes;
-    }
-
-    public Bitmap getBitmap() {
-        return bitmap;
-    }
-
-    public Drawable getDrawable() {
-        return drawable;
-    }
-
-    public Object getTag() {
-        return tag;
-    }
-
-    public boolean isGif() {
-        return isGif;
-    }
-
-    public boolean isBitmap() {
-        return isBitmap;
-    }
-
     public boolean isSkipMemory() {
         return isSkipMemory;
     }
@@ -203,10 +161,6 @@ public class ImageInfoConfig {
         return height;
     }
 
-    public float getThumbnail() {
-        return thumbnail;
-    }
-
     public static class Builder {
         private View target; // 图片展示目标控件
         private Context context;
@@ -223,13 +177,7 @@ public class ImageInfoConfig {
         @DrawableRes
         private int drawableId;  // 资源id
         private Uri uri; // 图片 uri
-        private byte[] bytes; // 图片字节数组
-        private Bitmap bitmap; // Bitmap对象
-        private Drawable drawable; // Drawable 对象
 
-        private Object tag; // 标记
-        private boolean isGif; // 是否 Gif 图片
-        private boolean isBitmap; // 是否作为 Bitmap 显示
         private boolean isSkipMemory; // 是否跳过内存缓存
         private boolean isSkipDisk; // 是否跳过磁盘缓存
 
@@ -242,8 +190,6 @@ public class ImageInfoConfig {
         private int width; // 图片宽
         @IntRange(from = 0)
         private int height; // 图片高
-        @FloatRange(from = 0)
-        private float thumbnail; // 缩略图缩放倍数
 
         public Builder() {
         }
@@ -253,9 +199,9 @@ public class ImageInfoConfig {
          *
          * @param target 图片显示目标控件
          */
-        public Builder target(@NonNull View target) {
+        public <T extends Builder> T target(@NonNull View target) {
             this.target = target;
-            return this;
+            return (T) this;
         }
 
         /**
@@ -267,9 +213,9 @@ public class ImageInfoConfig {
          * @see #fragment(Fragment)
          * @see #fragmentV4(android.support.v4.app.Fragment)
          */
-        public Builder context(@NonNull Context context) {
+        public <T extends Builder> T context(@NonNull Context context) {
             this.context = context;
-            return this;
+            return (T) this;
         }
 
         /**
@@ -280,9 +226,9 @@ public class ImageInfoConfig {
          * @see #fragment(Fragment)
          * @see #fragmentV4(android.support.v4.app.Fragment)
          */
-        public Builder activity(@NonNull Activity activity) {
+        public <T extends Builder> T activity(@NonNull Activity activity) {
             this.activity = activity;
-            return this;
+            return (T) this;
         }
 
         /**
@@ -293,9 +239,9 @@ public class ImageInfoConfig {
          * @see #fragment(Fragment)
          * @see #fragmentV4(android.support.v4.app.Fragment)
          */
-        public Builder fragmentActivity(@NonNull FragmentActivity fragmentActivity) {
+        public <T extends Builder> T fragmentActivity(@NonNull FragmentActivity fragmentActivity) {
             this.fragmentActivity = fragmentActivity;
-            return this;
+            return (T) this;
         }
 
         /**
@@ -306,9 +252,9 @@ public class ImageInfoConfig {
          * @see #fragmentActivity(FragmentActivity)
          * @see #fragmentV4(android.support.v4.app.Fragment)
          */
-        public Builder fragment(@NonNull Fragment fragment) {
+        public <T extends Builder> T fragment(@NonNull Fragment fragment) {
             this.fragment = fragment;
-            return this;
+            return (T) this;
         }
 
         /**
@@ -319,9 +265,9 @@ public class ImageInfoConfig {
          * @see #fragmentActivity(FragmentActivity)
          * @see #fragment(Fragment)
          */
-        public Builder fragmentV4(@NonNull android.support.v4.app.Fragment fragmentV4) {
+        public <T extends Builder> T fragmentV4(@NonNull android.support.v4.app.Fragment fragmentV4) {
             this.fragmentV4 = fragmentV4;
-            return this;
+            return (T) this;
         }
 
         /**
@@ -329,9 +275,9 @@ public class ImageInfoConfig {
          *
          * @param url 网络图片路径
          */
-        public Builder url(@NonNull String url) {
+        public <T extends Builder> T url(@NonNull String url) {
             this.url = url;
-            return this;
+            return (T) this;
         }
 
         /**
@@ -339,9 +285,9 @@ public class ImageInfoConfig {
          *
          * @param filePath 本地图片路径
          */
-        public Builder filePath(@NonNull String filePath) {
+        public <T extends Builder> T filePath(@NonNull String filePath) {
             this.filePath = filePath;
-            return this;
+            return (T) this;
         }
 
         /**
@@ -349,9 +295,9 @@ public class ImageInfoConfig {
          *
          * @param file 图片文件
          */
-        public Builder file(@NonNull File file) {
+        public <T extends Builder> T file(@NonNull File file) {
             this.file = file;
-            return this;
+            return (T) this;
         }
 
         /**
@@ -359,9 +305,9 @@ public class ImageInfoConfig {
          *
          * @param drawableId 资源图片id
          */
-        public Builder drawableId(@DrawableRes int drawableId) {
+        public <T extends Builder> T drawableId(@DrawableRes int drawableId) {
             this.drawableId = drawableId;
-            return this;
+            return (T) this;
         }
 
         /**
@@ -369,97 +315,41 @@ public class ImageInfoConfig {
          *
          * @param uri 图片 uri
          */
-        public Builder uri(@NonNull Uri uri) {
+        public <T extends Builder> T uri(@NonNull Uri uri) {
             this.uri = uri;
-            return this;
-        }
-
-        /**
-         * 指定图片的字节数组数据
-         *
-         * @param bytes 图片的字节数组数据
-         */
-        public Builder bytes(@NonNull byte[] bytes) {
-            this.bytes = bytes;
-            return this;
-        }
-
-        /**
-         * 指定 {@link Bitmap} 对象
-         *
-         * @param bitmap {@link Bitmap} 对象
-         */
-        public Builder bitmap(@NonNull Bitmap bitmap) {
-            this.bitmap = bitmap;
-            return this;
-        }
-
-        /**
-         * {@link Drawable} 对象
-         *
-         * @param drawable {@link Drawable} 对象
-         */
-        public Builder drawable(@NonNull Drawable drawable) {
-            this.drawable = drawable;
-            return this;
-        }
-
-        /**
-         * 设置Tag
-         *
-         * @param tag Tag 对象
-         */
-        public Builder tag(Object tag) {
-            this.tag = tag;
-            return this;
-        }
-
-        /**
-         * 图片作为 gif 图片
-         */
-        public Builder asGif() {
-            this.isGif = true;
-            return this;
-        }
-
-        /**
-         * 将图片转换为 {@link Bitmap}
-         */
-        public Builder asBitmap() {
-            this.isBitmap = true;
-            return this;
+            return (T) this;
         }
 
         /**
          * 跳过内存缓存
          */
-        public Builder skipMemoryCache() {
+        public <T extends Builder> T skipMemoryCache() {
             this.isSkipMemory = true;
-            return this;
+            return (T) this;
         }
 
         /**
          * 跳过磁盘缓存
          */
-        public Builder skipDiskCache() {
+        public <T extends Builder> T skipDiskCache() {
             this.isSkipDisk = true;
-            return this;
+            return (T) this;
         }
 
         /**
          * 正在加载时显示的图片
          */
-        public Builder loadingImageId(@DrawableRes int loadingImageId) {
+        public <T extends Builder> T loadingImageId(@DrawableRes int loadingImageId) {
             this.loadingImageId = loadingImageId;
-            return this;
+            return (T) this;
         }
 
         /**
          * 加载失败时显示的图片
          */
-        public Builder errorImageId(@DrawableRes int errorImageId) {
+        public <T extends Builder> T errorImageId(@DrawableRes int errorImageId) {
             this.errorImageId = errorImageId;
-            return this;
+            return (T) this;
         }
 
         /**
@@ -467,9 +357,9 @@ public class ImageInfoConfig {
          *
          * @param width 图片的宽
          */
-        public Builder width(@IntRange(from = 0) int width) {
+        public <T extends Builder> T width(@IntRange(from = 0) int width) {
             this.width = width;
-            return this;
+            return (T) this;
         }
 
         /**
@@ -477,19 +367,9 @@ public class ImageInfoConfig {
          *
          * @param height 图片的高
          */
-        public Builder height(@IntRange(from = 0) int height) {
+        public <T extends Builder> T height(@IntRange(from = 0) int height) {
             this.height = height;
-            return this;
-        }
-
-        /**
-         * 指定 缩略图缩放倍数
-         *
-         * @param thumbnail 缩略图缩放倍数
-         */
-        public Builder thumbnail(@FloatRange(from = 0) float thumbnail) {
-            this.thumbnail = thumbnail;
-            return this;
+            return (T) this;
         }
 
         /**
@@ -497,8 +377,8 @@ public class ImageInfoConfig {
          *
          * @return {@link ImageInfoConfig} 对象
          */
-        public ImageInfoConfig build() {
-            return new ImageInfoConfig(this);
+        public <T extends ImageInfoConfig> T build() {
+            return (T) new ImageInfoConfig(this);
         }
     }
 }
