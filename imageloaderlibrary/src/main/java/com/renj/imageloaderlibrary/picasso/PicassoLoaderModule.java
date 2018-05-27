@@ -1,4 +1,4 @@
-package com.renj.imageloaderlibrary;
+package com.renj.imageloaderlibrary.picasso;
 
 import android.app.Application;
 import android.content.Context;

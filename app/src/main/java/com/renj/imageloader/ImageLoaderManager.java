@@ -3,7 +3,7 @@ package com.renj.imageloader;
 import android.app.Application;
 import android.support.annotation.NonNull;
 
-import com.renj.imageloaderlibrary.GlideLoaderModule;
+import com.renj.imageloaderlibrary.glide.GlideLoaderModule;
 import com.renj.imageloaderlibrary.loader.IImageLoaderModule;
 import com.renj.imageloaderlibrary.loader.ImageLoaderModule;
 

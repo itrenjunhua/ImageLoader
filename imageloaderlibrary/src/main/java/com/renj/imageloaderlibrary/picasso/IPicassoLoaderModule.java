@@ -1,4 +1,4 @@
-package com.renj.imageloaderlibrary;
+package com.renj.imageloaderlibrary.picasso;
 
 import com.renj.imageloaderlibrary.loader.IImageLoaderModule;
 

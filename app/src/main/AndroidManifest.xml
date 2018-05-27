@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <meta-data android:name="com.renj.imageloaderlibrary.MyGlideModule"
+        <meta-data android:name="com.renj.imageloaderlibrary.glide.MyGlideModule"
             android:value="AppGlideModule"/>
 
         <activity android:name=".MainActivity">
