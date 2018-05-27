@@ -7,6 +7,8 @@ import android.widget.ImageView;
 
 import com.renj.imageloaderlibrary.loader.IImageLoaderModule;
 import com.renj.imageloaderlibrary.loader.ImageInfoConfig;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
 
@@ -48,9 +50,46 @@ public class PicassoLoaderModule implements IImageLoaderModule {
     public void loadImage(@NonNull ImageInfoConfig imageInfoConfig) {
         Picasso picasso = createPicasso(imageInfoConfig);
         RequestCreator requestCreator = loadPath(picasso, imageInfoConfig);
+        builderControl(requestCreator, imageInfoConfig);
+    }
+
+    private void builderControl(RequestCreator requestCreator, @NonNull ImageInfoConfig imageInfoConfig) {
+        requestCreator = initImageInfoConfig(requestCreator, imageInfoConfig);
+        intoOf(requestCreator, imageInfoConfig);
+    }
+
+    /**
+     * 加载图片到指定控件
+     */
+    private void intoOf(RequestCreator requestCreator, @NonNull ImageInfoConfig imageInfoConfig) {
         if (imageInfoConfig.getTarget() instanceof ImageView) {
             requestCreator.into((ImageView) imageInfoConfig.getTarget());
         }
+    }
+
+    /**
+     * 将配置信息增加到Picasso中
+     */
+    private RequestCreator initImageInfoConfig(RequestCreator requestCreator, @NonNull ImageInfoConfig imageInfoConfig) {
+        if (imageInfoConfig.getWidth() > 0 && imageInfoConfig.getHeight() > 0)
+            requestCreator = requestCreator.resize(imageInfoConfig.getWidth(), imageInfoConfig.getHeight());
+        if (imageInfoConfig.getWidth() > 0 && imageInfoConfig.getHeight() <= 0)
+            requestCreator = requestCreator.resize(imageInfoConfig.getWidth(), imageInfoConfig.getWidth());
+        if (imageInfoConfig.getHeight() > 0 && imageInfoConfig.getWidth() <= 0)
+            requestCreator = requestCreator.resize(imageInfoConfig.getHeight(), imageInfoConfig.getHeight());
+
+        if (imageInfoConfig.isSkipMemory())
+            requestCreator = requestCreator.memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE);
+
+        if(imageInfoConfig.isSkipDisk())
+            requestCreator = requestCreator.networkPolicy(NetworkPolicy.NO_CACHE,NetworkPolicy.NO_STORE);
+
+        if (imageInfoConfig.getErrorImageId() > 0)
+            requestCreator = requestCreator.error(imageInfoConfig.getErrorImageId());
+        if (imageInfoConfig.getLoadingImageId() > 0)
+            requestCreator = requestCreator.placeholder(imageInfoConfig.getLoadingImageId());
+
+        return requestCreator;
     }
 
     /**
