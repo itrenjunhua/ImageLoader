@@ -48,53 +48,52 @@ public class PicassoLoaderModule implements IImageLoaderModule {
 
     @Override
     public <T extends ImageInfoConfig> void loadImage(@NonNull T imageInfoConfig) {
-        if (!(imageInfoConfig instanceof PicassoImageInfoConfig))
-            throw new IllegalArgumentException(getClass().getName() + "#loadImage(ImageInfoConfig) 方法的参数为" + PicassoImageInfoConfig.class.getName());
-
-        PicassoImageInfoConfig picassoImageInfoConfig = (PicassoImageInfoConfig) imageInfoConfig;
-        Picasso picasso = createPicasso(picassoImageInfoConfig);
-        RequestCreator requestCreator = loadPath(picasso, picassoImageInfoConfig);
-        builderControl(requestCreator, picassoImageInfoConfig);
+        Picasso picasso = createPicasso(imageInfoConfig);
+        RequestCreator requestCreator = loadPath(picasso, imageInfoConfig);
+        builderControl(requestCreator, imageInfoConfig);
     }
 
-    private void builderControl(RequestCreator requestCreator, @NonNull PicassoImageInfoConfig picassoImageInfoConfig) {
-        requestCreator = initImageInfoConfig(requestCreator, picassoImageInfoConfig);
-        intoOf(requestCreator, picassoImageInfoConfig);
+    private void builderControl(RequestCreator requestCreator, @NonNull ImageInfoConfig imageInfoConfig) {
+        requestCreator = initImageInfoConfig(requestCreator, imageInfoConfig);
+        intoOf(requestCreator, imageInfoConfig);
     }
 
     /**
      * 加载图片到指定控件
      */
-    private void intoOf(RequestCreator requestCreator, @NonNull PicassoImageInfoConfig picassoImageInfoConfig) {
-        if (picassoImageInfoConfig.getTarget() instanceof ImageView) {
-            requestCreator.into((ImageView) picassoImageInfoConfig.getTarget());
+    private void intoOf(RequestCreator requestCreator, @NonNull ImageInfoConfig imageInfoConfig) {
+        if (imageInfoConfig.getTarget() instanceof ImageView) {
+            requestCreator.into((ImageView) imageInfoConfig.getTarget());
         }
     }
 
     /**
      * 将配置信息增加到Picasso中
      */
-    private RequestCreator initImageInfoConfig(RequestCreator requestCreator, @NonNull PicassoImageInfoConfig picassoImageInfoConfig) {
-        if (picassoImageInfoConfig.getWidth() > 0 && picassoImageInfoConfig.getHeight() > 0)
-            requestCreator = requestCreator.resize(picassoImageInfoConfig.getWidth(), picassoImageInfoConfig.getHeight());
-        if (picassoImageInfoConfig.getWidth() > 0 && picassoImageInfoConfig.getHeight() <= 0)
-            requestCreator = requestCreator.resize(picassoImageInfoConfig.getWidth(), picassoImageInfoConfig.getWidth());
-        if (picassoImageInfoConfig.getHeight() > 0 && picassoImageInfoConfig.getWidth() <= 0)
-            requestCreator = requestCreator.resize(picassoImageInfoConfig.getHeight(), picassoImageInfoConfig.getHeight());
+    private RequestCreator initImageInfoConfig(RequestCreator requestCreator, @NonNull ImageInfoConfig imageInfoConfig) {
+        if (imageInfoConfig.getWidth() > 0 && imageInfoConfig.getHeight() > 0)
+            requestCreator = requestCreator.resize(imageInfoConfig.getWidth(), imageInfoConfig.getHeight());
+        if (imageInfoConfig.getWidth() > 0 && imageInfoConfig.getHeight() <= 0)
+            requestCreator = requestCreator.resize(imageInfoConfig.getWidth(), imageInfoConfig.getWidth());
+        if (imageInfoConfig.getHeight() > 0 && imageInfoConfig.getWidth() <= 0)
+            requestCreator = requestCreator.resize(imageInfoConfig.getHeight(), imageInfoConfig.getHeight());
 
-        if (picassoImageInfoConfig.isSkipMemory())
+        if (imageInfoConfig.isSkipMemory())
             requestCreator = requestCreator.memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE);
 
-        if (picassoImageInfoConfig.isSkipDisk())
+        if (imageInfoConfig.isSkipDisk())
             requestCreator = requestCreator.networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE);
 
-        if (picassoImageInfoConfig.getErrorImageId() > 0)
-            requestCreator = requestCreator.error(picassoImageInfoConfig.getErrorImageId());
-        if (picassoImageInfoConfig.getLoadingImageId() > 0)
-            requestCreator = requestCreator.placeholder(picassoImageInfoConfig.getLoadingImageId());
+        if (imageInfoConfig.getErrorImageId() > 0)
+            requestCreator = requestCreator.error(imageInfoConfig.getErrorImageId());
+        if (imageInfoConfig.getLoadingImageId() > 0)
+            requestCreator = requestCreator.placeholder(imageInfoConfig.getLoadingImageId());
 
-        if (picassoImageInfoConfig.getTag() != null)
-            requestCreator = requestCreator.tag(picassoImageInfoConfig.getTag());
+        if(imageInfoConfig instanceof PicassoImageInfoConfig) {
+            PicassoImageInfoConfig picassoImageInfoConfig = (PicassoImageInfoConfig) imageInfoConfig;
+            if (picassoImageInfoConfig.getTag() != null)
+                requestCreator = requestCreator.tag(picassoImageInfoConfig.getTag());
+        }
 
         return requestCreator;
     }
@@ -103,47 +102,47 @@ public class PicassoLoaderModule implements IImageLoaderModule {
      * 确定图片加载路径
      */
     @NonNull
-    private RequestCreator loadPath(Picasso picasso, @NonNull PicassoImageInfoConfig picassoImageInfoConfig) {
-        if (picassoImageInfoConfig.getFilePath() != null)
-            return picasso.load(new File(picassoImageInfoConfig.getFilePath()));
+    private RequestCreator loadPath(Picasso picasso, @NonNull ImageInfoConfig imageInfoConfig) {
+        if (imageInfoConfig.getFilePath() != null)
+            return picasso.load(new File(imageInfoConfig.getFilePath()));
 
-        if (picassoImageInfoConfig.getFile() != null)
-            return picasso.load(picassoImageInfoConfig.getFile());
+        if (imageInfoConfig.getFile() != null)
+            return picasso.load(imageInfoConfig.getFile());
 
-        if (picassoImageInfoConfig.getDrawableId() > 0)
-            return picasso.load(picassoImageInfoConfig.getDrawableId());
+        if (imageInfoConfig.getDrawableId() > 0)
+            return picasso.load(imageInfoConfig.getDrawableId());
 
-        if (picassoImageInfoConfig.getUri() != null)
-            return picasso.load(picassoImageInfoConfig.getUri());
+        if (imageInfoConfig.getUri() != null)
+            return picasso.load(imageInfoConfig.getUri());
 
-        // picassoImageInfoConfig.getUrl() 也可能为 null
-        return picasso.load(picassoImageInfoConfig.getUrl());
+        // imageInfoConfig.getUrl() 也可能为 null
+        return picasso.load(imageInfoConfig.getUrl());
     }
 
     /**
      * 调用 {@link Picasso#with(Context)} 方法创建 {@link Picasso} 对象
      *
-     * @param picassoImageInfoConfig {@link ImageInfoConfig} 对象
+     * @param imageInfoConfig {@link ImageInfoConfig} 对象
      * @return {@link Picasso} 对象
      */
-    private Picasso createPicasso(PicassoImageInfoConfig picassoImageInfoConfig) {
-        if (picassoImageInfoConfig.getFragmentV4() != null)
-            return Picasso.with(picassoImageInfoConfig.getFragmentV4().getActivity());
+    private Picasso createPicasso(ImageInfoConfig imageInfoConfig) {
+        if (imageInfoConfig.getFragmentV4() != null)
+            return Picasso.with(imageInfoConfig.getFragmentV4().getActivity());
 
-        if (picassoImageInfoConfig.getFragment() != null)
-            return Picasso.with(picassoImageInfoConfig.getFragment().getActivity());
+        if (imageInfoConfig.getFragment() != null)
+            return Picasso.with(imageInfoConfig.getFragment().getActivity());
 
-        if (picassoImageInfoConfig.getFragmentActivity() != null)
-            return Picasso.with(picassoImageInfoConfig.getFragmentActivity());
+        if (imageInfoConfig.getFragmentActivity() != null)
+            return Picasso.with(imageInfoConfig.getFragmentActivity());
 
-        if (picassoImageInfoConfig.getActivity() != null)
-            return Picasso.with(picassoImageInfoConfig.getActivity());
+        if (imageInfoConfig.getActivity() != null)
+            return Picasso.with(imageInfoConfig.getActivity());
 
-        if (picassoImageInfoConfig.getContext() != null)
-            return Picasso.with(picassoImageInfoConfig.getContext());
+        if (imageInfoConfig.getContext() != null)
+            return Picasso.with(imageInfoConfig.getContext());
 
-        if (picassoImageInfoConfig.getTarget() != null)
-            return Picasso.with(picassoImageInfoConfig.getTarget().getContext());
+        if (imageInfoConfig.getTarget() != null)
+            return Picasso.with(imageInfoConfig.getTarget().getContext());
 
         if (application != null)
             return Picasso.with(application);
