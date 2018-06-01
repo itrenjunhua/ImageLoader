@@ -48,38 +48,41 @@ public class GlideLoaderModule implements IGlideLoaderModule {
 
     @Override
     public <T extends ImageInfoConfig> void loadImage(@NonNull T imageInfoConfig) {
-        if (!(imageInfoConfig instanceof GlideImageInfoConfig))
-            throw new IllegalArgumentException(getClass().getName() + "#loadImage(ImageInfoConfig) 方法的参数为" + GlideImageInfoConfig.class.getName());
+        RequestManager requestManager = createRequestManager(imageInfoConfig);
 
-        GlideImageInfoConfig glideImageInfoConfig = (GlideImageInfoConfig) imageInfoConfig;
-        RequestManager requestManager = createRequestManager(glideImageInfoConfig);
-
-        if (glideImageInfoConfig.isBitmap()) {
-            RequestBuilder<Bitmap> bitmapRequestBuilder = requestManager.asBitmap();
-            RequestBuilder<Bitmap> requestBuilder = loadPath(bitmapRequestBuilder, glideImageInfoConfig);
-            builderControl(requestBuilder, glideImageInfoConfig);
-        } else if (glideImageInfoConfig.isGif()) {
-            RequestBuilder<GifDrawable> gifDrawableRequestBuilder = requestManager.asGif();
-            RequestBuilder<GifDrawable> requestBuilder = loadPath(gifDrawableRequestBuilder, glideImageInfoConfig);
-            builderControl(requestBuilder, glideImageInfoConfig);
+        if (imageInfoConfig instanceof GlideImageInfoConfig) {
+            GlideImageInfoConfig glideImageInfoConfig = (GlideImageInfoConfig) imageInfoConfig;
+            if (glideImageInfoConfig.isBitmap()) {
+                RequestBuilder<Bitmap> bitmapRequestBuilder = requestManager.asBitmap();
+                RequestBuilder<Bitmap> requestBuilder = loadPath(bitmapRequestBuilder, imageInfoConfig);
+                builderControl(requestBuilder, imageInfoConfig);
+            } else if (glideImageInfoConfig.isGif()) {
+                RequestBuilder<GifDrawable> gifDrawableRequestBuilder = requestManager.asGif();
+                RequestBuilder<GifDrawable> requestBuilder = loadPath(gifDrawableRequestBuilder, imageInfoConfig);
+                builderControl(requestBuilder, imageInfoConfig);
+            } else {
+                RequestBuilder<Drawable> drawableRequestBuilder = requestManager.asDrawable();
+                RequestBuilder<Drawable> requestBuilder = loadPath(drawableRequestBuilder, imageInfoConfig);
+                builderControl(requestBuilder, imageInfoConfig);
+            }
         } else {
             RequestBuilder<Drawable> drawableRequestBuilder = requestManager.asDrawable();
-            RequestBuilder<Drawable> requestBuilder = loadPath(drawableRequestBuilder, glideImageInfoConfig);
-            builderControl(requestBuilder, glideImageInfoConfig);
+            RequestBuilder<Drawable> requestBuilder = loadPath(drawableRequestBuilder, imageInfoConfig);
+            builderControl(requestBuilder, imageInfoConfig);
         }
     }
 
-    private <T> void builderControl(RequestBuilder<T> requestBuilder, @NonNull GlideImageInfoConfig glideImageInfoConfig) {
-        requestBuilder = initImageInfoConfig(requestBuilder, glideImageInfoConfig);
-        intoOf(requestBuilder, glideImageInfoConfig);
+    private <T> void builderControl(RequestBuilder<T> requestBuilder, @NonNull ImageInfoConfig imageInfoConfig) {
+        requestBuilder = initImageInfoConfig(requestBuilder, imageInfoConfig);
+        intoOf(requestBuilder, imageInfoConfig);
     }
 
     /**
      * 加载图片到指定控件
      */
-    private <T> void intoOf(RequestBuilder<T> requestBuilder, @NonNull GlideImageInfoConfig glideImageInfoConfig) {
-        if (glideImageInfoConfig.getTarget() instanceof ImageView) {
-            requestBuilder.into((ImageView) glideImageInfoConfig.getTarget());
+    private <T> void intoOf(RequestBuilder<T> requestBuilder, @NonNull ImageInfoConfig imageInfoConfig) {
+        if (imageInfoConfig.getTarget() instanceof ImageView) {
+            requestBuilder.into((ImageView) imageInfoConfig.getTarget());
         }
     }
 
@@ -87,25 +90,28 @@ public class GlideLoaderModule implements IGlideLoaderModule {
      * 配置图片信息到 Glide 请求中
      */
     @NonNull
-    private <T> RequestBuilder<T> initImageInfoConfig(RequestBuilder<T> requestBuilder, @NonNull GlideImageInfoConfig glideImageInfoConfig) {
-        if (glideImageInfoConfig.getThumbnail() > 0)
-            requestBuilder.thumbnail(glideImageInfoConfig.getThumbnail());
+    private <T> RequestBuilder<T> initImageInfoConfig(RequestBuilder<T> requestBuilder, @NonNull ImageInfoConfig imageInfoConfig) {
+        if (imageInfoConfig instanceof GlideImageInfoConfig) {
+            GlideImageInfoConfig glideImageInfoConfig = (GlideImageInfoConfig) imageInfoConfig;
+            if (glideImageInfoConfig.getThumbnail() > 0)
+                requestBuilder.thumbnail(glideImageInfoConfig.getThumbnail());
+        }
 
         RequestOptions requestOptions = new RequestOptions();
-        if (glideImageInfoConfig.getWidth() > 0 && glideImageInfoConfig.getHeight() > 0)
-            requestOptions = requestOptions.override(glideImageInfoConfig.getWidth(), glideImageInfoConfig.getHeight());
-        if (glideImageInfoConfig.getWidth() > 0 && glideImageInfoConfig.getHeight() <= 0)
-            requestOptions = requestOptions.override(glideImageInfoConfig.getWidth());
-        if (glideImageInfoConfig.getHeight() > 0 && glideImageInfoConfig.getWidth() <= 0)
-            requestOptions = requestOptions.override(glideImageInfoConfig.getHeight());
+        if (imageInfoConfig.getWidth() > 0 && imageInfoConfig.getHeight() > 0)
+            requestOptions = requestOptions.override(imageInfoConfig.getWidth(), imageInfoConfig.getHeight());
+        if (imageInfoConfig.getWidth() > 0 && imageInfoConfig.getHeight() <= 0)
+            requestOptions = requestOptions.override(imageInfoConfig.getWidth());
+        if (imageInfoConfig.getHeight() > 0 && imageInfoConfig.getWidth() <= 0)
+            requestOptions = requestOptions.override(imageInfoConfig.getHeight());
 
-        requestOptions = requestOptions.skipMemoryCache(glideImageInfoConfig.isSkipMemory());
-        requestOptions = requestOptions.diskCacheStrategy(glideImageInfoConfig.isSkipDisk() ? DiskCacheStrategy.NONE : DiskCacheStrategy.AUTOMATIC);
+        requestOptions = requestOptions.skipMemoryCache(imageInfoConfig.isSkipMemory());
+        requestOptions = requestOptions.diskCacheStrategy(imageInfoConfig.isSkipDisk() ? DiskCacheStrategy.NONE : DiskCacheStrategy.AUTOMATIC);
 
-        if (glideImageInfoConfig.getErrorImageId() > 0)
-            requestOptions = requestOptions.error(glideImageInfoConfig.getErrorImageId());
-        if (glideImageInfoConfig.getLoadingImageId() > 0)
-            requestOptions = requestOptions.placeholder(glideImageInfoConfig.getLoadingImageId());
+        if (imageInfoConfig.getErrorImageId() > 0)
+            requestOptions = requestOptions.error(imageInfoConfig.getErrorImageId());
+        if (imageInfoConfig.getLoadingImageId() > 0)
+            requestOptions = requestOptions.placeholder(imageInfoConfig.getLoadingImageId());
 
         return requestBuilder.apply(requestOptions);
     }
@@ -114,54 +120,57 @@ public class GlideLoaderModule implements IGlideLoaderModule {
      * 确定图片加载路径
      */
     @NonNull
-    private <T> RequestBuilder<T> loadPath(RequestBuilder<T> requestBuilder, @NonNull GlideImageInfoConfig glideImageInfoConfig) {
-        if (glideImageInfoConfig.getDrawable() != null)
-            return requestBuilder.load(glideImageInfoConfig.getDrawable());
+    private <T> RequestBuilder<T> loadPath(RequestBuilder<T> requestBuilder, @NonNull ImageInfoConfig imageInfoConfig) {
+        if (imageInfoConfig instanceof GlideImageInfoConfig) {
+            GlideImageInfoConfig glideImageInfoConfig = (GlideImageInfoConfig) imageInfoConfig;
+            if (glideImageInfoConfig.getDrawable() != null)
+                return requestBuilder.load(glideImageInfoConfig.getDrawable());
 
-        if (glideImageInfoConfig.getBitmap() != null)
-            return requestBuilder.load(glideImageInfoConfig.getBitmap());
+            if (glideImageInfoConfig.getBitmap() != null)
+                return requestBuilder.load(glideImageInfoConfig.getBitmap());
 
-        if (glideImageInfoConfig.getDrawableId() > 0)
-            return requestBuilder.load(glideImageInfoConfig.getDrawableId());
+            if (glideImageInfoConfig.getBytes() != null)
+                return requestBuilder.load(glideImageInfoConfig.getBytes());
+        }
 
-        if (glideImageInfoConfig.getBytes() != null)
-            return requestBuilder.load(glideImageInfoConfig.getBytes());
+        if (imageInfoConfig.getDrawableId() > 0)
+            return requestBuilder.load(imageInfoConfig.getDrawableId());
 
-        if (glideImageInfoConfig.getUri() != null)
-            return requestBuilder.load(glideImageInfoConfig.getUri());
+        if (imageInfoConfig.getUri() != null)
+            return requestBuilder.load(imageInfoConfig.getUri());
 
-        if (glideImageInfoConfig.getFilePath() != null)
-            return requestBuilder.load(glideImageInfoConfig.getFilePath());
+        if (imageInfoConfig.getFilePath() != null)
+            return requestBuilder.load(imageInfoConfig.getFilePath());
 
-        if (glideImageInfoConfig.getFile() != null)
-            return requestBuilder.load(glideImageInfoConfig.getFile());
+        if (imageInfoConfig.getFile() != null)
+            return requestBuilder.load(imageInfoConfig.getFile());
 
         // imageInfoConfig.getUrl() 也可能为 null
-        return requestBuilder.load(glideImageInfoConfig.getUrl());
+        return requestBuilder.load(imageInfoConfig.getUrl());
     }
 
     /**
      * 创建 RequestManager 对象
      */
     @NonNull
-    private RequestManager createRequestManager(@NonNull GlideImageInfoConfig glideImageInfoConfig) {
-        if (glideImageInfoConfig.getFragmentV4() != null)
-            return Glide.with(glideImageInfoConfig.getFragmentV4());
+    private RequestManager createRequestManager(@NonNull ImageInfoConfig imageInfoConfig) {
+        if (imageInfoConfig.getFragmentV4() != null)
+            return Glide.with(imageInfoConfig.getFragmentV4());
 
-        if (glideImageInfoConfig.getFragment() != null)
-            return Glide.with(glideImageInfoConfig.getFragment());
+        if (imageInfoConfig.getFragment() != null)
+            return Glide.with(imageInfoConfig.getFragment());
 
-        if (glideImageInfoConfig.getFragmentActivity() != null)
-            return Glide.with(glideImageInfoConfig.getFragmentActivity());
+        if (imageInfoConfig.getFragmentActivity() != null)
+            return Glide.with(imageInfoConfig.getFragmentActivity());
 
-        if (glideImageInfoConfig.getActivity() != null)
-            return Glide.with(glideImageInfoConfig.getActivity());
+        if (imageInfoConfig.getActivity() != null)
+            return Glide.with(imageInfoConfig.getActivity());
 
-        if (glideImageInfoConfig.getContext() != null)
-            return Glide.with(glideImageInfoConfig.getContext());
+        if (imageInfoConfig.getContext() != null)
+            return Glide.with(imageInfoConfig.getContext());
 
-        if (glideImageInfoConfig.getTarget() != null)
-            return Glide.with(glideImageInfoConfig.getTarget());
+        if (imageInfoConfig.getTarget() != null)
+            return Glide.with(imageInfoConfig.getTarget());
 
         if (application != null)
             return Glide.with(application);
