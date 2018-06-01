@@ -1,16 +1,18 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion COMPILE_SDK_VERSION
 
+    compileSdkVersion rootProject.ext.android.compileSdk
+
+    // 默认配置
     defaultConfig {
-        minSdkVersion MIN_SDK_VERSION
-        targetSdkVersion TARGET_SDK_VERSION
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion rootProject.ext.android.minSdk
+        targetSdkVersion rootProject.ext.android.targetSdk
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
+        javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
     }
 
     buildTypes {
@@ -24,18 +26,17 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-
     // support
-    implementation 'com.android.support:appcompat-v7:' + ANDROID_SUPPORT_V7
+    implementation rootProject.ext.dependencies["androidSupportV7"]
     // test
-    testImplementation 'junit:junit:' + JUNIT_SUPPORT
-    androidTestImplementation 'com.android.support.test:runner:' + SUPPORT_TEST_RUNNER
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:' + SUPPORT_TEST_ESPRESSO
+    testImplementation rootProject.ext.dependencies["junitSupport"]
+    androidTestImplementation rootProject.ext.dependencies["supportTestRunner"]
+    androidTestImplementation rootProject.ext.dependencies["supportTestEspresso"]
     // jetbrains 注解
-    implementation 'org.jetbrains:annotations-java5:' + JETBRAINS_ANNOTATIONS_VERSION
+    implementation rootProject.ext.dependencies["jetbrainsAnnotations"]
     // Glide 图片加载库
-    implementation 'com.github.bumptech.glide:glide:' + IMAGE_GLIDE_VERSION
-    annotationProcessor 'com.github.bumptech.glide:compiler:' + IMAGE_GLIDE_VERSION
+    implementation rootProject.ext.dependencies["glide"]
+    implementation rootProject.ext.dependencies["glideCompiler"]
     // Picasso 图片加载库
-    implementation 'com.squareup.picasso:picasso:' + IMAGE_PICASSO_VERSION
+    implementation rootProject.ext.dependencies["picasso"]
 }

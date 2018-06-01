@@ -25,19 +25,44 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
+// 统一配置各个 Module 的编译版本、目标版本、依赖库版本等信息
 ext {
-    COMPILE_SDK_VERSION = 27
-    MIN_SDK_VERSION = 17
-    TARGET_SDK_VERSION = 27
+    android = [
+            compileSdk : 27,
+            buildTools : "27.0.2",
+            minSdk     : 17,
+            targetSdk  : 27,
+            versionCode: 1,
+            versionName: "1.0.0"
+    ]
 
-    ANDROID_SUPPORT_V7 = "27.0.2"
-    ANDROID_SUPPORT_CONSTRAINT = "1.0.2"
-    JUNIT_SUPPORT = "4.12"
-    SUPPORT_TEST_RUNNER = "1.0.1"
-    SUPPORT_TEST_ESPRESSO = "3.0.1"
+    def dependVersion = [
+            androidSupportV7        : "27.0.2",
+            androidSupportConstraint: "1.0.2",
+            junitSupport            : "4.12",
+            supportTestRunner       : "1.0.1",
+            supportTestEspresso     : "3.0.1",
 
-    JETBRAINS_ANNOTATIONS_VERSION = "15.0"
-    IMAGE_GLIDE_VERSION = "4.6.1"
+            jetbrainsAnnotations    : "15.0",
+            imageGlide              : "4.6.1",
+            imagePicasso            : "2.5.2"
+    ]
 
-    IMAGE_PICASSO_VERSION = "2.5.2"
+    dependencies = [
+            // support
+            "androidSupportV7"    : "com.android.support:appcompat-v7:${dependVersion.androidSupportV7}",
+            "androidSupportConstraint": "com.android.support.constraint:constraint-layout:${dependVersion.androidSupportConstraint}",
+            // test
+            "junitSupport"        : "junit:junit:${dependVersion.junitSupport}",
+            "supportTestRunner"   : "com.android.support.test:runner:${dependVersion.supportTestRunner}",
+            "supportTestEspresso" : "com.android.support.test.espresso:espresso-core:${dependVersion.supportTestEspresso}",
+            // jetbrains 注解
+            "jetbrainsAnnotations": "org.jetbrains:annotations-java5:${dependVersion.jetbrainsAnnotations}",
+            // Glide 图片加载库
+            "glide"               : "com.github.bumptech.glide:glide:${dependVersion.imageGlide}",
+            "glideCompiler"       : "com.github.bumptech.glide:compiler:${dependVersion.imageGlide}",
+            // Picasso 图片加载库
+            "picasso"             : "com.squareup.picasso:picasso:${dependVersion.imagePicasso}"
+
+    ]
 }

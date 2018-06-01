@@ -1,15 +1,20 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion COMPILE_SDK_VERSION
+
+    compileSdkVersion rootProject.ext.android.compileSdk
+
+    // 默认配置
     defaultConfig {
         applicationId "com.renj.imageloader"
-        minSdkVersion MIN_SDK_VERSION
-        targetSdkVersion TARGET_SDK_VERSION
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion rootProject.ext.android.minSdk
+        targetSdkVersion rootProject.ext.android.targetSdk
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
+
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -20,13 +25,14 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
     // support
-    implementation 'com.android.support:appcompat-v7:' + ANDROID_SUPPORT_V7
-    implementation 'com.android.support.constraint:constraint-layout:' + ANDROID_SUPPORT_CONSTRAINT
+    implementation rootProject.ext.dependencies["androidSupportV7"]
+    implementation rootProject.ext.dependencies["androidSupportConstraint"]
     // test
-    testImplementation 'junit:junit:' + JUNIT_SUPPORT
-    androidTestImplementation 'com.android.support.test:runner:' + SUPPORT_TEST_RUNNER
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:' + SUPPORT_TEST_ESPRESSO
+    testImplementation rootProject.ext.dependencies["junitSupport"]
+    androidTestImplementation rootProject.ext.dependencies["supportTestRunner"]
+    androidTestImplementation rootProject.ext.dependencies["supportTestEspresso"]
     // 导入图片加载库
     implementation project(':imageloaderlibrary')
 }
