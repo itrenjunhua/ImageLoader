@@ -28,7 +28,7 @@ import java.io.File;
 public class ImageInfoConfig {
     private View target; // 图片展示目标控件
     private Context context;
-    /*** 当选择Glide框架时，with() 方法可以传递context之外，还可以传递一下参数 ***/
+    /*** 当选择Glide框架时，with() 方法可以传递context之外，还可以传递以下参数 ***/
     private Activity activity;
     private FragmentActivity fragmentActivity;
     private Fragment fragment;

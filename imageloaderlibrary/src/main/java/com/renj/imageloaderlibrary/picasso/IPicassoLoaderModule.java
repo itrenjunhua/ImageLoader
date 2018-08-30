@@ -17,4 +17,17 @@ import com.renj.imageloaderlibrary.loader.IImageLoaderModule;
  * ======================================================================
  */
 public interface IPicassoLoaderModule extends IImageLoaderModule {
+    /**
+     * 暂停加载指定 Tag
+     *
+     * @param tag 暂停加载的tag
+     */
+    void pauseTag(Object tag);
+
+    /**
+     * 开始加载指定 Tag
+     *
+     * @param tag 开始加载的tag
+     */
+    void resumeTag(Object tag);
 }

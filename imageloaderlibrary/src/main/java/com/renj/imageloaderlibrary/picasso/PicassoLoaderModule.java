@@ -5,7 +5,6 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.widget.ImageView;
 
-import com.renj.imageloaderlibrary.loader.IImageLoaderModule;
 import com.renj.imageloaderlibrary.loader.ImageInfoConfig;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
@@ -28,7 +27,7 @@ import java.io.File;
  * <p>
  * ======================================================================
  */
-public class PicassoLoaderModule implements IImageLoaderModule {
+public class PicassoLoaderModule implements IPicassoLoaderModule {
     private Application application;
 
     @Override
@@ -148,5 +147,15 @@ public class PicassoLoaderModule implements IImageLoaderModule {
             return Picasso.with(application);
 
         throw new NullPointerException("Picasso 获取不到 Context");
+    }
+
+    @Override
+    public void pauseTag(Object tag){
+        Picasso.with(application).pauseTag(tag);
+    }
+
+    @Override
+    public void resumeTag(Object tag){
+        Picasso.with(application).resumeTag(tag);
     }
 }

@@ -20,6 +20,7 @@ public class PicassoImageInfoConfig extends ImageInfoConfig {
 
     protected PicassoImageInfoConfig(Builder builder) {
         super(builder);
+        this.tag = builder.tag;
     }
 
     public Object getTag() {
