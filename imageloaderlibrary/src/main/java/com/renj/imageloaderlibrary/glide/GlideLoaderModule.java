@@ -113,6 +113,11 @@ public class GlideLoaderModule implements IGlideLoaderModule {
         if (imageInfoConfig.getLoadingImageId() > 0)
             requestOptions = requestOptions.placeholder(imageInfoConfig.getLoadingImageId());
 
+        if (imageInfoConfig.getErrorDrawable() != null)
+            requestOptions = requestOptions.error(imageInfoConfig.getErrorDrawable());
+        if (imageInfoConfig.getLoadingDrawable() != null)
+            requestOptions = requestOptions.placeholder(imageInfoConfig.getLoadingDrawable());
+
         return requestBuilder.apply(requestOptions);
     }
 

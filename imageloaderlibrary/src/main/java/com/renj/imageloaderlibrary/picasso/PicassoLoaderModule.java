@@ -88,6 +88,11 @@ public class PicassoLoaderModule implements IPicassoLoaderModule {
         if (imageInfoConfig.getLoadingImageId() > 0)
             requestCreator = requestCreator.placeholder(imageInfoConfig.getLoadingImageId());
 
+        if (imageInfoConfig.getErrorDrawable() != null)
+            requestCreator = requestCreator.error(imageInfoConfig.getErrorDrawable());
+        if (imageInfoConfig.getLoadingDrawable() != null)
+            requestCreator = requestCreator.placeholder(imageInfoConfig.getLoadingDrawable());
+
         if(imageInfoConfig instanceof PicassoImageInfoConfig) {
             PicassoImageInfoConfig picassoImageInfoConfig = (PicassoImageInfoConfig) imageInfoConfig;
             if (picassoImageInfoConfig.getTag() != null)

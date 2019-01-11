@@ -3,6 +3,7 @@ package com.renj.imageloaderlibrary.loader;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IntRange;
@@ -46,9 +47,12 @@ public class ImageInfoConfig {
     private boolean isSkipDisk; // 是否跳过磁盘缓存
 
     @DrawableRes
-    private int errorImageId; // 加载错误时显示的图片
+    private int errorImageId; // 加载错误时显示的图片id
     @DrawableRes
-    private int loadingImageId; // 正在加载时显示的图片
+    private int loadingImageId; // 正在加载时显示的图片id
+
+    private Drawable errorDrawable; // 加载错误时显示的图片，优先级高于 errorImageId
+    private Drawable loadingDrawable; // 正在加载时显示的图片，优先级高于 loadingImageId
 
     @IntRange(from = 0)
     private int width; // 图片宽
@@ -71,6 +75,8 @@ public class ImageInfoConfig {
         this.isSkipDisk = builder.isSkipDisk;
         this.errorImageId = builder.errorImageId;
         this.loadingImageId = builder.loadingImageId;
+        this.loadingDrawable = builder.loadingDrawable;
+        this.errorDrawable = builder.errorDrawable;
         this.width = builder.width;
         this.height = builder.height;
     }
@@ -135,6 +141,14 @@ public class ImageInfoConfig {
         return loadingImageId;
     }
 
+    public Drawable getErrorDrawable() {
+        return errorDrawable;
+    }
+
+    public Drawable getLoadingDrawable() {
+        return loadingDrawable;
+    }
+
     public int getWidth() {
         if (width <= 0) {
             //先去imageview里取,如果为0,则赋值成matchparent
@@ -182,9 +196,12 @@ public class ImageInfoConfig {
         private boolean isSkipDisk; // 是否跳过磁盘缓存
 
         @DrawableRes
-        private int errorImageId; // 加载错误时显示的图片
+        private int errorImageId; // 加载错误时显示的图片id
         @DrawableRes
-        private int loadingImageId; // 正在加载时显示的图片
+        private int loadingImageId; // 正在加载时显示的图片id
+
+        private Drawable errorDrawable; // 加载错误时显示的图片，优先级高于 errorImageId
+        private Drawable loadingDrawable; // 正在加载时显示的图片，优先级高于 loadingImageId
 
         @IntRange(from = 0)
         private int width; // 图片宽
@@ -337,7 +354,9 @@ public class ImageInfoConfig {
         }
 
         /**
-         * 正在加载时显示的图片
+         * 正在加载时显示的图片id，优先级低于 {@link #loadingDrawable(Drawable)}
+         *
+         * @see #loadingDrawable(Drawable)
          */
         public <T extends Builder> T loadingImageId(@DrawableRes int loadingImageId) {
             this.loadingImageId = loadingImageId;
@@ -345,10 +364,32 @@ public class ImageInfoConfig {
         }
 
         /**
-         * 加载失败时显示的图片
+         * 加载失败时显示的图片id，优先级低于 {@link #errorDrawable(Drawable)}
+         *
+         * @see #errorDrawable(Drawable)
          */
         public <T extends Builder> T errorImageId(@DrawableRes int errorImageId) {
             this.errorImageId = errorImageId;
+            return (T) this;
+        }
+
+        /**
+         * 正在加载时显示的图片，参数不为 {@code null} 时优先级高于 {@link #loadingImageId(int)}
+         *
+         * @see #loadingImageId(int)
+         */
+        public <T extends Builder> T loadingDrawable(Drawable loadingDrawable) {
+            this.loadingDrawable = loadingDrawable;
+            return (T) this;
+        }
+
+        /**
+         * 加载失败时显示的图片，参数不为 {@code null} 时优先级高于 {@link #errorImageId(int)}
+         *
+         * @see #errorImageId(int)
+         */
+        public <T extends Builder> T errorDrawable(Drawable errorDrawable) {
+            this.errorDrawable = errorDrawable;
             return (T) this;
         }
 
