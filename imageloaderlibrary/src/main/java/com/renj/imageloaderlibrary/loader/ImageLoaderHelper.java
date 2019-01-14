@@ -1,6 +1,7 @@
 package com.renj.imageloaderlibrary.loader;
 
 import android.app.Application;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 
 /**
@@ -32,6 +33,23 @@ import android.support.annotation.NonNull;
 
         Utils.initUtils(application);
         iImageLoaderModule.init(application);
+    }
+
+    /**
+     * 初始化方法，指定全局的加载中图片和加载错误图片
+     *
+     * @param application        {@link Application} 对象
+     * @param iImageLoaderModule {@link IImageLoaderModule} 对象
+     * @param loadingRes         加载中的图片
+     * @param errorRes           加载错误的图片
+     */
+    void initImageLoaderUtils(@NonNull Application application, @NonNull T iImageLoaderModule,
+                              @DrawableRes int loadingRes, @DrawableRes int errorRes) {
+        this.application = application;
+        this.iImageLoaderModule = iImageLoaderModule;
+
+        Utils.initUtils(application);
+        iImageLoaderModule.init(application, loadingRes, errorRes);
     }
 
     /**

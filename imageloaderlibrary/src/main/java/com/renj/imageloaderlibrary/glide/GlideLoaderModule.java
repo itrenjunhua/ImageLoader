@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.widget.ImageView;
 
@@ -30,10 +31,21 @@ import com.renj.imageloaderlibrary.loader.ImageInfoConfig;
  */
 public class GlideLoaderModule implements IGlideLoaderModule {
     private Application application;
+    @DrawableRes
+    private int loadingRes;
+    @DrawableRes
+    private int errorRes;
 
     @Override
     public void init(@NonNull Application application) {
         this.application = application;
+    }
+
+    @Override
+    public void init(@NonNull Application application, int loadingRes, int errorRes) {
+        this.application = application;
+        this.loadingRes = loadingRes;
+        this.errorRes = errorRes;
     }
 
     @Override
@@ -107,6 +119,11 @@ public class GlideLoaderModule implements IGlideLoaderModule {
 
         requestOptions = requestOptions.skipMemoryCache(imageInfoConfig.isSkipMemory());
         requestOptions = requestOptions.diskCacheStrategy(imageInfoConfig.isSkipDisk() ? DiskCacheStrategy.NONE : DiskCacheStrategy.AUTOMATIC);
+
+        if (loadingRes > 0)
+            requestOptions = requestOptions.error(loadingRes);
+        if (errorRes > 0)
+            requestOptions = requestOptions.placeholder(errorRes);
 
         if (imageInfoConfig.getErrorImageId() > 0)
             requestOptions = requestOptions.error(imageInfoConfig.getErrorImageId());

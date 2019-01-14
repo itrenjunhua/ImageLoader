@@ -2,6 +2,7 @@ package com.renj.imageloaderlibrary.loader;
 
 import android.app.Application;
 import android.content.Context;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.widget.ImageView;
 
@@ -25,6 +26,15 @@ public interface IImageLoaderModule {
      * @param application {@link Application}
      */
     void init(@NonNull Application application);
+
+    /**
+     * 对框架进行初始化，指定全局的加载中图片和加载错误图片，参数必须为 {@link Application} ，强制在 Application 类中初始化
+     *
+     * @param application {@link Application}
+     * @param loadingRes  加载中的图片
+     * @param errorRes    加载错误的图片
+     */
+    void init(@NonNull Application application, @DrawableRes int loadingRes, @DrawableRes int errorRes);
 
     /**
      * 简单的加载网络图片

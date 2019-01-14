@@ -2,6 +2,7 @@ package com.renj.imageloaderlibrary.picasso;
 
 import android.app.Application;
 import android.content.Context;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.widget.ImageView;
 
@@ -29,10 +30,21 @@ import java.io.File;
  */
 public class PicassoLoaderModule implements IPicassoLoaderModule {
     private Application application;
+    @DrawableRes
+    private int loadingRes;
+    @DrawableRes
+    private int errorRes;
 
     @Override
     public void init(Application application) {
         this.application = application;
+    }
+
+    @Override
+    public void init(@NonNull Application application, int loadingRes, int errorRes) {
+        this.application = application;
+        this.loadingRes = loadingRes;
+        this.errorRes = errorRes;
     }
 
     @Override
@@ -82,6 +94,11 @@ public class PicassoLoaderModule implements IPicassoLoaderModule {
 
         if (imageInfoConfig.isSkipDisk())
             requestCreator = requestCreator.networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE);
+
+        if (loadingRes > 0)
+            requestCreator = requestCreator.error(loadingRes);
+        if (errorRes > 0)
+            requestCreator = requestCreator.placeholder(errorRes);
 
         if (imageInfoConfig.getErrorImageId() > 0)
             requestCreator = requestCreator.error(imageInfoConfig.getErrorImageId());

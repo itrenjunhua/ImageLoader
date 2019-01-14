@@ -1,6 +1,7 @@
 package com.renj.imageloaderlibrary.loader;
 
 import android.app.Application;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 
 /**
@@ -64,6 +65,31 @@ public class ImageLoaderModule {
 
                     imageLoaderHelper = new ImageLoaderHelper<T>();
                     imageLoaderHelper.initImageLoaderUtils(application, iImageLoaderModule);
+                }
+            }
+        }
+    }
+
+    /**
+     * 初始化图片加载库，指定全局的加载中图片和加载错误图片，只需要在启动应用时调用一次即可
+     *
+     * @param application        {@link Application} 对象
+     * @param iImageLoaderModule {@link IImageLoaderModule} 子类对象实例
+     * @param <T>                {@link IImageLoaderModule} 对象
+     * @param loadingRes         加载中的图片
+     * @param errorRes           加载错误的图片
+     */
+    @org.jetbrains.annotations.Contract("null,null -> fail; _,null -> fail; null,_ -> fail")
+    public static <T extends IImageLoaderModule> void initImageLoaderModule(@NonNull Application application, @NonNull T iImageLoaderModule,
+                                                                            @DrawableRes int loadingRes, @DrawableRes int errorRes) {
+        if (imageLoaderHelper == null) {
+            synchronized (ImageLoaderModule.class) {
+                if (imageLoaderHelper == null) {
+                    if (iImageLoaderModule == null || application == null)
+                        throw new NullPointerException("initImageLoaderModule() 方法参数不能为 null");
+
+                    imageLoaderHelper = new ImageLoaderHelper<T>();
+                    imageLoaderHelper.initImageLoaderUtils(application, iImageLoaderModule, loadingRes, errorRes);
                 }
             }
         }
