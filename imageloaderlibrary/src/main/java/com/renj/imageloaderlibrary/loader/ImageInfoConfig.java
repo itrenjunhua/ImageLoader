@@ -59,6 +59,10 @@ public class ImageInfoConfig {
     @IntRange(from = 0)
     private int height; // 图片高
 
+    private boolean centerCrop; // 图片完全填充控件，但是可能会被裁剪
+    private boolean fitCenter;  // 图片完全显示，但是控件可能留白
+    private boolean centerInside; // Center是会保持原图大小，而CenterInside图片的大小是不会超过View的大小的
+
     protected ImageInfoConfig(Builder builder) {
         this.target = builder.target;
         this.context = builder.context;
@@ -79,6 +83,9 @@ public class ImageInfoConfig {
         this.errorDrawable = builder.errorDrawable;
         this.width = builder.width;
         this.height = builder.height;
+        this.centerCrop = builder.centerCrop;
+        this.fitCenter = builder.fitCenter;
+        this.centerInside = builder.centerInside;
     }
 
     public View getTarget() {
@@ -175,6 +182,18 @@ public class ImageInfoConfig {
         return height;
     }
 
+    public boolean isCenterCrop() {
+        return centerCrop;
+    }
+
+    public boolean isFitCenter() {
+        return fitCenter;
+    }
+
+    public boolean isCenterInside() {
+        return centerInside;
+    }
+
     public static class Builder {
         private View target; // 图片展示目标控件
         private Context context;
@@ -207,6 +226,10 @@ public class ImageInfoConfig {
         private int width; // 图片宽
         @IntRange(from = 0)
         private int height; // 图片高
+
+        private boolean centerCrop; // 图片完全填充控件，但是可能会被裁剪
+        private boolean fitCenter;  // 图片完全显示，但是控件可能留白
+        private boolean centerInside; // Center是会保持原图大小，而CenterInside图片的大小是不会超过View的大小的
 
         public Builder() {
         }
@@ -410,6 +433,36 @@ public class ImageInfoConfig {
          */
         public <T extends Builder> T height(@IntRange(from = 0) int height) {
             this.height = height;
+            return (T) this;
+        }
+
+        /**
+         * 设置图片完全填充控件，但是可能会被裁剪
+         *
+         * @see #fitCenter()
+         */
+        public <T extends Builder> T centerCrop() {
+            centerCrop = true;
+            return (T) this;
+        }
+
+        /**
+         * 设置图片完全显示，但是控件可能留白
+         *
+         * @see #centerCrop()
+         */
+        public <T extends Builder> T fitCenter() {
+            fitCenter = true;
+            return (T) this;
+        }
+
+        /**
+         * 设置centerInside  Center是会保持原图大小，而CenterInside图片的大小是不会超过View的大小的
+         *
+         * @see #centerCrop()
+         */
+        public <T extends Builder> T centerInside() {
+            centerInside = true;
             return (T) this;
         }
 

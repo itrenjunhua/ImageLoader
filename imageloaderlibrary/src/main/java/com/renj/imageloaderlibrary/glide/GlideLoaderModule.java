@@ -103,12 +103,6 @@ public class GlideLoaderModule implements IGlideLoaderModule {
      */
     @NonNull
     private <T> RequestBuilder<T> initImageInfoConfig(RequestBuilder<T> requestBuilder, @NonNull ImageInfoConfig imageInfoConfig) {
-        if (imageInfoConfig instanceof GlideImageInfoConfig) {
-            GlideImageInfoConfig glideImageInfoConfig = (GlideImageInfoConfig) imageInfoConfig;
-            if (glideImageInfoConfig.getThumbnail() > 0)
-                requestBuilder.thumbnail(glideImageInfoConfig.getThumbnail());
-        }
-
         RequestOptions requestOptions = new RequestOptions();
         if (imageInfoConfig.getWidth() > 0 && imageInfoConfig.getHeight() > 0)
             requestOptions = requestOptions.override(imageInfoConfig.getWidth(), imageInfoConfig.getHeight());
@@ -134,6 +128,19 @@ public class GlideLoaderModule implements IGlideLoaderModule {
             requestOptions = requestOptions.error(imageInfoConfig.getErrorDrawable());
         if (imageInfoConfig.getLoadingDrawable() != null)
             requestOptions = requestOptions.placeholder(imageInfoConfig.getLoadingDrawable());
+
+        if (imageInfoConfig.isCenterCrop())
+            requestOptions = requestOptions.centerCrop();
+        if (imageInfoConfig.isFitCenter())
+            requestOptions = requestOptions.fitCenter();
+        if (imageInfoConfig.isCenterInside())
+            requestOptions = requestOptions.centerInside();
+
+        if (imageInfoConfig instanceof GlideImageInfoConfig) {
+            GlideImageInfoConfig glideImageInfoConfig = (GlideImageInfoConfig) imageInfoConfig;
+            if (glideImageInfoConfig.getThumbnail() > 0)
+                requestBuilder.thumbnail(glideImageInfoConfig.getThumbnail());
+        }
 
         return requestBuilder.apply(requestOptions);
     }
