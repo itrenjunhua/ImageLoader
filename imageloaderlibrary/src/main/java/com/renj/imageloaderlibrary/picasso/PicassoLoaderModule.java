@@ -116,8 +116,10 @@ public class PicassoLoaderModule implements IPicassoLoaderModule {
             requestCreator = requestCreator.fit();
         if (imageInfoConfig.isCenterInside())
             requestCreator = requestCreator.centerInside();
+        if (imageInfoConfig.getRotateRotationAngle() != 0)
+            requestCreator = requestCreator.rotate(imageInfoConfig.getRotateRotationAngle(), imageInfoConfig.getPivotX(), imageInfoConfig.getPivotY());
 
-        if(imageInfoConfig instanceof PicassoImageInfoConfig) {
+        if (imageInfoConfig instanceof PicassoImageInfoConfig) {
             PicassoImageInfoConfig picassoImageInfoConfig = (PicassoImageInfoConfig) imageInfoConfig;
             if (picassoImageInfoConfig.getTag() != null)
                 requestCreator = requestCreator.tag(picassoImageInfoConfig.getTag());
@@ -179,12 +181,12 @@ public class PicassoLoaderModule implements IPicassoLoaderModule {
     }
 
     @Override
-    public void pauseTag(Object tag){
+    public void pauseTag(Object tag) {
         Picasso.with(application).pauseTag(tag);
     }
 
     @Override
-    public void resumeTag(Object tag){
+    public void resumeTag(Object tag) {
         Picasso.with(application).resumeTag(tag);
     }
 }

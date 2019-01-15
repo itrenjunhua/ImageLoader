@@ -14,6 +14,7 @@ import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.bumptech.glide.request.RequestOptions;
+import com.renj.imageloaderlibrary.glide.transform.RotateTransformation;
 import com.renj.imageloaderlibrary.loader.ImageInfoConfig;
 
 /**
@@ -135,6 +136,8 @@ public class GlideLoaderModule implements IGlideLoaderModule {
             requestOptions = requestOptions.fitCenter();
         if (imageInfoConfig.isCenterInside())
             requestOptions = requestOptions.centerInside();
+        if (imageInfoConfig.getRotateRotationAngle() != 0)
+            requestOptions = requestOptions.transform(new RotateTransformation(imageInfoConfig.getRotateRotationAngle(), imageInfoConfig.getPivotX(), imageInfoConfig.getPivotY()));
 
         if (imageInfoConfig instanceof GlideImageInfoConfig) {
             GlideImageInfoConfig glideImageInfoConfig = (GlideImageInfoConfig) imageInfoConfig;

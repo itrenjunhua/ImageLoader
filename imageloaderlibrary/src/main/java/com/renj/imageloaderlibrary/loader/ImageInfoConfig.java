@@ -63,6 +63,10 @@ public class ImageInfoConfig {
     private boolean fitCenter;  // 图片完全显示，但是控件可能留白
     private boolean centerInside; // Center是会保持原图大小，而CenterInside图片的大小是不会超过View的大小的
 
+    // 旋转配置
+    private float rotateRotationAngle = 0f;
+    private float pivotX = 0f, pivotY = 0f;
+
     protected ImageInfoConfig(Builder builder) {
         this.target = builder.target;
         this.context = builder.context;
@@ -86,6 +90,9 @@ public class ImageInfoConfig {
         this.centerCrop = builder.centerCrop;
         this.fitCenter = builder.fitCenter;
         this.centerInside = builder.centerInside;
+        this.rotateRotationAngle = builder.rotateRotationAngle;
+        this.pivotX = builder.pivotX;
+        this.pivotY = builder.pivotY;
     }
 
     public View getTarget() {
@@ -154,6 +161,18 @@ public class ImageInfoConfig {
 
     public Drawable getLoadingDrawable() {
         return loadingDrawable;
+    }
+
+    public float getRotateRotationAngle() {
+        return rotateRotationAngle;
+    }
+
+    public float getPivotX() {
+        return pivotX;
+    }
+
+    public float getPivotY() {
+        return pivotY;
     }
 
     public int getWidth() {
@@ -230,6 +249,10 @@ public class ImageInfoConfig {
         private boolean centerCrop; // 图片完全填充控件，但是可能会被裁剪
         private boolean fitCenter;  // 图片完全显示，但是控件可能留白
         private boolean centerInside; // Center是会保持原图大小，而CenterInside图片的大小是不会超过View的大小的
+
+        // 旋转配置
+        private float rotateRotationAngle = 0f;
+        private float pivotX = 0f, pivotY = 0f;
 
         public Builder() {
         }
@@ -463,6 +486,34 @@ public class ImageInfoConfig {
          */
         public <T extends Builder> T centerInside() {
             centerInside = true;
+            return (T) this;
+        }
+
+        /**
+         * 设置图片旋转角度
+         *
+         * @param rotateRotationAngle 旋转角度
+         * @param <T>
+         * @return
+         */
+        public <T extends Builder> T rotateRotationAngle(float rotateRotationAngle) {
+            this.rotateRotationAngle = rotateRotationAngle;
+            return (T) this;
+        }
+
+        /**
+         * 设置图片旋转角度和旋转中心
+         *
+         * @param rotateRotationAngle 旋转角度
+         * @param pivotX              旋转中心点 x
+         * @param pivotY              旋转中心点 y
+         * @param <T>
+         * @return
+         */
+        public <T extends Builder> T rotateRotationAngle(float rotateRotationAngle, float pivotX, float pivotY) {
+            this.rotateRotationAngle = rotateRotationAngle;
+            this.pivotX = pivotX;
+            this.pivotY = pivotY;
             return (T) this;
         }
 
