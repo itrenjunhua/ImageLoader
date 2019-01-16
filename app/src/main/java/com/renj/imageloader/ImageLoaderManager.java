@@ -1,10 +1,15 @@
 package com.renj.imageloader;
 
+import android.app.Activity;
 import android.app.Application;
 import android.support.annotation.NonNull;
+import android.widget.ImageView;
 
+import com.renj.imageloaderlibrary.glide.GlideImageInfoConfig;
 import com.renj.imageloaderlibrary.glide.GlideLoaderModule;
+import com.renj.imageloaderlibrary.glide.transform.CircleTransformation;
 import com.renj.imageloaderlibrary.loader.IImageLoaderModule;
+import com.renj.imageloaderlibrary.loader.ImageInfoConfig;
 import com.renj.imageloaderlibrary.loader.ImageLoaderModule;
 
 /**
@@ -40,5 +45,18 @@ public class ImageLoaderManager {
      */
     public static GlideLoaderModule getImageLoader() {
         return ImageLoaderModule.getImageLoaderModule();
+    }
+
+    public static void loadCircleImage(@NonNull Activity activity, @NonNull String url, @NonNull ImageView imageView) {
+        ImageInfoConfig config = new GlideImageInfoConfig.Builder()
+                .asBitmap()
+                .thumbnail(0.2f)
+                .transformation(new CircleTransformation())
+                .context(activity)
+                .url(url)
+                .loadingImageId(R.mipmap.ic_launcher_round)
+                .target(imageView)
+                .build();
+        ImageLoaderManager.getImageLoader().loadImage(config);
     }
 }

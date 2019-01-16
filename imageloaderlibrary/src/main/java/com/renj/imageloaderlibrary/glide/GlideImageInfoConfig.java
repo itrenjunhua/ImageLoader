@@ -5,7 +5,10 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.FloatRange;
 import android.support.annotation.NonNull;
 
+import com.bumptech.glide.load.Transformation;
 import com.renj.imageloaderlibrary.loader.ImageInfoConfig;
+
+import java.util.List;
 
 /**
  * ======================================================================
@@ -31,6 +34,8 @@ public class GlideImageInfoConfig extends ImageInfoConfig {
     @FloatRange(from = 0)
     private float thumbnail; // 缩略图缩放倍数
 
+    private Transformation transformation;
+    private List<Transformation> transformations;
 
     private GlideImageInfoConfig(Builder builder) {
         super(builder);
@@ -40,6 +45,8 @@ public class GlideImageInfoConfig extends ImageInfoConfig {
         this.isGif = builder.isGif;
         this.isBitmap = builder.isBitmap;
         this.thumbnail = builder.thumbnail;
+        this.transformation = builder.transformation;
+        this.transformations = builder.transformations;
     }
 
     public byte[] getBytes() {
@@ -66,6 +73,13 @@ public class GlideImageInfoConfig extends ImageInfoConfig {
         return thumbnail;
     }
 
+    public Transformation getTransformation() {
+        return transformation;
+    }
+
+    public List<Transformation> getTransformations() {
+        return transformations;
+    }
 
     public static class Builder extends ImageInfoConfig.Builder {
         private byte[] bytes; // 图片字节数组
@@ -77,6 +91,9 @@ public class GlideImageInfoConfig extends ImageInfoConfig {
 
         @FloatRange(from = 0)
         private float thumbnail; // 缩略图缩放倍数
+
+        private Transformation transformation;
+        private List<Transformation> transformations;
 
         /**
          * 指定图片的字节数组数据
@@ -131,6 +148,26 @@ public class GlideImageInfoConfig extends ImageInfoConfig {
          */
         public Builder thumbnail(@FloatRange(from = 0) float thumbnail) {
             this.thumbnail = thumbnail;
+            return this;
+        }
+
+        /**
+         * 对图像进行处理
+         *
+         * @param transformation
+         */
+        public Builder transformation(@NonNull Transformation transformation) {
+            this.transformation = transformation;
+            return this;
+        }
+
+        /**
+         * 对图像进行处理
+         *
+         * @param transformations
+         */
+        public Builder transformations(@NonNull List<Transformation> transformations) {
+            this.transformations = transformations;
             return this;
         }
 

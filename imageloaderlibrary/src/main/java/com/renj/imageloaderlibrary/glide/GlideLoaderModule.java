@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.RequestManager;
+import com.bumptech.glide.load.Transformation;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.bumptech.glide.request.RequestOptions;
@@ -141,6 +142,16 @@ public class GlideLoaderModule implements IGlideLoaderModule {
 
         if (imageInfoConfig instanceof GlideImageInfoConfig) {
             GlideImageInfoConfig glideImageInfoConfig = (GlideImageInfoConfig) imageInfoConfig;
+
+            if (glideImageInfoConfig.getTransformation() != null)
+                requestOptions = requestOptions.transform(glideImageInfoConfig.getTransformation());
+
+            if (glideImageInfoConfig.getTransformations() != null && glideImageInfoConfig.getTransformations().size() > 0) {
+                for (Transformation transformation : glideImageInfoConfig.getTransformations()) {
+                    requestOptions = requestOptions.transform(transformation);
+                }
+            }
+
             if (glideImageInfoConfig.getThumbnail() > 0)
                 requestBuilder.thumbnail(glideImageInfoConfig.getThumbnail());
         }

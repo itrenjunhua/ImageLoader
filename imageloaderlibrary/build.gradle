@@ -35,8 +35,8 @@ dependencies {
     // jetbrains 注解
     implementation rootProject.ext.dependencies["jetbrainsAnnotations"]
     // Glide 图片加载库
-    implementation rootProject.ext.dependencies["glide"]
-    implementation rootProject.ext.dependencies["glideCompiler"]
+    api rootProject.ext.dependencies["glide"]
+    annotationProcessor rootProject.ext.dependencies["glideCompiler"]
     // Picasso 图片加载库
-    implementation rootProject.ext.dependencies["picasso"]
+    api rootProject.ext.dependencies["picasso"]
 }

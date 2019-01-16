@@ -17,7 +17,7 @@ ext {
             supportTestEspresso     : "3.0.1",
 
             jetbrainsAnnotations    : "13.0",
-            imageGlide              : "4.6.1",
+            imageGlide              : "4.8.0",
             imagePicasso            : "2.5.2"
     ]
 

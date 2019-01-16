@@ -11,6 +11,7 @@ import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
+import com.squareup.picasso.Transformation;
 
 import java.io.File;
 
@@ -121,6 +122,16 @@ public class PicassoLoaderModule implements IPicassoLoaderModule {
 
         if (imageInfoConfig instanceof PicassoImageInfoConfig) {
             PicassoImageInfoConfig picassoImageInfoConfig = (PicassoImageInfoConfig) imageInfoConfig;
+
+            if (picassoImageInfoConfig.getTransformation() != null)
+                requestCreator = requestCreator.transform(picassoImageInfoConfig.getTransformation());
+
+            if (picassoImageInfoConfig.getTransformations() != null && picassoImageInfoConfig.getTransformations().size() > 0) {
+                for (Transformation transformation : picassoImageInfoConfig.getTransformations()) {
+                    requestCreator = requestCreator.transform(transformation);
+                }
+            }
+
             if (picassoImageInfoConfig.getTag() != null)
                 requestCreator = requestCreator.tag(picassoImageInfoConfig.getTag());
         }
