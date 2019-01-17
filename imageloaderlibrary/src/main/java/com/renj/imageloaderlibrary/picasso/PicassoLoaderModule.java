@@ -1,7 +1,6 @@
 package com.renj.imageloaderlibrary.picasso;
 
 import android.app.Application;
-import android.content.Context;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.widget.ImageView;
@@ -49,9 +48,8 @@ public class PicassoLoaderModule implements IPicassoLoaderModule {
     }
 
     @Override
-    public void loadImage(@NonNull Context context, @NonNull String url, @NonNull ImageView imageView) {
+    public void loadImage(@NonNull String url, @NonNull ImageView imageView) {
         ImageInfoConfig imageInfoConfig = new PicassoImageInfoConfig.Builder()
-                .context(context)
                 .url(url)
                 .target(imageView)
                 .build();
@@ -161,43 +159,43 @@ public class PicassoLoaderModule implements IPicassoLoaderModule {
     }
 
     /**
-     * 调用 {@link Picasso#with(Context)} 方法创建 {@link Picasso} 对象
+     * 调用 {@link Picasso#get()} 方法创建 {@link Picasso} 对象
      *
      * @param imageInfoConfig {@link ImageInfoConfig} 对象
      * @return {@link Picasso} 对象
      */
     private Picasso createPicasso(ImageInfoConfig imageInfoConfig) {
-        if (imageInfoConfig.getFragmentV4() != null)
-            return Picasso.with(imageInfoConfig.getFragmentV4().getActivity());
+//        if (imageInfoConfig.getFragmentV4() != null)
+//            return Picasso.with(imageInfoConfig.getFragmentV4().getActivity());
+//
+//        if (imageInfoConfig.getFragment() != null)
+//            return Picasso.with(imageInfoConfig.getFragment().getActivity());
+//
+//        if (imageInfoConfig.getFragmentActivity() != null)
+//            return Picasso.with(imageInfoConfig.getFragmentActivity());
+//
+//        if (imageInfoConfig.getActivity() != null)
+//            return Picasso.with(imageInfoConfig.getActivity());
+//
+//        if (imageInfoConfig.getContext() != null)
+//            return Picasso.with(imageInfoConfig.getContext());
+//
+//        if (imageInfoConfig.getTarget() != null)
+//            return Picasso.with(imageInfoConfig.getTarget().getContext());
+//
+//        if (application != null)
+//            return Picasso.with(application);
 
-        if (imageInfoConfig.getFragment() != null)
-            return Picasso.with(imageInfoConfig.getFragment().getActivity());
-
-        if (imageInfoConfig.getFragmentActivity() != null)
-            return Picasso.with(imageInfoConfig.getFragmentActivity());
-
-        if (imageInfoConfig.getActivity() != null)
-            return Picasso.with(imageInfoConfig.getActivity());
-
-        if (imageInfoConfig.getContext() != null)
-            return Picasso.with(imageInfoConfig.getContext());
-
-        if (imageInfoConfig.getTarget() != null)
-            return Picasso.with(imageInfoConfig.getTarget().getContext());
-
-        if (application != null)
-            return Picasso.with(application);
-
-        throw new NullPointerException("Picasso 获取不到 Context");
+        return Picasso.get();
     }
 
     @Override
     public void pauseTag(Object tag) {
-        Picasso.with(application).pauseTag(tag);
+        Picasso.get().pauseTag(tag);
     }
 
     @Override
     public void resumeTag(Object tag) {
-        Picasso.with(application).resumeTag(tag);
+        Picasso.get().resumeTag(tag);
     }
 }

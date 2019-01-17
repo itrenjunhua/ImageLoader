@@ -1,7 +1,6 @@
 package com.renj.imageloaderlibrary.loader;
 
 import android.app.Application;
-import android.content.Context;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.widget.ImageView;
@@ -39,11 +38,10 @@ public interface IImageLoaderModule {
     /**
      * 简单的加载网络图片
      *
-     * @param context   上下文
      * @param url       图片路径
      * @param imageView {@link ImageView} 控件
      */
-    void loadImage(@NonNull Context context, @NonNull String url, @NonNull ImageView imageView);
+    void loadImage(@NonNull String url, @NonNull ImageView imageView);
 
     /**
      * 根据配置信息加载图片

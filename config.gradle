@@ -18,7 +18,7 @@ ext {
 
             jetbrainsAnnotations    : "13.0",
             imageGlide              : "4.8.0",
-            imagePicasso            : "2.5.2"
+            imagePicasso            : "2.71828"
     ]
 
     dependencies = [

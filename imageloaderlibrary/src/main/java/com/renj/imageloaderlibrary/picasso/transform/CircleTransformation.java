@@ -24,6 +24,10 @@ import java.util.Random;
 public class CircleTransformation implements Transformation {
     private Random random;
 
+    public CircleTransformation() {
+        this.random = new Random();
+    }
+
     @Override
     public Bitmap transform(Bitmap source) {
         if (source == null) return null;

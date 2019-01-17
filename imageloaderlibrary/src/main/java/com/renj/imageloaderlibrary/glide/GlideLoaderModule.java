@@ -1,7 +1,6 @@
 package com.renj.imageloaderlibrary.glide;
 
 import android.app.Application;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.DrawableRes;
@@ -51,9 +50,8 @@ public class GlideLoaderModule implements IGlideLoaderModule {
     }
 
     @Override
-    public void loadImage(@NonNull Context context, @NonNull String url, @NonNull ImageView imageView) {
+    public void loadImage(@NonNull String url, @NonNull ImageView imageView) {
         ImageInfoConfig imageInfoConfig = new GlideImageInfoConfig.Builder()
-                .context(context)
                 .url(url)
                 .target(imageView)
                 .build();
