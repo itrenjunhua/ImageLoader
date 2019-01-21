@@ -5,9 +5,9 @@ import android.app.Application;
 import android.support.annotation.NonNull;
 import android.widget.ImageView;
 
-import com.renj.imageloaderlibrary.glide.GlideImageInfoConfig;
-import com.renj.imageloaderlibrary.glide.GlideLoaderModule;
-import com.renj.imageloaderlibrary.glide.transform.CircleTransformation;
+import com.renj.glide.GlideImageInfoConfig;
+import com.renj.glide.GlideLoaderModule;
+import com.renj.glide.transform.CircleTransformation;
 import com.renj.imageloaderlibrary.loader.IImageLoaderModule;
 import com.renj.imageloaderlibrary.loader.ImageInfoConfig;
 import com.renj.imageloaderlibrary.loader.ImageLoaderModule;

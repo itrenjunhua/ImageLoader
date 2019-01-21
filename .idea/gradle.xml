@@ -9,7 +9,9 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/glidelibrary" />
             <option value="$PROJECT_DIR$/imageloaderlibrary" />
+            <option value="$PROJECT_DIR$/picassolibrary" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
