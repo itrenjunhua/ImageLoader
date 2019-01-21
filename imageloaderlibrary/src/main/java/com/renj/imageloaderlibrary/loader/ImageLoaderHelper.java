@@ -4,6 +4,8 @@ import android.app.Application;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 
+import com.renj.imageloaderlibrary.utils.Utils;
+
 /**
  * ======================================================================
  * <p>

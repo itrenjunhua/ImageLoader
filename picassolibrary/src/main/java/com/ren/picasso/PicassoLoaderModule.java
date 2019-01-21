@@ -5,12 +5,12 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.widget.ImageView;
 
+import com.ren.picasso.transform.RoundTransformation;
 import com.renj.imageloaderlibrary.loader.ImageInfoConfig;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
-import com.squareup.picasso.Transformation;
 
 import java.io.File;
 
@@ -49,7 +49,7 @@ public class PicassoLoaderModule implements IPicassoLoaderModule {
 
     @Override
     public void loadImage(@NonNull String url, @NonNull ImageView imageView) {
-        ImageInfoConfig imageInfoConfig = new PicassoImageInfoConfig.Builder()
+        ImageInfoConfig imageInfoConfig = new ImageInfoConfig.Builder()
                 .url(url)
                 .target(imageView)
                 .build();
@@ -115,24 +115,13 @@ public class PicassoLoaderModule implements IPicassoLoaderModule {
             requestCreator = requestCreator.fit();
         if (imageInfoConfig.isCenterInside())
             requestCreator = requestCreator.centerInside();
-        if (imageInfoConfig.getRotateRotationAngle() != 0)
-            requestCreator = requestCreator.rotate(imageInfoConfig.getRotateRotationAngle(), imageInfoConfig.getPivotX(), imageInfoConfig.getPivotY());
+        if (imageInfoConfig.getRotateConfig() != null)
+            requestCreator = requestCreator.rotate(imageInfoConfig.getRotateConfig().rotateRotationAngle, imageInfoConfig.getRotateConfig().pivotX, imageInfoConfig.getRotateConfig().pivotY);
+        if (imageInfoConfig.getRoundConfig() != null)
+            requestCreator = requestCreator.transform(new RoundTransformation(imageInfoConfig.getRoundConfig().radiusX, imageInfoConfig.getRoundConfig().radiusY));
 
-        if (imageInfoConfig instanceof PicassoImageInfoConfig) {
-            PicassoImageInfoConfig picassoImageInfoConfig = (PicassoImageInfoConfig) imageInfoConfig;
-
-            if (picassoImageInfoConfig.getTransformation() != null)
-                requestCreator = requestCreator.transform(picassoImageInfoConfig.getTransformation());
-
-            if (picassoImageInfoConfig.getTransformations() != null && picassoImageInfoConfig.getTransformations().size() > 0) {
-                for (Transformation transformation : picassoImageInfoConfig.getTransformations()) {
-                    requestCreator = requestCreator.transform(transformation);
-                }
-            }
-
-            if (picassoImageInfoConfig.getTag() != null)
-                requestCreator = requestCreator.tag(picassoImageInfoConfig.getTag());
-        }
+        if (imageInfoConfig.getTag() != null)
+            requestCreator = requestCreator.tag(imageInfoConfig.getTag());
 
         return requestCreator;
     }

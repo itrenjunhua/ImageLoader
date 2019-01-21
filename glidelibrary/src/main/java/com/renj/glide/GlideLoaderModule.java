@@ -10,11 +10,11 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.RequestManager;
-import com.bumptech.glide.load.Transformation;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.bumptech.glide.request.RequestOptions;
 import com.renj.glide.transform.RotateTransformation;
+import com.renj.glide.transform.RoundTransformation;
 import com.renj.imageloaderlibrary.loader.ImageInfoConfig;
 
 /**
@@ -51,7 +51,7 @@ public class GlideLoaderModule implements IGlideLoaderModule {
 
     @Override
     public void loadImage(@NonNull String url, @NonNull ImageView imageView) {
-        ImageInfoConfig imageInfoConfig = new GlideImageInfoConfig.Builder()
+        ImageInfoConfig imageInfoConfig = new ImageInfoConfig.Builder()
                 .url(url)
                 .target(imageView)
                 .build();
@@ -62,21 +62,14 @@ public class GlideLoaderModule implements IGlideLoaderModule {
     public <T extends ImageInfoConfig> void loadImage(@NonNull T imageInfoConfig) {
         RequestManager requestManager = createRequestManager(imageInfoConfig);
 
-        if (imageInfoConfig instanceof GlideImageInfoConfig) {
-            GlideImageInfoConfig glideImageInfoConfig = (GlideImageInfoConfig) imageInfoConfig;
-            if (glideImageInfoConfig.isBitmap()) {
-                RequestBuilder<Bitmap> bitmapRequestBuilder = requestManager.asBitmap();
-                RequestBuilder<Bitmap> requestBuilder = loadPath(bitmapRequestBuilder, imageInfoConfig);
-                builderControl(requestBuilder, imageInfoConfig);
-            } else if (glideImageInfoConfig.isGif()) {
-                RequestBuilder<GifDrawable> gifDrawableRequestBuilder = requestManager.asGif();
-                RequestBuilder<GifDrawable> requestBuilder = loadPath(gifDrawableRequestBuilder, imageInfoConfig);
-                builderControl(requestBuilder, imageInfoConfig);
-            } else {
-                RequestBuilder<Drawable> drawableRequestBuilder = requestManager.asDrawable();
-                RequestBuilder<Drawable> requestBuilder = loadPath(drawableRequestBuilder, imageInfoConfig);
-                builderControl(requestBuilder, imageInfoConfig);
-            }
+        if (imageInfoConfig.isBitmap()) {
+            RequestBuilder<Bitmap> bitmapRequestBuilder = requestManager.asBitmap();
+            RequestBuilder<Bitmap> requestBuilder = loadPath(bitmapRequestBuilder, imageInfoConfig);
+            builderControl(requestBuilder, imageInfoConfig);
+        } else if (imageInfoConfig.isGif()) {
+            RequestBuilder<GifDrawable> gifDrawableRequestBuilder = requestManager.asGif();
+            RequestBuilder<GifDrawable> requestBuilder = loadPath(gifDrawableRequestBuilder, imageInfoConfig);
+            builderControl(requestBuilder, imageInfoConfig);
         } else {
             RequestBuilder<Drawable> drawableRequestBuilder = requestManager.asDrawable();
             RequestBuilder<Drawable> requestBuilder = loadPath(drawableRequestBuilder, imageInfoConfig);
@@ -135,24 +128,13 @@ public class GlideLoaderModule implements IGlideLoaderModule {
             requestOptions = requestOptions.fitCenter();
         if (imageInfoConfig.isCenterInside())
             requestOptions = requestOptions.centerInside();
-        if (imageInfoConfig.getRotateRotationAngle() != 0)
-            requestOptions = requestOptions.transform(new RotateTransformation(imageInfoConfig.getRotateRotationAngle(), imageInfoConfig.getPivotX(), imageInfoConfig.getPivotY()));
+        if (imageInfoConfig.getRotateConfig() != null)
+            requestOptions = requestOptions.transform(new RotateTransformation(imageInfoConfig.getRotateConfig().rotateRotationAngle, imageInfoConfig.getRotateConfig().pivotX, imageInfoConfig.getRotateConfig().pivotY));
+        if (imageInfoConfig.getRoundConfig() != null)
+            requestOptions = requestOptions.transform(new RoundTransformation(imageInfoConfig.getRoundConfig().radiusX, imageInfoConfig.getRoundConfig().radiusY));
 
-        if (imageInfoConfig instanceof GlideImageInfoConfig) {
-            GlideImageInfoConfig glideImageInfoConfig = (GlideImageInfoConfig) imageInfoConfig;
-
-            if (glideImageInfoConfig.getTransformation() != null)
-                requestOptions = requestOptions.transform(glideImageInfoConfig.getTransformation());
-
-            if (glideImageInfoConfig.getTransformations() != null && glideImageInfoConfig.getTransformations().size() > 0) {
-                for (Transformation transformation : glideImageInfoConfig.getTransformations()) {
-                    requestOptions = requestOptions.transform(transformation);
-                }
-            }
-
-            if (glideImageInfoConfig.getThumbnail() > 0)
-                requestBuilder.thumbnail(glideImageInfoConfig.getThumbnail());
-        }
+        if (imageInfoConfig.getThumbnail() > 0)
+            requestBuilder.thumbnail(imageInfoConfig.getThumbnail());
 
         return requestBuilder.apply(requestOptions);
     }
@@ -162,18 +144,6 @@ public class GlideLoaderModule implements IGlideLoaderModule {
      */
     @NonNull
     private <T> RequestBuilder<T> loadPath(RequestBuilder<T> requestBuilder, @NonNull ImageInfoConfig imageInfoConfig) {
-        if (imageInfoConfig instanceof GlideImageInfoConfig) {
-            GlideImageInfoConfig glideImageInfoConfig = (GlideImageInfoConfig) imageInfoConfig;
-            if (glideImageInfoConfig.getDrawable() != null)
-                return requestBuilder.load(glideImageInfoConfig.getDrawable());
-
-            if (glideImageInfoConfig.getBitmap() != null)
-                return requestBuilder.load(glideImageInfoConfig.getBitmap());
-
-            if (glideImageInfoConfig.getBytes() != null)
-                return requestBuilder.load(glideImageInfoConfig.getBytes());
-        }
-
         if (imageInfoConfig.getDrawableId() > 0)
             return requestBuilder.load(imageInfoConfig.getDrawableId());
 

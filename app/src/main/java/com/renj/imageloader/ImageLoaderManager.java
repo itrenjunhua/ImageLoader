@@ -5,9 +5,7 @@ import android.app.Application;
 import android.support.annotation.NonNull;
 import android.widget.ImageView;
 
-import com.renj.glide.GlideImageInfoConfig;
 import com.renj.glide.GlideLoaderModule;
-import com.renj.glide.transform.CircleTransformation;
 import com.renj.imageloaderlibrary.loader.IImageLoaderModule;
 import com.renj.imageloaderlibrary.loader.ImageInfoConfig;
 import com.renj.imageloaderlibrary.loader.ImageLoaderModule;
@@ -48,10 +46,9 @@ public class ImageLoaderManager {
     }
 
     public static void loadCircleImage(@NonNull Activity activity, @NonNull String url, @NonNull ImageView imageView) {
-        ImageInfoConfig config = new GlideImageInfoConfig.Builder()
+        ImageInfoConfig config = new ImageInfoConfig.Builder()
                 .asBitmap()
                 .thumbnail(0.2f)
-                .transformation(new CircleTransformation())
                 .context(activity)
                 .url(url)
                 .loadingImageId(R.mipmap.ic_launcher_round)

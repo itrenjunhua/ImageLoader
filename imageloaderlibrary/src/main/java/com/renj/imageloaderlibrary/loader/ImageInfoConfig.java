@@ -3,13 +3,17 @@ package com.renj.imageloaderlibrary.loader;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.FloatRange;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
+
+import com.renj.imageloaderlibrary.utils.Utils;
 
 import java.io.File;
 
@@ -64,8 +68,17 @@ public class ImageInfoConfig {
     private boolean centerInside; // Center是会保持原图大小，而CenterInside图片的大小是不会超过View的大小的
 
     // 旋转配置
-    private float rotateRotationAngle = 0f;
-    private float pivotX = 0f, pivotY = 0f;
+    private RotateConfig rotateConfig;
+    // 圆角配置
+    private RoundConfig roundConfig;
+
+    private Object tag; // 标记
+
+    // ********************  Glide 配置 ******************** //
+    private boolean isGif; // 是否 Gif 图片
+    private boolean isBitmap; // 是否作为 Bitmap 显示
+    @FloatRange(from = 0)
+    private float thumbnail; // 缩略图缩放倍数
 
     protected ImageInfoConfig(Builder builder) {
         this.target = builder.target;
@@ -87,12 +100,16 @@ public class ImageInfoConfig {
         this.errorDrawable = builder.errorDrawable;
         this.width = builder.width;
         this.height = builder.height;
+        this.tag = builder.tag;
         this.centerCrop = builder.centerCrop;
         this.fitCenter = builder.fitCenter;
         this.centerInside = builder.centerInside;
-        this.rotateRotationAngle = builder.rotateRotationAngle;
-        this.pivotX = builder.pivotX;
-        this.pivotY = builder.pivotY;
+        this.rotateConfig = builder.rotateConfig;
+        this.roundConfig = builder.roundConfig;
+
+        this.isGif = builder.isGif;
+        this.isBitmap = builder.isBitmap;
+        this.thumbnail = builder.thumbnail;
     }
 
     public View getTarget() {
@@ -163,16 +180,12 @@ public class ImageInfoConfig {
         return loadingDrawable;
     }
 
-    public float getRotateRotationAngle() {
-        return rotateRotationAngle;
+    public RotateConfig getRotateConfig() {
+        return rotateConfig;
     }
 
-    public float getPivotX() {
-        return pivotX;
-    }
-
-    public float getPivotY() {
-        return pivotY;
+    public RoundConfig getRoundConfig() {
+        return roundConfig;
     }
 
     public int getWidth() {
@@ -201,6 +214,10 @@ public class ImageInfoConfig {
         return height;
     }
 
+    public Object getTag() {
+        return tag;
+    }
+
     public boolean isCenterCrop() {
         return centerCrop;
     }
@@ -211,6 +228,18 @@ public class ImageInfoConfig {
 
     public boolean isCenterInside() {
         return centerInside;
+    }
+
+    public boolean isGif() {
+        return isGif;
+    }
+
+    public boolean isBitmap() {
+        return isBitmap;
+    }
+
+    public float getThumbnail() {
+        return thumbnail;
     }
 
     public static class Builder {
@@ -246,13 +275,22 @@ public class ImageInfoConfig {
         @IntRange(from = 0)
         private int height; // 图片高
 
+        private Object tag; // 标记
+
         private boolean centerCrop; // 图片完全填充控件，但是可能会被裁剪
         private boolean fitCenter;  // 图片完全显示，但是控件可能留白
         private boolean centerInside; // Center是会保持原图大小，而CenterInside图片的大小是不会超过View的大小的
 
         // 旋转配置
-        private float rotateRotationAngle = 0f;
-        private float pivotX = 0f, pivotY = 0f;
+        private RotateConfig rotateConfig;
+        // 圆角配置
+        private RoundConfig roundConfig;
+
+        // ********************  Glide 配置 ******************** //
+        private boolean isGif; // 是否 Gif 图片
+        private boolean isBitmap; // 是否作为 Bitmap 显示
+        @FloatRange(from = 0)
+        private float thumbnail; // 缩略图缩放倍数
 
         public Builder() {
         }
@@ -460,6 +498,16 @@ public class ImageInfoConfig {
         }
 
         /**
+         * 设置Tag
+         *
+         * @param tag Tag 对象
+         */
+        public <T extends Builder> T tag(Object tag) {
+            this.tag = tag;
+            return (T) this;
+        }
+
+        /**
          * 设置图片完全填充控件，但是可能会被裁剪
          *
          * @see #fitCenter()
@@ -490,30 +538,52 @@ public class ImageInfoConfig {
         }
 
         /**
-         * 设置图片旋转角度
+         * 设置图片旋转参数
          *
-         * @param rotateRotationAngle 旋转角度
+         * @param rotateConfig 旋转参数 {@link RotateConfig}
          * @param <T>
          * @return
          */
-        public <T extends Builder> T rotateRotationAngle(float rotateRotationAngle) {
-            this.rotateRotationAngle = rotateRotationAngle;
+        public <T extends Builder> T rotateConfig(RotateConfig rotateConfig) {
+            this.rotateConfig = rotateConfig;
             return (T) this;
         }
 
         /**
-         * 设置图片旋转角度和旋转中心
+         * 设置图片圆角参数
          *
-         * @param rotateRotationAngle 旋转角度
-         * @param pivotX              旋转中心点 x
-         * @param pivotY              旋转中心点 y
+         * @param roundConfig {@link RoundConfig}
          * @param <T>
          * @return
          */
-        public <T extends Builder> T rotateRotationAngle(float rotateRotationAngle, float pivotX, float pivotY) {
-            this.rotateRotationAngle = rotateRotationAngle;
-            this.pivotX = pivotX;
-            this.pivotY = pivotY;
+        public <T extends Builder> T roundConfig(RoundConfig roundConfig) {
+            this.roundConfig = roundConfig;
+            return (T) this;
+        }
+
+        /**
+         * 图片作为 gif 图片
+         */
+        public <T extends Builder> T asGif() {
+            this.isGif = true;
+            return (T) this;
+        }
+
+        /**
+         * 将图片转换为 {@link Bitmap}
+         */
+        public <T extends Builder> T asBitmap() {
+            this.isBitmap = true;
+            return (T) this;
+        }
+
+        /**
+         * 指定 缩略图缩放倍数
+         *
+         * @param thumbnail 缩略图缩放倍数
+         */
+        public <T extends Builder> T thumbnail(@FloatRange(from = 0) float thumbnail) {
+            this.thumbnail = thumbnail;
             return (T) this;
         }
 
@@ -524,6 +594,89 @@ public class ImageInfoConfig {
          */
         public <T extends ImageInfoConfig> T build() {
             return (T) new ImageInfoConfig(this);
+        }
+    }
+
+    /**
+     * 旋转参数
+     */
+    public final static class RotateConfig {
+        public float rotateRotationAngle = 0f;
+        public float pivotX = 0f, pivotY = 0f;
+
+        /**
+         * 构造
+         *
+         * @param rotateRotationAngle 旋转角度，默认旋转点(0,0)
+         */
+        public RotateConfig(float rotateRotationAngle) {
+            this.rotateRotationAngle = rotateRotationAngle;
+        }
+
+        /**
+         * 构造
+         *
+         * @param rotateRotationAngle 旋转角度
+         * @param pivotPoint          旋转点
+         */
+        public RotateConfig(float rotateRotationAngle, float pivotPoint) {
+            this.rotateRotationAngle = rotateRotationAngle;
+            this.pivotX = pivotPoint;
+            this.pivotY = pivotPoint;
+        }
+
+        /**
+         * 构造
+         *
+         * @param rotateRotationAngle 旋转角度
+         * @param pivotX              旋转点横坐标
+         * @param pivotY              旋转点纵坐标
+         */
+        public RotateConfig(float rotateRotationAngle, float pivotX, float pivotY) {
+            this.rotateRotationAngle = rotateRotationAngle;
+            this.pivotX = pivotX;
+            this.pivotY = pivotY;
+        }
+    }
+
+    /**
+     * 圆角参数，默认 4
+     */
+    public final static class RoundConfig {
+        public int radiusX, radiusY;
+
+        /**
+         * 构造
+         *
+         * @see #RoundConfig(int)
+         * @see #RoundConfig(int, int)
+         */
+        public RoundConfig() {
+            this(4, 4);
+        }
+
+        /**
+         * 构造，指定圆角大小，默认 4
+         *
+         * @param radius 圆角大小
+         * @see #RoundConfig()
+         * @see #RoundConfig(int, int)
+         */
+        public RoundConfig(int radius) {
+            this(radius, radius);
+        }
+
+        /**
+         * 构造，指定x轴方向和y轴方向的圆角大小，默认 4
+         *
+         * @param radiusX x方向圆角大小
+         * @param radiusY y方向圆角大小
+         * @see #RoundConfig()
+         * @see #RoundConfig(int)
+         */
+        public RoundConfig(int radiusX, int radiusY) {
+            this.radiusX = radiusX;
+            this.radiusY = radiusY;
         }
     }
 }

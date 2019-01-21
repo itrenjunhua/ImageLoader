@@ -1,4 +1,4 @@
-package com.renj.imageloaderlibrary.loader;
+package com.renj.imageloaderlibrary.utils;
 
 import android.content.Context;
 import android.graphics.Point;
@@ -18,11 +18,11 @@ import android.view.WindowManager;
  * <p>
  * ======================================================================
  */
-/*public*/ class Utils {
+public class Utils {
     private static int winWidth;
     private static int winHeight;
 
-    static void initUtils(Context context) {
+    public static void initUtils(Context context) {
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         Point point = new Point();
         wm.getDefaultDisplay().getRealSize(point);
@@ -36,7 +36,7 @@ import android.view.WindowManager;
      * @return 屏幕的宽
      */
     @org.jetbrains.annotations.Contract(pure = true)
-    static int getWinWidth() {
+    public static int getWinWidth() {
         return winWidth;
     }
 
@@ -46,7 +46,7 @@ import android.view.WindowManager;
      * @return 屏幕的高
      */
     @org.jetbrains.annotations.Contract(pure = true)
-    static int getWinHeight() {
+    public static int getWinHeight() {
         return winHeight;
     }
 }
