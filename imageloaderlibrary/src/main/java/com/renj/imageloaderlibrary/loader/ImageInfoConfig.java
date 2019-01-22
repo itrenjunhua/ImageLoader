@@ -71,6 +71,8 @@ public class ImageInfoConfig {
     private RotateConfig rotateConfig;
     // 圆角配置
     private RoundConfig roundConfig;
+    // 是否圆形图片
+    private boolean isCircle;
 
     private Object tag; // 标记
 
@@ -106,6 +108,7 @@ public class ImageInfoConfig {
         this.centerInside = builder.centerInside;
         this.rotateConfig = builder.rotateConfig;
         this.roundConfig = builder.roundConfig;
+        this.isCircle = builder.isCircle;
 
         this.isGif = builder.isGif;
         this.isBitmap = builder.isBitmap;
@@ -186,6 +189,10 @@ public class ImageInfoConfig {
 
     public RoundConfig getRoundConfig() {
         return roundConfig;
+    }
+
+    public boolean isCircle() {
+        return isCircle;
     }
 
     public int getWidth() {
@@ -285,6 +292,8 @@ public class ImageInfoConfig {
         private RotateConfig rotateConfig;
         // 圆角配置
         private RoundConfig roundConfig;
+        // 是否圆形图片
+        private boolean isCircle;
 
         // ********************  Glide 配置 ******************** //
         private boolean isGif; // 是否 Gif 图片
@@ -558,6 +567,17 @@ public class ImageInfoConfig {
          */
         public <T extends Builder> T roundConfig(RoundConfig roundConfig) {
             this.roundConfig = roundConfig;
+            return (T) this;
+        }
+
+        /**
+         * 设置图片显示圆形
+         *
+         * @param <T>
+         * @return
+         */
+        public <T extends Builder> T asCircle() {
+            this.isCircle = true;
             return (T) this;
         }
 

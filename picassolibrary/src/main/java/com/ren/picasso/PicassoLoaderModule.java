@@ -5,6 +5,7 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.widget.ImageView;
 
+import com.ren.picasso.transform.CircleTransformation;
 import com.ren.picasso.transform.RoundTransformation;
 import com.renj.imageloaderlibrary.loader.ImageInfoConfig;
 import com.squareup.picasso.MemoryPolicy;
@@ -119,6 +120,8 @@ public class PicassoLoaderModule implements IPicassoLoaderModule {
             requestCreator = requestCreator.rotate(imageInfoConfig.getRotateConfig().rotateRotationAngle, imageInfoConfig.getRotateConfig().pivotX, imageInfoConfig.getRotateConfig().pivotY);
         if (imageInfoConfig.getRoundConfig() != null)
             requestCreator = requestCreator.transform(new RoundTransformation(imageInfoConfig.getRoundConfig().radiusX, imageInfoConfig.getRoundConfig().radiusY));
+        if(imageInfoConfig.isCircle())
+            requestCreator = requestCreator.transform(new CircleTransformation());
 
         if (imageInfoConfig.getTag() != null)
             requestCreator = requestCreator.tag(imageInfoConfig.getTag());

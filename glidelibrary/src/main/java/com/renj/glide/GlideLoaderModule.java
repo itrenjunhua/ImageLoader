@@ -13,6 +13,7 @@ import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.bumptech.glide.request.RequestOptions;
+import com.renj.glide.transform.CircleTransformation;
 import com.renj.glide.transform.RotateTransformation;
 import com.renj.glide.transform.RoundTransformation;
 import com.renj.imageloaderlibrary.loader.ImageInfoConfig;
@@ -132,6 +133,8 @@ public class GlideLoaderModule implements IGlideLoaderModule {
             requestOptions = requestOptions.transform(new RotateTransformation(imageInfoConfig.getRotateConfig().rotateRotationAngle, imageInfoConfig.getRotateConfig().pivotX, imageInfoConfig.getRotateConfig().pivotY));
         if (imageInfoConfig.getRoundConfig() != null)
             requestOptions = requestOptions.transform(new RoundTransformation(imageInfoConfig.getRoundConfig().radiusX, imageInfoConfig.getRoundConfig().radiusY));
+        if (imageInfoConfig.isCircle())
+            requestOptions = requestOptions.transform(new CircleTransformation());
 
         if (imageInfoConfig.getThumbnail() > 0)
             requestBuilder.thumbnail(imageInfoConfig.getThumbnail());

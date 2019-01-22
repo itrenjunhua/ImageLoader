@@ -51,6 +51,7 @@ public class ImageLoaderManager {
                 .thumbnail(0.2f)
                 .context(activity)
                 .url(url)
+                .asCircle()
                 .loadingImageId(R.mipmap.ic_launcher_round)
                 .target(imageView)
                 .build();
