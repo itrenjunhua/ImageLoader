@@ -5,6 +5,7 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 
 import com.renj.imageloaderlibrary.loader.IImageLoaderModule;
+import com.renj.imageloaderlibrary.utils.CheckUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -74,8 +75,8 @@ public class ImageModuleConfig {
         private Map<ImageLoadLibrary, IImageLoaderModule> loaderModuleMap = new HashMap<>();
 
         public Builder(@NonNull Application application) {
-            if (application == null)
-                throw new IllegalArgumentException("Application 参数不能为 null.");
+            CheckUtils.checkNotNull(application, "Application 参数不能为 null.");
+
             this.application = application;
         }
 
@@ -85,8 +86,7 @@ public class ImageModuleConfig {
         }
 
         public Builder addImageLoadModule(@NonNull ImageLoadLibrary imageLoadLibrary, @NonNull IImageLoaderModule iImageLoaderModule) {
-            if (imageLoadLibrary == null || iImageLoaderModule == null)
-                throw new IllegalArgumentException("ImageLoadLibrary 和 IImageLoaderModule 参数不能为 null.");
+            CheckUtils.checkNotNull("ImageLoadLibrary 和 IImageLoaderModule 参数不能为 null.", imageLoadLibrary, iImageLoaderModule);
 
             // 默认加载框架为第一个添加的框架
             if (defaultImageLoaderModule == null)
@@ -119,10 +119,7 @@ public class ImageModuleConfig {
         }
 
         public ImageModuleConfig build() {
-
-            if (loaderModuleMap.isEmpty()) {
-                throw new NullPointerException("必须调用 defaultImageLoadModule() 或者 addImageLoadModule() 方法指定图片加载框架.");
-            }
+            CheckUtils.checkNotEmpty(loaderModuleMap, "必须调用 defaultImageLoadModule() 或者 addImageLoadModule() 方法指定图片加载框架.");
             return new ImageModuleConfig(this);
         }
     }

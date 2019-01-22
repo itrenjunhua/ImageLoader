@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import com.renj.imageloaderlibrary.config.ImageLoadConfig;
 import com.renj.imageloaderlibrary.config.ImageLoadLibrary;
 import com.renj.imageloaderlibrary.config.ImageModuleConfig;
+import com.renj.imageloaderlibrary.utils.CheckUtils;
 
 /**
  * ======================================================================
@@ -58,8 +59,7 @@ public class ImageLoaderModule {
      */
     @org.jetbrains.annotations.Contract("null -> fail")
     public static void initImageLoaderModule(@NonNull ImageModuleConfig imageModuleConfig) {
-        if (imageModuleConfig == null)
-            throw new IllegalArgumentException("ImageModuleConfig 参数不能为 null.");
+        CheckUtils.checkNotNull(imageModuleConfig,"ImageModuleConfig 参数不能为 null.");
 
         if (imageLoaderHelper == null) {
             synchronized (ImageLoaderModule.class) {

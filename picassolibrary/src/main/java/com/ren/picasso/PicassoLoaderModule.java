@@ -112,27 +112,6 @@ public class PicassoLoaderModule implements IImageLoaderModule {
         if (imageLoadConfig.isCircle())
             requestCreator = requestCreator.transform(new CircleTransformation());
 
-        if (imageLoadConfig.getTarget() != null)
-            return requestCreator.tag(imageLoadConfig.getTarget());
-
-        if (imageLoadConfig.getFragmentV4() != null)
-            return requestCreator.tag(imageLoadConfig.getFragmentV4());
-
-        if (imageLoadConfig.getFragment() != null)
-            return requestCreator.tag(imageLoadConfig.getFragment());
-
-        if (imageLoadConfig.getFragmentActivity() != null)
-            return requestCreator.tag(imageLoadConfig.getFragmentActivity());
-
-        if (imageLoadConfig.getActivity() != null)
-            return requestCreator.tag(imageLoadConfig.getActivity());
-
-        if (imageLoadConfig.getContext() != null)
-            return requestCreator.tag(imageLoadConfig.getContext());
-
-        if (imageModuleConfig.getApplication() != null)
-            return requestCreator.tag(imageModuleConfig.getApplication());
-
 
         return requestCreator;
     }
