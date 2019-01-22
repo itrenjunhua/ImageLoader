@@ -79,7 +79,7 @@ public class ImageModuleConfig {
             this.application = application;
         }
 
-        public Builder imageLoadModule(@NonNull ImageLoadLibrary imageLoadLibrary, @NonNull IImageLoaderModule iImageLoaderModule) {
+        public Builder defaultImageLoadModule(@NonNull ImageLoadLibrary imageLoadLibrary, @NonNull IImageLoaderModule iImageLoaderModule) {
             addImageLoadModule(imageLoadLibrary, iImageLoaderModule);
             return this;
         }
@@ -121,7 +121,7 @@ public class ImageModuleConfig {
         public ImageModuleConfig build() {
 
             if (loaderModuleMap.isEmpty()) {
-                throw new NullPointerException("必须调用 imageLoadModule() 或者 addImageLoadModule() 方法指定图片加载框架.");
+                throw new NullPointerException("必须调用 defaultImageLoadModule() 或者 addImageLoadModule() 方法指定图片加载框架.");
             }
             return new ImageModuleConfig(this);
         }

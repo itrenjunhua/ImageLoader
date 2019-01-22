@@ -31,12 +31,10 @@ public class MyApplication extends Application {
     @Override
     public void onLowMemory() {
         super.onLowMemory();
-        ImageLoaderManager.getImageLoader().clearAllMemoryCaches();
     }
 
     @Override
     public void onTrimMemory(int level) {
         super.onTrimMemory(level);
-        ImageLoaderManager.getImageLoader().trimMemory(level);
     }
 }

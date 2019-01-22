@@ -31,9 +31,9 @@ import java.io.File;
  * ======================================================================
  */
 public class ImageLoadConfig {
+    // ********** 直接将下列对象作为Tag处理，优先级 target > fragmentV4 > fragment > fragmentActivity >activity > context > application ********** //
     private View target; // 图片展示目标控件
     private Context context;
-    /*** 当选择Glide框架时，with() 方法可以传递context之外，还可以传递以下参数 ***/
     private Activity activity;
     private FragmentActivity fragmentActivity;
     private Fragment fragment;
@@ -74,8 +74,6 @@ public class ImageLoadConfig {
     // 是否圆形图片
     private boolean isCircle;
 
-    private Object tag; // 标记
-
     // ********************  Glide 配置 ******************** //
     private boolean isGif; // 是否 Gif 图片
     private boolean isBitmap; // 是否作为 Bitmap 显示
@@ -102,7 +100,6 @@ public class ImageLoadConfig {
         this.errorDrawable = builder.errorDrawable;
         this.width = builder.width;
         this.height = builder.height;
-        this.tag = builder.tag;
         this.centerCrop = builder.centerCrop;
         this.fitCenter = builder.fitCenter;
         this.centerInside = builder.centerInside;
@@ -221,10 +218,6 @@ public class ImageLoadConfig {
         return height;
     }
 
-    public Object getTag() {
-        return tag;
-    }
-
     public boolean isCenterCrop() {
         return centerCrop;
     }
@@ -281,8 +274,6 @@ public class ImageLoadConfig {
         private int width; // 图片宽
         @IntRange(from = 0)
         private int height; // 图片高
-
-        private Object tag; // 标记
 
         private boolean centerCrop; // 图片完全填充控件，但是可能会被裁剪
         private boolean fitCenter;  // 图片完全显示，但是控件可能留白
@@ -503,16 +494,6 @@ public class ImageLoadConfig {
          */
         public <T extends Builder> T height(@IntRange(from = 0) int height) {
             this.height = height;
-            return (T) this;
-        }
-
-        /**
-         * 设置Tag
-         *
-         * @param tag Tag 对象
-         */
-        public <T extends Builder> T tag(Object tag) {
-            this.tag = tag;
             return (T) this;
         }
 

@@ -7,6 +7,7 @@ import com.ren.picasso.transform.CircleTransformation;
 import com.ren.picasso.transform.RoundTransformation;
 import com.renj.imageloaderlibrary.config.ImageLoadConfig;
 import com.renj.imageloaderlibrary.config.ImageModuleConfig;
+import com.renj.imageloaderlibrary.loader.IImageLoaderModule;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
@@ -28,7 +29,7 @@ import java.io.File;
  * <p>
  * ======================================================================
  */
-public class PicassoLoaderModule implements IPicassoLoaderModule {
+public class PicassoLoaderModule implements IImageLoaderModule {
     private ImageModuleConfig imageModuleConfig;
 
     @Override
@@ -111,8 +112,27 @@ public class PicassoLoaderModule implements IPicassoLoaderModule {
         if (imageLoadConfig.isCircle())
             requestCreator = requestCreator.transform(new CircleTransformation());
 
-        if (imageLoadConfig.getTag() != null)
-            requestCreator = requestCreator.tag(imageLoadConfig.getTag());
+        if (imageLoadConfig.getTarget() != null)
+            return requestCreator.tag(imageLoadConfig.getTarget());
+
+        if (imageLoadConfig.getFragmentV4() != null)
+            return requestCreator.tag(imageLoadConfig.getFragmentV4());
+
+        if (imageLoadConfig.getFragment() != null)
+            return requestCreator.tag(imageLoadConfig.getFragment());
+
+        if (imageLoadConfig.getFragmentActivity() != null)
+            return requestCreator.tag(imageLoadConfig.getFragmentActivity());
+
+        if (imageLoadConfig.getActivity() != null)
+            return requestCreator.tag(imageLoadConfig.getActivity());
+
+        if (imageLoadConfig.getContext() != null)
+            return requestCreator.tag(imageLoadConfig.getContext());
+
+        if (imageModuleConfig.getApplication() != null)
+            return requestCreator.tag(imageModuleConfig.getApplication());
+
 
         return requestCreator;
     }
@@ -145,6 +165,9 @@ public class PicassoLoaderModule implements IPicassoLoaderModule {
      * @return {@link Picasso} 对象
      */
     private Picasso createPicasso(ImageLoadConfig imageLoadConfig) {
+//        if (imageLoadConfig.getTarget() != null)
+//            return Picasso.with(imageLoadConfig.getTarget().getContext());
+//
 //        if (imageLoadConfig.getFragmentV4() != null)
 //            return Picasso.with(imageLoadConfig.getFragmentV4().getActivity());
 //
@@ -160,9 +183,6 @@ public class PicassoLoaderModule implements IPicassoLoaderModule {
 //        if (imageLoadConfig.getContext() != null)
 //            return Picasso.with(imageLoadConfig.getContext());
 //
-//        if (imageLoadConfig.getTarget() != null)
-//            return Picasso.with(imageLoadConfig.getTarget().getContext());
-//
 //        if (application != null)
 //            return Picasso.with(application);
 
@@ -177,5 +197,36 @@ public class PicassoLoaderModule implements IPicassoLoaderModule {
     @Override
     public void resumeTag(Object tag) {
         Picasso.get().resumeTag(tag);
+    }
+
+
+    @Override
+    public void pause() {
+
+    }
+
+    @Override
+    public void resume() {
+
+    }
+
+    @Override
+    public void clearMemoryCache() {
+
+    }
+
+    @Override
+    public void trimMemory(int level) {
+
+    }
+
+    @Override
+    public void clearAllMemoryCaches() {
+
+    }
+
+    @Override
+    public void clearDiskCache() {
+
     }
 }

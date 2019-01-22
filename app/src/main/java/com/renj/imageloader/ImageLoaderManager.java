@@ -5,10 +5,12 @@ import android.app.Application;
 import android.support.annotation.NonNull;
 import android.widget.ImageView;
 
+import com.ren.picasso.PicassoLoaderModule;
 import com.renj.glide.GlideLoaderModule;
 import com.renj.imageloaderlibrary.config.ImageLoadConfig;
 import com.renj.imageloaderlibrary.config.ImageLoadLibrary;
 import com.renj.imageloaderlibrary.config.ImageModuleConfig;
+import com.renj.imageloaderlibrary.loader.IImageLoaderModule;
 import com.renj.imageloaderlibrary.loader.ImageLoaderModule;
 
 /**
@@ -34,12 +36,17 @@ public class ImageLoaderManager {
     public static void init(@NonNull Application application) {
         ImageLoaderModule.initImageLoaderModule(
                 new ImageModuleConfig.Builder(application)
-                        .imageLoadModule(ImageLoadLibrary.GLIDE_LIBRARY, new GlideLoaderModule())
+                        .defaultImageLoadModule(ImageLoadLibrary.GLIDE_LIBRARY, new GlideLoaderModule())
+                        .addImageLoadModule(ImageLoadLibrary.PICASSO_LIBRARY, new PicassoLoaderModule())
                         .build());
     }
 
-    public static GlideLoaderModule getImageLoader() {
+    public static IImageLoaderModule getDefaultImageLoaderModule() {
         return ImageLoaderModule.getDefaultImageLoaderModule();
+    }
+
+    public static IImageLoaderModule getPicassoLoaderModule(){
+        return ImageLoaderModule.getImageLoaderModule(ImageLoadLibrary.PICASSO_LIBRARY);
     }
 
     public static void loadCircleImage(@NonNull Activity activity, @NonNull String url, @NonNull ImageView imageView) {
@@ -52,6 +59,6 @@ public class ImageLoaderManager {
                 .loadingImageId(R.mipmap.ic_launcher_round)
                 .target(imageView)
                 .build();
-        ImageLoaderManager.getImageLoader().loadImage(config);
+        ImageLoaderManager.getDefaultImageLoaderModule().loadImage(config);
     }
 }

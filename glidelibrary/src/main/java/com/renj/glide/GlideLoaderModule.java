@@ -16,6 +16,7 @@ import com.renj.glide.transform.RotateTransformation;
 import com.renj.glide.transform.RoundTransformation;
 import com.renj.imageloaderlibrary.config.ImageLoadConfig;
 import com.renj.imageloaderlibrary.config.ImageModuleConfig;
+import com.renj.imageloaderlibrary.loader.IImageLoaderModule;
 
 /**
  * ======================================================================
@@ -30,7 +31,7 @@ import com.renj.imageloaderlibrary.config.ImageModuleConfig;
  * <p>
  * ======================================================================
  */
-public class GlideLoaderModule implements IGlideLoaderModule {
+public class GlideLoaderModule implements IImageLoaderModule {
     private ImageModuleConfig imageModuleConfig;
 
     @Override
@@ -178,6 +179,16 @@ public class GlideLoaderModule implements IGlideLoaderModule {
             return Glide.with(imageModuleConfig.getApplication());
 
         throw new NullPointerException("Glide 获取不到 Context");
+    }
+
+    @Override
+    public void pauseTag(Object tag) {
+
+    }
+
+    @Override
+    public void resumeTag(Object tag) {
+
     }
 
     @Override

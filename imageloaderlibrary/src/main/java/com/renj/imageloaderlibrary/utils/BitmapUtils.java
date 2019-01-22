@@ -102,25 +102,6 @@ public class BitmapUtils {
     }
 
     /**
-     * 放大缩小图片
-     *
-     * @param source 源Bitmap
-     * @param w      宽
-     * @param h      高
-     * @return 目标Bitmap
-     */
-    public static Bitmap zoom(@NonNull Bitmap source, int w, int h) {
-        int width = source.getWidth();
-        int height = source.getHeight();
-        Matrix matrix = new Matrix();
-        float scaleWidth = ((float) w / width);
-        float scaleHeight = ((float) h / height);
-        matrix.postScale(scaleWidth, scaleHeight);
-        Bitmap newBmp = Bitmap.createBitmap(source, 0, 0, width, height, matrix, true);
-        return newBmp;
-    }
-
-    /**
      * 获得带倒影的图片方法
      *
      * @param source 源Bitmap
