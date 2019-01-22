@@ -1,13 +1,12 @@
 package com.ren.picasso;
 
-import android.app.Application;
-import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.widget.ImageView;
 
 import com.ren.picasso.transform.CircleTransformation;
 import com.ren.picasso.transform.RoundTransformation;
-import com.renj.imageloaderlibrary.loader.ImageInfoConfig;
+import com.renj.imageloaderlibrary.config.ImageLoadConfig;
+import com.renj.imageloaderlibrary.config.ImageModuleConfig;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
@@ -30,101 +29,90 @@ import java.io.File;
  * ======================================================================
  */
 public class PicassoLoaderModule implements IPicassoLoaderModule {
-    private Application application;
-    @DrawableRes
-    private int loadingRes;
-    @DrawableRes
-    private int errorRes;
+    private ImageModuleConfig imageModuleConfig;
 
     @Override
-    public void init(Application application) {
-        this.application = application;
-    }
-
-    @Override
-    public void init(@NonNull Application application, int loadingRes, int errorRes) {
-        this.application = application;
-        this.loadingRes = loadingRes;
-        this.errorRes = errorRes;
+    public void init(@NonNull ImageModuleConfig imageModuleConfig) {
+        this.imageModuleConfig = imageModuleConfig;
     }
 
     @Override
     public void loadImage(@NonNull String url, @NonNull ImageView imageView) {
-        ImageInfoConfig imageInfoConfig = new ImageInfoConfig.Builder()
+        ImageLoadConfig imageLoadConfig = new ImageLoadConfig.Builder()
                 .url(url)
                 .target(imageView)
                 .build();
-        loadImage(imageInfoConfig);
+        loadImage(imageLoadConfig);
     }
 
     @Override
-    public <T extends ImageInfoConfig> void loadImage(@NonNull T imageInfoConfig) {
+    public <T extends ImageLoadConfig> void loadImage(@NonNull T imageInfoConfig) {
         Picasso picasso = createPicasso(imageInfoConfig);
         RequestCreator requestCreator = loadPath(picasso, imageInfoConfig);
         builderControl(requestCreator, imageInfoConfig);
     }
 
-    private void builderControl(RequestCreator requestCreator, @NonNull ImageInfoConfig imageInfoConfig) {
-        requestCreator = initImageInfoConfig(requestCreator, imageInfoConfig);
-        intoOf(requestCreator, imageInfoConfig);
+    private void builderControl(RequestCreator requestCreator, @NonNull ImageLoadConfig imageLoadConfig) {
+        requestCreator = initImageInfoConfig(requestCreator, imageLoadConfig);
+        intoOf(requestCreator, imageLoadConfig);
     }
 
     /**
      * 加载图片到指定控件
      */
-    private void intoOf(RequestCreator requestCreator, @NonNull ImageInfoConfig imageInfoConfig) {
-        if (imageInfoConfig.getTarget() instanceof ImageView) {
-            requestCreator.into((ImageView) imageInfoConfig.getTarget());
+    private void intoOf(RequestCreator requestCreator, @NonNull ImageLoadConfig imageLoadConfig) {
+        if (imageLoadConfig.getTarget() instanceof ImageView) {
+            requestCreator.into((ImageView) imageLoadConfig.getTarget());
         }
     }
 
     /**
      * 将配置信息增加到Picasso中
      */
-    private RequestCreator initImageInfoConfig(RequestCreator requestCreator, @NonNull ImageInfoConfig imageInfoConfig) {
-        if (imageInfoConfig.getWidth() > 0 && imageInfoConfig.getHeight() > 0)
-            requestCreator = requestCreator.resize(imageInfoConfig.getWidth(), imageInfoConfig.getHeight());
-        if (imageInfoConfig.getWidth() > 0 && imageInfoConfig.getHeight() <= 0)
-            requestCreator = requestCreator.resize(imageInfoConfig.getWidth(), imageInfoConfig.getWidth());
-        if (imageInfoConfig.getHeight() > 0 && imageInfoConfig.getWidth() <= 0)
-            requestCreator = requestCreator.resize(imageInfoConfig.getHeight(), imageInfoConfig.getHeight());
+    private RequestCreator initImageInfoConfig(RequestCreator requestCreator, @NonNull ImageLoadConfig imageLoadConfig) {
+        if (imageLoadConfig.getWidth() > 0 && imageLoadConfig.getHeight() > 0)
+            requestCreator = requestCreator.resize(imageLoadConfig.getWidth(), imageLoadConfig.getHeight());
+        if (imageLoadConfig.getWidth() > 0 && imageLoadConfig.getHeight() <= 0)
+            requestCreator = requestCreator.resize(imageLoadConfig.getWidth(), imageLoadConfig.getWidth());
+        if (imageLoadConfig.getHeight() > 0 && imageLoadConfig.getWidth() <= 0)
+            requestCreator = requestCreator.resize(imageLoadConfig.getHeight(), imageLoadConfig.getHeight());
 
-        if (imageInfoConfig.isSkipMemory())
+        if (imageLoadConfig.isSkipMemory())
             requestCreator = requestCreator.memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE);
 
-        if (imageInfoConfig.isSkipDisk())
+        if (imageLoadConfig.isSkipDisk())
             requestCreator = requestCreator.networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE);
 
-        if (loadingRes > 0)
-            requestCreator = requestCreator.error(loadingRes);
-        if (errorRes > 0)
-            requestCreator = requestCreator.placeholder(errorRes);
+        if (imageModuleConfig.getLoadingRes() > 0)
+            requestCreator = requestCreator.error(imageModuleConfig.getLoadingRes());
+        if (imageModuleConfig.getErrorRes() > 0)
+            requestCreator = requestCreator.placeholder(imageModuleConfig.getErrorRes());
 
-        if (imageInfoConfig.getErrorImageId() > 0)
-            requestCreator = requestCreator.error(imageInfoConfig.getErrorImageId());
-        if (imageInfoConfig.getLoadingImageId() > 0)
-            requestCreator = requestCreator.placeholder(imageInfoConfig.getLoadingImageId());
+        if (imageLoadConfig.getErrorImageId() > 0)
+            requestCreator = requestCreator.error(imageLoadConfig.getErrorImageId());
+        if (imageLoadConfig.getLoadingImageId() > 0)
+            requestCreator = requestCreator.placeholder(imageLoadConfig.getLoadingImageId());
 
-        if (imageInfoConfig.getErrorDrawable() != null)
-            requestCreator = requestCreator.error(imageInfoConfig.getErrorDrawable());
-        if (imageInfoConfig.getLoadingDrawable() != null)
-            requestCreator = requestCreator.placeholder(imageInfoConfig.getLoadingDrawable());
+        if (imageLoadConfig.getErrorDrawable() != null)
+            requestCreator = requestCreator.error(imageLoadConfig.getErrorDrawable());
+        if (imageLoadConfig.getLoadingDrawable() != null)
+            requestCreator = requestCreator.placeholder(imageLoadConfig.getLoadingDrawable());
 
-        if (imageInfoConfig.isCenterCrop())
+        if (imageLoadConfig.isCenterCrop())
             requestCreator = requestCreator.centerCrop();
-        if (imageInfoConfig.isFitCenter())
+        if (imageLoadConfig.isFitCenter())
             requestCreator = requestCreator.fit();
-        if (imageInfoConfig.isCenterInside())
+        if (imageLoadConfig.isCenterInside())
             requestCreator = requestCreator.centerInside();
-        if (imageInfoConfig.getRotateConfig() != null)
-            requestCreator = requestCreator.rotate(imageInfoConfig.getRotateConfig().rotateRotationAngle, imageInfoConfig.getRotateConfig().pivotX, imageInfoConfig.getRotateConfig().pivotY);
-        if (imageInfoConfig.getRoundConfig() != null)
-            requestCreator = requestCreator.transform(new RoundTransformation(imageInfoConfig.getRoundConfig().radiusX, imageInfoConfig.getRoundConfig().radiusY));
-        if(imageInfoConfig.isCircle())
+        if (imageLoadConfig.getRotateConfig() != null)
+            requestCreator = requestCreator.rotate(imageLoadConfig.getRotateConfig().rotateRotationAngle, imageLoadConfig.getRotateConfig().pivotX, imageLoadConfig.getRotateConfig().pivotY);
+        if (imageLoadConfig.getRoundConfig() != null)
+            requestCreator = requestCreator.transform(new RoundTransformation(imageLoadConfig.getRoundConfig().radiusX, imageLoadConfig.getRoundConfig().radiusY));
+        if (imageLoadConfig.isCircle())
             requestCreator = requestCreator.transform(new CircleTransformation());
 
-        if (imageInfoConfig.getTag() != null)
-            requestCreator = requestCreator.tag(imageInfoConfig.getTag());
+        if (imageLoadConfig.getTag() != null)
+            requestCreator = requestCreator.tag(imageLoadConfig.getTag());
 
         return requestCreator;
     }
@@ -133,47 +121,47 @@ public class PicassoLoaderModule implements IPicassoLoaderModule {
      * 确定图片加载路径
      */
     @NonNull
-    private RequestCreator loadPath(Picasso picasso, @NonNull ImageInfoConfig imageInfoConfig) {
-        if (imageInfoConfig.getFilePath() != null)
-            return picasso.load(new File(imageInfoConfig.getFilePath()));
+    private RequestCreator loadPath(Picasso picasso, @NonNull ImageLoadConfig imageLoadConfig) {
+        if (imageLoadConfig.getFilePath() != null)
+            return picasso.load(new File(imageLoadConfig.getFilePath()));
 
-        if (imageInfoConfig.getFile() != null)
-            return picasso.load(imageInfoConfig.getFile());
+        if (imageLoadConfig.getFile() != null)
+            return picasso.load(imageLoadConfig.getFile());
 
-        if (imageInfoConfig.getDrawableId() > 0)
-            return picasso.load(imageInfoConfig.getDrawableId());
+        if (imageLoadConfig.getDrawableId() > 0)
+            return picasso.load(imageLoadConfig.getDrawableId());
 
-        if (imageInfoConfig.getUri() != null)
-            return picasso.load(imageInfoConfig.getUri());
+        if (imageLoadConfig.getUri() != null)
+            return picasso.load(imageLoadConfig.getUri());
 
-        // imageInfoConfig.getUrl() 也可能为 null
-        return picasso.load(imageInfoConfig.getUrl());
+        // imageLoadConfig.getUrl() 也可能为 null
+        return picasso.load(imageLoadConfig.getUrl());
     }
 
     /**
      * 调用 {@link Picasso#get()} 方法创建 {@link Picasso} 对象
      *
-     * @param imageInfoConfig {@link ImageInfoConfig} 对象
+     * @param imageLoadConfig {@link ImageLoadConfig} 对象
      * @return {@link Picasso} 对象
      */
-    private Picasso createPicasso(ImageInfoConfig imageInfoConfig) {
-//        if (imageInfoConfig.getFragmentV4() != null)
-//            return Picasso.with(imageInfoConfig.getFragmentV4().getActivity());
+    private Picasso createPicasso(ImageLoadConfig imageLoadConfig) {
+//        if (imageLoadConfig.getFragmentV4() != null)
+//            return Picasso.with(imageLoadConfig.getFragmentV4().getActivity());
 //
-//        if (imageInfoConfig.getFragment() != null)
-//            return Picasso.with(imageInfoConfig.getFragment().getActivity());
+//        if (imageLoadConfig.getFragment() != null)
+//            return Picasso.with(imageLoadConfig.getFragment().getActivity());
 //
-//        if (imageInfoConfig.getFragmentActivity() != null)
-//            return Picasso.with(imageInfoConfig.getFragmentActivity());
+//        if (imageLoadConfig.getFragmentActivity() != null)
+//            return Picasso.with(imageLoadConfig.getFragmentActivity());
 //
-//        if (imageInfoConfig.getActivity() != null)
-//            return Picasso.with(imageInfoConfig.getActivity());
+//        if (imageLoadConfig.getActivity() != null)
+//            return Picasso.with(imageLoadConfig.getActivity());
 //
-//        if (imageInfoConfig.getContext() != null)
-//            return Picasso.with(imageInfoConfig.getContext());
+//        if (imageLoadConfig.getContext() != null)
+//            return Picasso.with(imageLoadConfig.getContext());
 //
-//        if (imageInfoConfig.getTarget() != null)
-//            return Picasso.with(imageInfoConfig.getTarget().getContext());
+//        if (imageLoadConfig.getTarget() != null)
+//            return Picasso.with(imageLoadConfig.getTarget().getContext());
 //
 //        if (application != null)
 //            return Picasso.with(application);

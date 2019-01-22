@@ -1,10 +1,12 @@
 package com.renj.imageloaderlibrary.loader;
 
-import android.app.Application;
-import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 
+import com.renj.imageloaderlibrary.config.ImageLoadLibrary;
+import com.renj.imageloaderlibrary.config.ImageModuleConfig;
 import com.renj.imageloaderlibrary.utils.Utils;
+
+import java.util.Map;
 
 /**
  * ======================================================================
@@ -19,59 +21,51 @@ import com.renj.imageloaderlibrary.utils.Utils;
  * <p>
  * ======================================================================
  */
-/*public*/ class ImageLoaderHelper<T extends IImageLoaderModule> {
-    private Application application;
-    private T iImageLoaderModule;
+/*public*/ class ImageLoaderHelper {
+    private ImageModuleConfig imageModuleConfig;
 
     /**
      * 初始化方法
      *
-     * @param application        {@link Application} 对象
-     * @param iImageLoaderModule {@link IImageLoaderModule} 对象
+     * @param imageModuleConfig {@link ImageModuleConfig} 对象
      */
-    void initImageLoaderUtils(@NonNull Application application, @NonNull T iImageLoaderModule) {
-        this.application = application;
-        this.iImageLoaderModule = iImageLoaderModule;
+    ImageLoaderHelper(@NonNull ImageModuleConfig imageModuleConfig) {
+        this.imageModuleConfig = imageModuleConfig;
+        Utils.initUtils(imageModuleConfig.getApplication());
 
-        Utils.initUtils(application);
-        iImageLoaderModule.init(application);
+        Map<ImageLoadLibrary, IImageLoaderModule> loaderModuleMap = imageModuleConfig.getLoaderModuleMap();
+        for (ImageLoadLibrary imageLoadLibrary : loaderModuleMap.keySet()) {
+            loaderModuleMap.get(imageLoadLibrary).init(imageModuleConfig);
+        }
     }
 
     /**
-     * 初始化方法，指定全局的加载中图片和加载错误图片
+     * 获取配置信息
      *
-     * @param application        {@link Application} 对象
-     * @param iImageLoaderModule {@link IImageLoaderModule} 对象
-     * @param loadingRes         加载中的图片
-     * @param errorRes           加载错误的图片
+     * @return {@link ImageModuleConfig}
      */
-    void initImageLoaderUtils(@NonNull Application application, @NonNull T iImageLoaderModule,
-                              @DrawableRes int loadingRes, @DrawableRes int errorRes) {
-        this.application = application;
-        this.iImageLoaderModule = iImageLoaderModule;
-
-        Utils.initUtils(application);
-        iImageLoaderModule.init(application, loadingRes, errorRes);
+    public ImageModuleConfig getImageModuleConfig() {
+        return imageModuleConfig;
     }
 
     /**
-     * 获取 {@link Application} 对象
+     * 获取默认加载框架
      *
-     * @return {@link Application} 对象
+     * @return 默认加载框架，{@link IImageLoaderModule} 子类对象
      */
     @org.jetbrains.annotations.Contract(pure = true)
-    Application getApplication() {
-        return application;
+    <T extends IImageLoaderModule> T getDefaultImageLoaderModule() {
+        return (T) imageModuleConfig.getDefaultImageLoaderModule();
     }
 
     /**
-     * 获取 {@link IImageLoaderModule} 子类对象
+     * 获取指定的加载框架
      *
-     * @param <T> {@link IImageLoaderModule} 子类对象
-     * @return {@link IImageLoaderModule} 子类对象
+     * @param imageLoadLibrary {@link ImageLoadLibrary}
+     * @param <T>
+     * @return
      */
-    @org.jetbrains.annotations.Contract(pure = true)
-    <T extends IImageLoaderModule> T getImageLoaderModule() {
-        return (T) iImageLoaderModule;
+    <T extends IImageLoaderModule> T getImageLoaderModule(@NonNull ImageLoadLibrary imageLoadLibrary) {
+        return (T) imageModuleConfig.getLoaderModuleMap().get(imageLoadLibrary);
     }
 }

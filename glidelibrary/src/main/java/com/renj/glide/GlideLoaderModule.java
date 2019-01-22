@@ -1,9 +1,7 @@
 package com.renj.glide;
 
-import android.app.Application;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.widget.ImageView;
 
@@ -16,7 +14,8 @@ import com.bumptech.glide.request.RequestOptions;
 import com.renj.glide.transform.CircleTransformation;
 import com.renj.glide.transform.RotateTransformation;
 import com.renj.glide.transform.RoundTransformation;
-import com.renj.imageloaderlibrary.loader.ImageInfoConfig;
+import com.renj.imageloaderlibrary.config.ImageLoadConfig;
+import com.renj.imageloaderlibrary.config.ImageModuleConfig;
 
 /**
  * ======================================================================
@@ -32,35 +31,24 @@ import com.renj.imageloaderlibrary.loader.ImageInfoConfig;
  * ======================================================================
  */
 public class GlideLoaderModule implements IGlideLoaderModule {
-    private Application application;
-    @DrawableRes
-    private int loadingRes;
-    @DrawableRes
-    private int errorRes;
+    private ImageModuleConfig imageModuleConfig;
 
     @Override
-    public void init(@NonNull Application application) {
-        this.application = application;
-    }
-
-    @Override
-    public void init(@NonNull Application application, int loadingRes, int errorRes) {
-        this.application = application;
-        this.loadingRes = loadingRes;
-        this.errorRes = errorRes;
+    public void init(@NonNull ImageModuleConfig imageModuleConfig) {
+        this.imageModuleConfig = imageModuleConfig;
     }
 
     @Override
     public void loadImage(@NonNull String url, @NonNull ImageView imageView) {
-        ImageInfoConfig imageInfoConfig = new ImageInfoConfig.Builder()
+        ImageLoadConfig imageLoadConfig = new ImageLoadConfig.Builder()
                 .url(url)
                 .target(imageView)
                 .build();
-        loadImage(imageInfoConfig);
+        loadImage(imageLoadConfig);
     }
 
     @Override
-    public <T extends ImageInfoConfig> void loadImage(@NonNull T imageInfoConfig) {
+    public <T extends ImageLoadConfig> void loadImage(@NonNull T imageInfoConfig) {
         RequestManager requestManager = createRequestManager(imageInfoConfig);
 
         if (imageInfoConfig.isBitmap()) {
@@ -78,17 +66,17 @@ public class GlideLoaderModule implements IGlideLoaderModule {
         }
     }
 
-    private <T> void builderControl(RequestBuilder<T> requestBuilder, @NonNull ImageInfoConfig imageInfoConfig) {
-        requestBuilder = initImageInfoConfig(requestBuilder, imageInfoConfig);
-        intoOf(requestBuilder, imageInfoConfig);
+    private <T> void builderControl(RequestBuilder<T> requestBuilder, @NonNull ImageLoadConfig imageLoadConfig) {
+        requestBuilder = initImageInfoConfig(requestBuilder, imageLoadConfig);
+        intoOf(requestBuilder, imageLoadConfig);
     }
 
     /**
      * 加载图片到指定控件
      */
-    private <T> void intoOf(RequestBuilder<T> requestBuilder, @NonNull ImageInfoConfig imageInfoConfig) {
-        if (imageInfoConfig.getTarget() instanceof ImageView) {
-            requestBuilder.into((ImageView) imageInfoConfig.getTarget());
+    private <T> void intoOf(RequestBuilder<T> requestBuilder, @NonNull ImageLoadConfig imageLoadConfig) {
+        if (imageLoadConfig.getTarget() instanceof ImageView) {
+            requestBuilder.into((ImageView) imageLoadConfig.getTarget());
         }
     }
 
@@ -96,48 +84,48 @@ public class GlideLoaderModule implements IGlideLoaderModule {
      * 配置图片信息到 Glide 请求中
      */
     @NonNull
-    private <T> RequestBuilder<T> initImageInfoConfig(RequestBuilder<T> requestBuilder, @NonNull ImageInfoConfig imageInfoConfig) {
+    private <T> RequestBuilder<T> initImageInfoConfig(RequestBuilder<T> requestBuilder, @NonNull ImageLoadConfig imageLoadConfig) {
         RequestOptions requestOptions = new RequestOptions();
-        if (imageInfoConfig.getWidth() > 0 && imageInfoConfig.getHeight() > 0)
-            requestOptions = requestOptions.override(imageInfoConfig.getWidth(), imageInfoConfig.getHeight());
-        if (imageInfoConfig.getWidth() > 0 && imageInfoConfig.getHeight() <= 0)
-            requestOptions = requestOptions.override(imageInfoConfig.getWidth());
-        if (imageInfoConfig.getHeight() > 0 && imageInfoConfig.getWidth() <= 0)
-            requestOptions = requestOptions.override(imageInfoConfig.getHeight());
+        if (imageLoadConfig.getWidth() > 0 && imageLoadConfig.getHeight() > 0)
+            requestOptions = requestOptions.override(imageLoadConfig.getWidth(), imageLoadConfig.getHeight());
+        if (imageLoadConfig.getWidth() > 0 && imageLoadConfig.getHeight() <= 0)
+            requestOptions = requestOptions.override(imageLoadConfig.getWidth());
+        if (imageLoadConfig.getHeight() > 0 && imageLoadConfig.getWidth() <= 0)
+            requestOptions = requestOptions.override(imageLoadConfig.getHeight());
 
-        requestOptions = requestOptions.skipMemoryCache(imageInfoConfig.isSkipMemory());
-        requestOptions = requestOptions.diskCacheStrategy(imageInfoConfig.isSkipDisk() ? DiskCacheStrategy.NONE : DiskCacheStrategy.AUTOMATIC);
+        requestOptions = requestOptions.skipMemoryCache(imageLoadConfig.isSkipMemory());
+        requestOptions = requestOptions.diskCacheStrategy(imageLoadConfig.isSkipDisk() ? DiskCacheStrategy.NONE : DiskCacheStrategy.AUTOMATIC);
 
-        if (loadingRes > 0)
-            requestOptions = requestOptions.error(loadingRes);
-        if (errorRes > 0)
-            requestOptions = requestOptions.placeholder(errorRes);
+        if (imageModuleConfig.getLoadingRes() > 0)
+            requestOptions = requestOptions.error(imageModuleConfig.getLoadingRes());
+        if (imageModuleConfig.getErrorRes() > 0)
+            requestOptions = requestOptions.placeholder(imageModuleConfig.getErrorRes());
 
-        if (imageInfoConfig.getErrorImageId() > 0)
-            requestOptions = requestOptions.error(imageInfoConfig.getErrorImageId());
-        if (imageInfoConfig.getLoadingImageId() > 0)
-            requestOptions = requestOptions.placeholder(imageInfoConfig.getLoadingImageId());
+        if (imageLoadConfig.getErrorImageId() > 0)
+            requestOptions = requestOptions.error(imageLoadConfig.getErrorImageId());
+        if (imageLoadConfig.getLoadingImageId() > 0)
+            requestOptions = requestOptions.placeholder(imageLoadConfig.getLoadingImageId());
 
-        if (imageInfoConfig.getErrorDrawable() != null)
-            requestOptions = requestOptions.error(imageInfoConfig.getErrorDrawable());
-        if (imageInfoConfig.getLoadingDrawable() != null)
-            requestOptions = requestOptions.placeholder(imageInfoConfig.getLoadingDrawable());
+        if (imageLoadConfig.getErrorDrawable() != null)
+            requestOptions = requestOptions.error(imageLoadConfig.getErrorDrawable());
+        if (imageLoadConfig.getLoadingDrawable() != null)
+            requestOptions = requestOptions.placeholder(imageLoadConfig.getLoadingDrawable());
 
-        if (imageInfoConfig.isCenterCrop())
+        if (imageLoadConfig.isCenterCrop())
             requestOptions = requestOptions.centerCrop();
-        if (imageInfoConfig.isFitCenter())
+        if (imageLoadConfig.isFitCenter())
             requestOptions = requestOptions.fitCenter();
-        if (imageInfoConfig.isCenterInside())
+        if (imageLoadConfig.isCenterInside())
             requestOptions = requestOptions.centerInside();
-        if (imageInfoConfig.getRotateConfig() != null)
-            requestOptions = requestOptions.transform(new RotateTransformation(imageInfoConfig.getRotateConfig().rotateRotationAngle, imageInfoConfig.getRotateConfig().pivotX, imageInfoConfig.getRotateConfig().pivotY));
-        if (imageInfoConfig.getRoundConfig() != null)
-            requestOptions = requestOptions.transform(new RoundTransformation(imageInfoConfig.getRoundConfig().radiusX, imageInfoConfig.getRoundConfig().radiusY));
-        if (imageInfoConfig.isCircle())
+        if (imageLoadConfig.getRotateConfig() != null)
+            requestOptions = requestOptions.transform(new RotateTransformation(imageLoadConfig.getRotateConfig().rotateRotationAngle, imageLoadConfig.getRotateConfig().pivotX, imageLoadConfig.getRotateConfig().pivotY));
+        if (imageLoadConfig.getRoundConfig() != null)
+            requestOptions = requestOptions.transform(new RoundTransformation(imageLoadConfig.getRoundConfig().radiusX, imageLoadConfig.getRoundConfig().radiusY));
+        if (imageLoadConfig.isCircle())
             requestOptions = requestOptions.transform(new CircleTransformation());
 
-        if (imageInfoConfig.getThumbnail() > 0)
-            requestBuilder.thumbnail(imageInfoConfig.getThumbnail());
+        if (imageLoadConfig.getThumbnail() > 0)
+            requestBuilder.thumbnail(imageLoadConfig.getThumbnail());
 
         return requestBuilder.apply(requestOptions);
     }
@@ -146,75 +134,75 @@ public class GlideLoaderModule implements IGlideLoaderModule {
      * 确定图片加载路径
      */
     @NonNull
-    private <T> RequestBuilder<T> loadPath(RequestBuilder<T> requestBuilder, @NonNull ImageInfoConfig imageInfoConfig) {
-        if (imageInfoConfig.getDrawableId() > 0)
-            return requestBuilder.load(imageInfoConfig.getDrawableId());
+    private <T> RequestBuilder<T> loadPath(RequestBuilder<T> requestBuilder, @NonNull ImageLoadConfig imageLoadConfig) {
+        if (imageLoadConfig.getDrawableId() > 0)
+            return requestBuilder.load(imageLoadConfig.getDrawableId());
 
-        if (imageInfoConfig.getUri() != null)
-            return requestBuilder.load(imageInfoConfig.getUri());
+        if (imageLoadConfig.getUri() != null)
+            return requestBuilder.load(imageLoadConfig.getUri());
 
-        if (imageInfoConfig.getFilePath() != null)
-            return requestBuilder.load(imageInfoConfig.getFilePath());
+        if (imageLoadConfig.getFilePath() != null)
+            return requestBuilder.load(imageLoadConfig.getFilePath());
 
-        if (imageInfoConfig.getFile() != null)
-            return requestBuilder.load(imageInfoConfig.getFile());
+        if (imageLoadConfig.getFile() != null)
+            return requestBuilder.load(imageLoadConfig.getFile());
 
-        // imageInfoConfig.getUrl() 也可能为 null
-        return requestBuilder.load(imageInfoConfig.getUrl());
+        // imageLoadConfig.getUrl() 也可能为 null
+        return requestBuilder.load(imageLoadConfig.getUrl());
     }
 
     /**
      * 创建 RequestManager 对象
      */
     @NonNull
-    private RequestManager createRequestManager(@NonNull ImageInfoConfig imageInfoConfig) {
-        if (imageInfoConfig.getFragmentV4() != null)
-            return Glide.with(imageInfoConfig.getFragmentV4());
+    private RequestManager createRequestManager(@NonNull ImageLoadConfig imageLoadConfig) {
+        if (imageLoadConfig.getTarget() != null)
+            return Glide.with(imageLoadConfig.getTarget());
 
-        if (imageInfoConfig.getFragment() != null)
-            return Glide.with(imageInfoConfig.getFragment());
+        if (imageLoadConfig.getFragmentV4() != null)
+            return Glide.with(imageLoadConfig.getFragmentV4());
 
-        if (imageInfoConfig.getFragmentActivity() != null)
-            return Glide.with(imageInfoConfig.getFragmentActivity());
+        if (imageLoadConfig.getFragment() != null)
+            return Glide.with(imageLoadConfig.getFragment());
 
-        if (imageInfoConfig.getActivity() != null)
-            return Glide.with(imageInfoConfig.getActivity());
+        if (imageLoadConfig.getFragmentActivity() != null)
+            return Glide.with(imageLoadConfig.getFragmentActivity());
 
-        if (imageInfoConfig.getContext() != null)
-            return Glide.with(imageInfoConfig.getContext());
+        if (imageLoadConfig.getActivity() != null)
+            return Glide.with(imageLoadConfig.getActivity());
 
-        if (imageInfoConfig.getTarget() != null)
-            return Glide.with(imageInfoConfig.getTarget());
+        if (imageLoadConfig.getContext() != null)
+            return Glide.with(imageLoadConfig.getContext());
 
-        if (application != null)
-            return Glide.with(application);
+        if (imageModuleConfig.getApplication() != null)
+            return Glide.with(imageModuleConfig.getApplication());
 
         throw new NullPointerException("Glide 获取不到 Context");
     }
 
     @Override
     public void pause() {
-        Glide.with(application).pauseRequestsRecursive();
+        Glide.with(imageModuleConfig.getApplication()).pauseRequestsRecursive();
     }
 
     @Override
     public void resume() {
-        Glide.with(application).resumeRequestsRecursive();
+        Glide.with(imageModuleConfig.getApplication()).resumeRequestsRecursive();
     }
 
     @Override
     public void clearMemoryCache() {
-        Glide.get(application).clearMemory();
+        Glide.get(imageModuleConfig.getApplication()).clearMemory();
     }
 
     @Override
     public void trimMemory(int level) {
-        Glide.get(application).onTrimMemory(level);
+        Glide.get(imageModuleConfig.getApplication()).onTrimMemory(level);
     }
 
     @Override
     public void clearAllMemoryCaches() {
-        Glide.get(application).onLowMemory();
+        Glide.get(imageModuleConfig.getApplication()).onLowMemory();
     }
 
     @Override
@@ -223,7 +211,7 @@ public class GlideLoaderModule implements IGlideLoaderModule {
             @Override
             public void run() {
                 // 必须在子线程中调用
-                Glide.get(application).clearDiskCache();
+                Glide.get(imageModuleConfig.getApplication()).clearDiskCache();
             }
         });
         thread.start();

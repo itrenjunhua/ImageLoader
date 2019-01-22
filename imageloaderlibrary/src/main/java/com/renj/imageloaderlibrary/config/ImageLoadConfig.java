@@ -1,4 +1,4 @@
-package com.renj.imageloaderlibrary.loader;
+package com.renj.imageloaderlibrary.config;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -24,13 +24,13 @@ import java.io.File;
  * <p>
  * 创建时间：2018-03-08   10:32
  * <p>
- * 描述：加载图片信息配置基类
+ * 描述：单个图片加载信息配置类
  * <p>
  * 修订历史：
  * <p>
  * ======================================================================
  */
-public class ImageInfoConfig {
+public class ImageLoadConfig {
     private View target; // 图片展示目标控件
     private Context context;
     /*** 当选择Glide框架时，with() 方法可以传递context之外，还可以传递以下参数 ***/
@@ -82,7 +82,7 @@ public class ImageInfoConfig {
     @FloatRange(from = 0)
     private float thumbnail; // 缩略图缩放倍数
 
-    protected ImageInfoConfig(Builder builder) {
+    protected ImageLoadConfig(Builder builder) {
         this.target = builder.target;
         this.context = builder.context;
         this.activity = builder.activity;
@@ -608,12 +608,12 @@ public class ImageInfoConfig {
         }
 
         /**
-         * 构建 {@link ImageInfoConfig} 对象
+         * 构建 {@link ImageLoadConfig} 对象
          *
-         * @return {@link ImageInfoConfig} 对象
+         * @return {@link ImageLoadConfig} 对象
          */
-        public <T extends ImageInfoConfig> T build() {
-            return (T) new ImageInfoConfig(this);
+        public <T extends ImageLoadConfig> T build() {
+            return (T) new ImageLoadConfig(this);
         }
     }
 
