@@ -157,8 +157,6 @@ public class GlideLoaderModule implements IImageLoaderModule {
      */
     @NonNull
     private RequestManager createRequestManager(@NonNull ImageLoadConfig imageLoadConfig) {
-        if (imageLoadConfig.getTarget() != null)
-            return Glide.with(imageLoadConfig.getTarget());
 
         if (imageLoadConfig.getFragmentV4() != null)
             return Glide.with(imageLoadConfig.getFragmentV4());
@@ -171,6 +169,9 @@ public class GlideLoaderModule implements IImageLoaderModule {
 
         if (imageLoadConfig.getActivity() != null)
             return Glide.with(imageLoadConfig.getActivity());
+
+        if (imageLoadConfig.getTarget() != null)
+            return Glide.with(imageLoadConfig.getTarget());
 
         if (imageLoadConfig.getContext() != null)
             return Glide.with(imageLoadConfig.getContext());

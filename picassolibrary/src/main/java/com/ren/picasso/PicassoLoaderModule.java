@@ -144,9 +144,7 @@ public class PicassoLoaderModule implements IImageLoaderModule {
      * @return {@link Picasso} 对象
      */
     private Picasso createPicasso(ImageLoadConfig imageLoadConfig) {
-//        if (imageLoadConfig.getTarget() != null)
-//            return Picasso.with(imageLoadConfig.getTarget().getContext());
-//
+
 //        if (imageLoadConfig.getFragmentV4() != null)
 //            return Picasso.with(imageLoadConfig.getFragmentV4().getActivity());
 //
@@ -158,6 +156,9 @@ public class PicassoLoaderModule implements IImageLoaderModule {
 //
 //        if (imageLoadConfig.getActivity() != null)
 //            return Picasso.with(imageLoadConfig.getActivity());
+//
+//        if (imageLoadConfig.getTarget() != null)
+//            return Picasso.with(imageLoadConfig.getTarget().getContext());
 //
 //        if (imageLoadConfig.getContext() != null)
 //            return Picasso.with(imageLoadConfig.getContext());
