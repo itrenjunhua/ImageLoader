@@ -1,4 +1,4 @@
-package com.ren.picasso;
+package com.renj.picasso;
 
 import org.junit.Test;
 

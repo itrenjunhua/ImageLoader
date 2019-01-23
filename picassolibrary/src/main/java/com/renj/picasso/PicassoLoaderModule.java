@@ -1,13 +1,14 @@
-package com.ren.picasso;
+package com.renj.picasso;
 
 import android.support.annotation.NonNull;
 import android.widget.ImageView;
 
-import com.ren.picasso.transform.CircleTransformation;
-import com.ren.picasso.transform.RoundTransformation;
 import com.renj.imageloaderlibrary.config.ImageLoadConfig;
 import com.renj.imageloaderlibrary.config.ImageModuleConfig;
 import com.renj.imageloaderlibrary.loader.IImageLoaderModule;
+import com.renj.picasso.manager.RequestCreatorRetriever;
+import com.renj.picasso.transform.CircleTransformation;
+import com.renj.picasso.transform.RoundTransformation;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
@@ -55,7 +56,31 @@ public class PicassoLoaderModule implements IImageLoaderModule {
 
     private void builderControl(RequestCreator requestCreator, @NonNull ImageLoadConfig imageLoadConfig) {
         requestCreator = initImageInfoConfig(requestCreator, imageLoadConfig);
+        // 绑定生命周期
+        bandLifecycle(requestCreator, imageLoadConfig);
+        // 加载图片
         intoOf(requestCreator, imageLoadConfig);
+    }
+
+    /**
+     * 绑定生命周期
+     */
+    private void bandLifecycle(RequestCreator requestCreator, ImageLoadConfig imageLoadConfig) {
+        if (imageLoadConfig.getFragmentV4() != null) {
+            RequestCreatorRetriever.newInstance().addRequestCreate(imageLoadConfig.getFragmentV4(), requestCreator);
+        } else if (imageLoadConfig.getFragment() != null) {
+            RequestCreatorRetriever.newInstance().addRequestCreate(imageLoadConfig.getFragment(), requestCreator);
+        } else if (imageLoadConfig.getFragmentActivity() != null) {
+            RequestCreatorRetriever.newInstance().addRequestCreate(imageLoadConfig.getFragmentActivity(), requestCreator);
+        } else if (imageLoadConfig.getActivity() != null) {
+            RequestCreatorRetriever.newInstance().addRequestCreate(imageLoadConfig.getActivity(), requestCreator);
+        } else if (imageLoadConfig.getTarget() != null) {
+            RequestCreatorRetriever.newInstance().addRequestCreate(imageLoadConfig.getTarget(), requestCreator);
+        } else if (imageLoadConfig.getContext() != null) {
+            RequestCreatorRetriever.newInstance().addRequestCreate(imageLoadConfig.getContext(), requestCreator);
+        } else if (imageModuleConfig.getApplication() != null) {
+            RequestCreatorRetriever.newInstance().addRequestCreate(imageModuleConfig.getApplication(), requestCreator);
+        }
     }
 
     /**

@@ -1,4 +1,4 @@
-package com.ren.picasso;
+package com.renj.picasso;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

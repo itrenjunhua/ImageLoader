@@ -5,7 +5,7 @@ import android.app.Application;
 import android.support.annotation.NonNull;
 import android.widget.ImageView;
 
-import com.ren.picasso.PicassoLoaderModule;
+import com.renj.picasso.PicassoLoaderModule;
 import com.renj.glide.GlideLoaderModule;
 import com.renj.imageloaderlibrary.config.ImageLoadConfig;
 import com.renj.imageloaderlibrary.config.ImageLoadLibrary;
@@ -59,6 +59,6 @@ public class ImageLoaderManager {
                 .loadingImageId(R.mipmap.ic_launcher_round)
                 .target(imageView)
                 .build();
-        ImageLoaderManager.getDefaultImageLoaderModule().loadImage(config);
+        ImageLoaderManager.getPicassoLoaderModule().loadImage(config);
     }
 }

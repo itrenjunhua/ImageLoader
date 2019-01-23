@@ -1,4 +1,4 @@
-package com.ren.picasso.manager;
+package com.renj.picasso.manager;
 
 import android.support.annotation.NonNull;
 
