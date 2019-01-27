@@ -1,8 +1,6 @@
 package com.renj.picasso.manager;
 
-import android.app.Activity;
 import android.app.Fragment;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
@@ -31,13 +29,6 @@ public class RequestCreatorFragment extends Fragment implements IRequestCreateMa
     private Set<RequestCreator> requestCreatorSet = new HashSet<>();
     private final SoftReference<Set<RequestCreator>> requestCreators = new SoftReference<>(requestCreatorSet);
 
-    private final Set<RequestCreatorFragment> childRequestManagerFragments = new HashSet<>();
-
-    @Nullable
-    private RequestCreatorFragment rootRequestManagerFragment;
-    @Nullable
-    private Fragment parentFragmentHint;
-
     @Override
     public void addRequestCreate(RequestCreator requestCreator) {
         if (requestCreator != null) {
@@ -56,45 +47,6 @@ public class RequestCreatorFragment extends Fragment implements IRequestCreateMa
     @Nullable
     public Set<RequestCreator> getRequestCreatorSet() {
         return requestCreators.get();
-    }
-
-    private void addChildRequestCreatorFragment(RequestCreatorFragment child) {
-        childRequestManagerFragments.add(child);
-    }
-
-    private void removeChildRequestCreatorFragment(RequestCreatorFragment child) {
-        childRequestManagerFragments.remove(child);
-    }
-
-    private void registerFragmentWithRoot(@NonNull Activity activity) {
-        unregisterFragmentWithRoot();
-        rootRequestManagerFragment = RequestCreatorRetriever.newInstance().getRequestCreatorFragment(activity);
-        if (!equals(rootRequestManagerFragment)) {
-            rootRequestManagerFragment.addChildRequestCreatorFragment(this);
-        }
-    }
-
-    private void unregisterFragmentWithRoot() {
-        if (rootRequestManagerFragment != null) {
-            rootRequestManagerFragment.removeChildRequestCreatorFragment(this);
-            rootRequestManagerFragment = null;
-        }
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        try {
-            registerFragmentWithRoot(activity);
-        } catch (IllegalStateException e) {
-
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        unregisterFragmentWithRoot();
     }
 
     @Override

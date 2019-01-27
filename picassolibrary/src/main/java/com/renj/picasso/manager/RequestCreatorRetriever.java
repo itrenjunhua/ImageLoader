@@ -366,10 +366,10 @@ public class RequestCreatorRetriever {
             current = pendingRequestCreatorFragments.get(fm);
             if (current == null) {
                 current = new RequestCreatorFragment();
-                if (isParentVisible) {
-                    current.onStart();
-                }
                 pendingRequestCreatorFragments.put(fm, current);
+//                if (isParentVisible) {
+//                    current.onStart();
+//                }
                 fm.beginTransaction().add(current, FRAGMENT_TAG).commitAllowingStateLoss();
             }
         }
@@ -392,9 +392,9 @@ public class RequestCreatorRetriever {
             current = pendingSupportRequestCreatorFragments.get(fm);
             if (current == null) {
                 current = new SupportRequestCreatorFragment();
-                if (isParentVisible) {
-                    current.onStart();
-                }
+//                if (isParentVisible) {
+//                    current.onStart();
+//                }
                 pendingSupportRequestCreatorFragments.put(fm, current);
                 fm.beginTransaction().add(current, FRAGMENT_TAG).commitAllowingStateLoss();
             }

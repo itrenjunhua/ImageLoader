@@ -41,6 +41,7 @@ public class BitmapUtils {
         int x = (source.getWidth() - size) / 2;
         int y = (source.getHeight() - size) / 2;
         Bitmap result = Bitmap.createBitmap(source, x, y, size, size);
+        recyclerBitmap(source);
         return result;
     }
 
@@ -76,6 +77,7 @@ public class BitmapUtils {
         canvas.drawRoundRect(rectF, radiusX, radiusY, paint);
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
         canvas.drawBitmap(source, left, top, paint);
+        recyclerBitmap(source);
         return result;
     }
 
@@ -98,6 +100,7 @@ public class BitmapUtils {
         canvas.drawCircle(centerX, centerY, radius, paint);
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
         canvas.drawBitmap(source, 0, 0, paint);
+        recyclerBitmap(source);
         return result;
     }
 
@@ -130,6 +133,7 @@ public class BitmapUtils {
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_IN));
         canvas.drawRect(0, height, width, bitmapWithReflection.getHeight() + reflectionGap, paint);
 
+        recyclerBitmap(source);
         return bitmapWithReflection;
     }
 
@@ -151,6 +155,7 @@ public class BitmapUtils {
         }
         ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());// 把压缩后的数据baos存放到ByteArrayInputStream中
         Bitmap bitmap = BitmapFactory.decodeStream(isBm, null, null);// 把ByteArrayInputStream数据生成图片
+        recyclerBitmap(source);
         return bitmap;
     }
 
@@ -194,6 +199,7 @@ public class BitmapUtils {
         }
         Bitmap result = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
         result.setPixels(pixels, 0, width, 0, 0, width, height);
+        recyclerBitmap(source);
         return result;
     }
 
@@ -216,7 +222,9 @@ public class BitmapUtils {
         // 开始缩放
         matrix.postScale(scaleWidth, scaleHeight);
         // 创建缩放后的图片
-        return Bitmap.createBitmap(source, 0, 0, (int) width, (int) height, matrix, true);
+        Bitmap result = Bitmap.createBitmap(source, 0, 0, (int) width, (int) height, matrix, true);
+        recyclerBitmap(source);
+        return result;
     }
 
     /**
@@ -239,7 +247,9 @@ public class BitmapUtils {
     public static Bitmap scale(@NonNull Bitmap source, float scaleX, float scaleY) {
         Matrix matrix = new Matrix();
         matrix.postScale(scaleX, scaleY);
-        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
+        Bitmap result = Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
+        recyclerBitmap(source);
+        return result;
     }
 
     /**
@@ -262,7 +272,9 @@ public class BitmapUtils {
     public static Bitmap rotate(@NonNull Bitmap source, float angle) {
         Matrix matrix = new Matrix();
         matrix.postRotate(angle);
-        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
+        Bitmap result = Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
+        recyclerBitmap(source);
+        return result;
     }
 
     /**
@@ -275,7 +287,9 @@ public class BitmapUtils {
     public static Bitmap rotate(@NonNull Bitmap source, float angle, float pivotX, float pivotY) {
         Matrix matrix = new Matrix();
         matrix.postRotate(angle, pivotX, pivotY);
-        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
+        Bitmap result = Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
+        recyclerBitmap(source);
+        return result;
     }
 
     /**
@@ -287,7 +301,9 @@ public class BitmapUtils {
     public static Bitmap reverseByHorizontal(@NonNull Bitmap source) {
         Matrix matrix = new Matrix();
         matrix.preScale(-1, 1);
-        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, false);
+        Bitmap result = Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, false);
+        recyclerBitmap(source);
+        return result;
     }
 
     /**
@@ -299,7 +315,9 @@ public class BitmapUtils {
     public static Bitmap reverseByVertical(@NonNull Bitmap source) {
         Matrix matrix = new Matrix();
         matrix.preScale(1, -1);
-        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, false);
+        Bitmap result = Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, false);
+        recyclerBitmap(source);
+        return result;
     }
 
     /**
@@ -359,6 +377,7 @@ public class BitmapUtils {
             }
         }
         bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
+        recyclerBitmap(source);
         return bitmap;
     }
 
@@ -390,6 +409,17 @@ public class BitmapUtils {
         }
         Bitmap newBmp = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
         newBmp.setPixels(pixels, 0, width, 0, 0, width, height);
+        recyclerBitmap(source);
         return newBmp;
+    }
+
+    /**
+     * 释放Bitmap资源
+     *
+     * @param source
+     */
+    private static void recyclerBitmap(@NonNull Bitmap source) {
+        if (source != null && !source.isRecycled())
+            source.recycle();
     }
 }

@@ -48,16 +48,17 @@ public class PicassoLoaderModule implements IImageLoaderModule {
     }
 
     @Override
-    public <T extends ImageLoadConfig> void loadImage(@NonNull T imageInfoConfig) {
-        Picasso picasso = createPicasso(imageInfoConfig);
-        RequestCreator requestCreator = loadPath(picasso, imageInfoConfig);
-        builderControl(requestCreator, imageInfoConfig);
+    public <T extends ImageLoadConfig> void loadImage(@NonNull T imageLoadConfig) {
+        Picasso picasso = createPicasso(imageLoadConfig);
+        RequestCreator requestCreator = loadPath(picasso, imageLoadConfig);
+        // 绑定生命周期
+        bandLifecycle(requestCreator, imageLoadConfig);
+        // 读取配置信息，加载图片
+        builderControl(requestCreator, imageLoadConfig);
     }
 
     private void builderControl(RequestCreator requestCreator, @NonNull ImageLoadConfig imageLoadConfig) {
         requestCreator = initImageInfoConfig(requestCreator, imageLoadConfig);
-        // 绑定生命周期
-        bandLifecycle(requestCreator, imageLoadConfig);
         // 加载图片
         intoOf(requestCreator, imageLoadConfig);
     }
