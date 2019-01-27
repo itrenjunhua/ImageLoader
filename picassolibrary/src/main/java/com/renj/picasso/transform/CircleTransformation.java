@@ -31,7 +31,9 @@ public class CircleTransformation implements Transformation {
     @Override
     public Bitmap transform(Bitmap source) {
         if (source == null) return null;
-        return BitmapUtils.makeCircleImage(source);
+        Bitmap result = BitmapUtils.makeCircleImage(source);
+        BitmapUtils.recyclerBitmap(source);
+        return result;
     }
 
     @Override

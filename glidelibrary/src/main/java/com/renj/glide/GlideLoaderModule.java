@@ -118,10 +118,10 @@ public class GlideLoaderModule implements IImageLoaderModule {
             requestOptions = requestOptions.fitCenter();
         if (imageLoadConfig.isCenterInside())
             requestOptions = requestOptions.centerInside();
-        if (imageLoadConfig.getRotateConfig() != null)
-            requestOptions = requestOptions.transform(new RotateTransformation(imageLoadConfig.getRotateConfig().rotateRotationAngle, imageLoadConfig.getRotateConfig().pivotX, imageLoadConfig.getRotateConfig().pivotY));
         if (imageLoadConfig.getRoundConfig() != null)
             requestOptions = requestOptions.transform(new RoundTransformation(imageLoadConfig.getRoundConfig().radiusX, imageLoadConfig.getRoundConfig().radiusY));
+        if (imageLoadConfig.getRotateConfig() != null)
+            requestOptions = requestOptions.transform(new RotateTransformation(imageLoadConfig.getRotateConfig().rotateRotationAngle, imageLoadConfig.getRotateConfig().pivotX, imageLoadConfig.getRotateConfig().pivotY));
         if (imageLoadConfig.isCircle())
             requestOptions = requestOptions.transform(new CircleTransformation());
 

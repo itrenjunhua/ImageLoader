@@ -59,6 +59,9 @@ public class ImageLoaderManager {
                 .loadingImageId(R.mipmap.ic_launcher_round)
                 .target(imageView)
                 .build();
-        ImageLoaderManager.getPicassoLoaderModule().loadImage(config);
+        // 使用默认的加载框架加载图片(这里是Glide)
+        ImageLoaderManager.getDefaultImageLoaderModule().loadImage(config);
+        // 使用Picasso框架加载图片
+//        ImageLoaderManager.getPicassoLoaderModule().loadImage(config);
     }
 }

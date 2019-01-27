@@ -63,7 +63,9 @@ public class RoundTransformation implements Transformation {
     @Override
     public Bitmap transform(Bitmap source) {
         if (source == null) return null;
-        return BitmapUtils.makeRoundRect(source, radiusX, radiusY);
+        Bitmap result = BitmapUtils.makeRoundRect(source, radiusX, radiusY);
+        BitmapUtils.recyclerBitmap(source);
+        return result;
     }
 
     @Override
