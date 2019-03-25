@@ -196,38 +196,17 @@ public class PicassoLoaderModule implements IImageLoaderModule {
     }
 
     @Override
-    public void pauseTag(Object tag) {
-        Picasso.get().pauseTag(tag);
-    }
-
-    @Override
-    public void resumeTag(Object tag) {
-        Picasso.get().resumeTag(tag);
-    }
-
-
-    @Override
     public void pause() {
-
+        RequestCreatorRetriever.newInstance().pause();
     }
 
     @Override
     public void resume() {
-
+        RequestCreatorRetriever.newInstance().resume();
     }
 
     @Override
     public void clearMemoryCache() {
-
-    }
-
-    @Override
-    public void trimMemory(int level) {
-
-    }
-
-    @Override
-    public void clearAllMemoryCaches() {
 
     }
 

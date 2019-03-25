@@ -18,6 +18,7 @@ import android.view.View;
 
 import com.renj.imageloaderlibrary.utils.CheckUtils;
 import com.renj.imageloaderlibrary.utils.Utils;
+import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
 
 import java.util.Collection;
@@ -150,6 +151,26 @@ public class RequestCreatorRetriever {
     @Nullable
     private Set<RequestCreator> getRequestCreatorSet(IRequestCreateManager iRequestCreateManager) {
         return iRequestCreateManager.getRequestCreatorSet();
+    }
+
+    public void pause() {
+        for (Map.Entry<android.app.FragmentManager, RequestCreatorFragment> fragmentManagerRequestCreatorFragmentEntry : pendingRequestCreatorFragments.entrySet()) {
+            Picasso.get().pauseTag(fragmentManagerRequestCreatorFragmentEntry.getValue());
+        }
+
+        for (Map.Entry<FragmentManager, SupportRequestCreatorFragment> fragmentManagerSupportRequestCreatorFragmentEntry : pendingSupportRequestCreatorFragments.entrySet()) {
+            Picasso.get().pauseTag(fragmentManagerSupportRequestCreatorFragmentEntry.getValue());
+        }
+    }
+
+    public void resume() {
+        for (Map.Entry<android.app.FragmentManager, RequestCreatorFragment> fragmentManagerRequestCreatorFragmentEntry : pendingRequestCreatorFragments.entrySet()) {
+            Picasso.get().resumeTag(fragmentManagerRequestCreatorFragmentEntry.getValue());
+        }
+
+        for (Map.Entry<FragmentManager, SupportRequestCreatorFragment> fragmentManagerSupportRequestCreatorFragmentEntry : pendingSupportRequestCreatorFragments.entrySet()) {
+            Picasso.get().resumeTag(fragmentManagerSupportRequestCreatorFragmentEntry.getValue());
+        }
     }
 
     @Nullable

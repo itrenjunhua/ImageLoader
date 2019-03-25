@@ -183,16 +183,6 @@ public class GlideLoaderModule implements IImageLoaderModule {
     }
 
     @Override
-    public void pauseTag(Object tag) {
-
-    }
-
-    @Override
-    public void resumeTag(Object tag) {
-
-    }
-
-    @Override
     public void pause() {
         Glide.with(imageModuleConfig.getApplication()).pauseRequestsRecursive();
     }
@@ -205,16 +195,6 @@ public class GlideLoaderModule implements IImageLoaderModule {
     @Override
     public void clearMemoryCache() {
         Glide.get(imageModuleConfig.getApplication()).clearMemory();
-    }
-
-    @Override
-    public void trimMemory(int level) {
-        Glide.get(imageModuleConfig.getApplication()).onTrimMemory(level);
-    }
-
-    @Override
-    public void clearAllMemoryCaches() {
-        Glide.get(imageModuleConfig.getApplication()).onLowMemory();
     }
 
     @Override

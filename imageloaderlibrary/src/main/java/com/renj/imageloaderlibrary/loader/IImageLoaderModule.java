@@ -44,45 +44,19 @@ public interface IImageLoaderModule {
     <T extends ImageLoadConfig> void loadImage(@NonNull T imageInfoConfig);
 
     /**
-     * 暂停加载
+     * 暂停加载所有请求
      */
     void pause();
 
     /**
-     * 开始加载
+     * 开始加载所有请求
      */
     void resume();
-
-    /**
-     * 暂停加载指定 Tag
-     *
-     * @param tag 暂停加载的tag
-     */
-    void pauseTag(Object tag);
-
-    /**
-     * 开始加载指定 Tag
-     *
-     * @param tag 开始加载的tag
-     */
-    void resumeTag(Object tag);
 
     /**
      * 清除内存缓存
      */
     void clearMemoryCache();
-
-    /**
-     * 根据级别清除内存中的缓存
-     *
-     * @param level 需要清除的级别
-     */
-    void trimMemory(int level);
-
-    /**
-     * 清除所有内存缓存
-     */
-    void clearAllMemoryCaches();
 
     /**
      * 清除磁盘缓存
