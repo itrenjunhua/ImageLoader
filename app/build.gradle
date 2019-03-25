@@ -28,11 +28,15 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     // support
     implementation rootProject.ext.dependencies["androidSupportV7"]
+    implementation rootProject.ext.dependencies["recyclerviewV7"]
     implementation rootProject.ext.dependencies["androidSupportConstraint"]
     // test
     testImplementation rootProject.ext.dependencies["junitSupport"]
     androidTestImplementation rootProject.ext.dependencies["supportTestRunner"]
     androidTestImplementation rootProject.ext.dependencies["supportTestEspresso"]
+    // butterknife
+    implementation rootProject.ext.dependencies["butterknife"]
+    annotationProcessor rootProject.ext.dependencies["butterknifeCompiler"]
     // 导入图片加载库
     implementation project(':imageloaderlibrary')
     implementation project(':glidelibrary')

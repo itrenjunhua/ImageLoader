@@ -1,10 +1,11 @@
-package com.renj.imageloader;
+package com.renj.imageloader.utils;
 
 import android.app.Activity;
 import android.app.Application;
 import android.support.annotation.NonNull;
 import android.widget.ImageView;
 
+import com.renj.imageloader.R;
 import com.renj.picasso.PicassoLoaderModule;
 import com.renj.glide.GlideLoaderModule;
 import com.renj.imageloaderlibrary.config.ImageLoadConfig;
@@ -45,23 +46,57 @@ public class ImageLoaderManager {
         return ImageLoaderModule.getDefaultImageLoaderModule();
     }
 
-    public static IImageLoaderModule getPicassoLoaderModule(){
+    public static IImageLoaderModule getPicassoLoaderModule() {
         return ImageLoaderModule.getImageLoaderModule(ImageLoadLibrary.PICASSO_LIBRARY);
+    }
+
+    public static void loadImage(@NonNull Activity activity, @NonNull String url, @NonNull ImageView imageView) {
+        ImageLoadConfig config = new ImageLoadConfig.Builder()
+                .asBitmap()
+                .thumbnail(0.2f)
+                .activity(activity)
+                .url(url)
+                .loadingImageId(R.mipmap.ic_launcher_round)
+                .target(imageView)
+                .build();
+        load(ImageLoaderManager.getDefaultImageLoaderModule(), config);
     }
 
     public static void loadCircleImage(@NonNull Activity activity, @NonNull String url, @NonNull ImageView imageView) {
         ImageLoadConfig config = new ImageLoadConfig.Builder()
                 .asBitmap()
                 .thumbnail(0.2f)
-                .context(activity)
+                .activity(activity)
                 .url(url)
                 .asCircle()
                 .loadingImageId(R.mipmap.ic_launcher_round)
                 .target(imageView)
                 .build();
-        // 使用默认的加载框架加载图片(这里是Glide)
-        ImageLoaderManager.getDefaultImageLoaderModule().loadImage(config);
-        // 使用Picasso框架加载图片
-//        ImageLoaderManager.getPicassoLoaderModule().loadImage(config);
+        load(ImageLoaderManager.getDefaultImageLoaderModule(), config);
+    }
+
+    public static void loadImagePicasso(@NonNull Activity activity, @NonNull String url, @NonNull ImageView imageView) {
+        ImageLoadConfig config = new ImageLoadConfig.Builder()
+                .activity(activity)
+                .url(url)
+                .loadingImageId(R.mipmap.ic_launcher_round)
+                .target(imageView)
+                .build();
+        load(ImageLoaderManager.getPicassoLoaderModule(), config);
+    }
+
+    public static void loadCircleImagePicasso(@NonNull Activity activity, @NonNull String url, @NonNull ImageView imageView) {
+        ImageLoadConfig config = new ImageLoadConfig.Builder()
+                .activity(activity)
+                .url(url)
+                .asCircle()
+                .loadingImageId(R.mipmap.ic_launcher_round)
+                .target(imageView)
+                .build();
+        load(ImageLoaderManager.getPicassoLoaderModule(), config);
+    }
+
+    private static void load(IImageLoaderModule imageLoaderModule, ImageLoadConfig config) {
+        imageLoaderModule.loadImage(config);
     }
 }

@@ -16,6 +16,8 @@ ext {
             supportTestRunner       : "1.0.1",
             supportTestEspresso     : "3.0.1",
 
+            butterknife             : "8.8.1",
+
             jetbrainsAnnotations    : "13.0",
             imageGlide              : "4.8.0",
             imagePicasso            : "2.71828"
@@ -24,11 +26,14 @@ ext {
     dependencies = [
             // support
             "androidSupportV7"    : "com.android.support:appcompat-v7:${dependVersion.androidSupportV7}",
+            "recyclerviewV7"              : "com.android.support:recyclerview-v7:${dependVersion.androidSupportV7}",
             "androidSupportConstraint": "com.android.support.constraint:constraint-layout:${dependVersion.androidSupportConstraint}",
             // test
             "junitSupport"        : "junit:junit:${dependVersion.junitSupport}",
             "supportTestRunner"   : "com.android.support.test:runner:${dependVersion.supportTestRunner}",
             "supportTestEspresso" : "com.android.support.test.espresso:espresso-core:${dependVersion.supportTestEspresso}",
+            "butterknife"                 : "com.jakewharton:butterknife:${dependVersion.butterknife}",
+            "butterknifeCompiler"         : "com.jakewharton:butterknife-compiler:${dependVersion.butterknife}",
             // jetbrains 注解
             "jetbrainsAnnotations": "org.jetbrains:annotations:${dependVersion.jetbrainsAnnotations}",
             // Glide 图片加载库

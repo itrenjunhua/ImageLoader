@@ -2,6 +2,8 @@ package com.renj.imageloader;
 
 import android.app.Application;
 
+import com.renj.imageloader.utils.ImageLoaderManager;
+
 /**
  * ======================================================================
  * <p>
