@@ -26,5 +26,5 @@ android {
 
 dependencies {
     // support
-    implementation rootProject.ext.dependencies["androidSupportV7"]
+    implementation rootProject.ext.dependencies["appcompat"]
 }

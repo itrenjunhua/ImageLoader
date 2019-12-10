@@ -25,7 +25,7 @@ android {
 
 dependencies {
     // support
-    implementation rootProject.ext.dependencies["androidSupportV7"]
+    implementation rootProject.ext.dependencies["appcompat"]
     // 导入图片加载基本库
     implementation project(':imageloaderlibrary')
     // Picasso 图片加载库
