@@ -1,8 +1,9 @@
 package com.renj.imageloader.activity;
 
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.renj.imageloader.R;
 import com.renj.imageloader.base.BaseActivity;
@@ -12,8 +13,6 @@ import com.renj.imageloader.utils.ImageLoaderManager;
 import com.renj.imageloader.utils.ImageUrl;
 
 import java.util.List;
-
-import butterknife.BindView;
 
 /**
  * ======================================================================
@@ -30,7 +29,6 @@ import butterknife.BindView;
  * ======================================================================
  */
 public class GlideListActivity extends BaseActivity {
-    @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
 
     @Override
@@ -40,9 +38,10 @@ public class GlideListActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        recyclerView = findViewById(R.id.recycler_view);
         List<String> images = ImageUrl.getData();
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
 
         recyclerView.setAdapter(new CustomRecyclerAdapter<String>(this, images, R.layout.activity_list_item) {

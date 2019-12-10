@@ -1,16 +1,16 @@
 // 统一配置各个 Module 的编译版本、目标版本、依赖库版本等信息
 ext {
     android = [
-            compileSdk : 27,
-            buildTools : "27.0.2",
+            compileSdk : 28,
+            buildTools : "28.0.2",
             minSdk     : 17,
-            targetSdk  : 27,
+            targetSdk  : 28,
             versionCode: 1,
             versionName: "1.0.0"
     ]
 
     def dependVersion = [
-            androidSupportV7        : "27.0.2",
+            androidSupportV7        : "28.0.2",
             androidSupportConstraint: "1.0.2",
             junitSupport            : "4.12",
             supportTestRunner       : "1.0.1",
@@ -19,23 +19,19 @@ ext {
             butterknife             : "8.8.1",
 
             jetbrainsAnnotations    : "13.0",
-            imageGlide              : "4.8.0",
+            imageGlide              : "4.10.0",
             imagePicasso            : "2.71828"
     ]
 
     dependencies = [
             // support
-            "androidSupportV7"        : "com.android.support:appcompat-v7:${dependVersion.androidSupportV7}",
-            "recyclerviewV7"          : "com.android.support:recyclerview-v7:${dependVersion.androidSupportV7}",
-            "androidSupportConstraint": "com.android.support.constraint:constraint-layout:${dependVersion.androidSupportConstraint}",
+            "androidSupportV7"        : 'androidx.appcompat:appcompat:1.0.0',
+            "recyclerviewV7"          : 'androidx.recyclerview:recyclerview:1.0.0',
+            "androidSupportConstraint": 'androidx.constraintlayout:constraintlayout:1.1.3',
             // test
             "junitSupport"            : "junit:junit:${dependVersion.junitSupport}",
-            "supportTestRunner"       : "com.android.support.test:runner:${dependVersion.supportTestRunner}",
-            "supportTestEspresso"     : "com.android.support.test.espresso:espresso-core:${dependVersion.supportTestEspresso}",
-            "butterknife"             : "com.jakewharton:butterknife:${dependVersion.butterknife}",
-            "butterknifeCompiler"     : "com.jakewharton:butterknife-compiler:${dependVersion.butterknife}",
-            // jetbrains 注解
-            "jetbrainsAnnotations"    : "org.jetbrains:annotations:${dependVersion.jetbrainsAnnotations}",
+            "supportTestRunner"       : 'androidx.test.ext:junit:1.1.1',
+            "supportTestEspresso"     : 'androidx.test.espresso:espresso-core:3.1.0',
             // Glide 图片加载库
             "glide"                   : "com.github.bumptech.glide:glide:${dependVersion.imageGlide}",
             "glideCompiler"           : "com.github.bumptech.glide:compiler:${dependVersion.imageGlide}",

@@ -1,10 +1,8 @@
 package com.renj.imageloader.base;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * ======================================================================
@@ -21,13 +19,11 @@ import butterknife.Unbinder;
  * ======================================================================
  */
 public abstract class BaseActivity extends AppCompatActivity {
-    private Unbinder bind;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
-        bind = ButterKnife.bind(this);
         initView();
         initData();
     }
@@ -37,10 +33,4 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected abstract void initView();
 
     protected abstract void initData();
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        bind.unbind();
-    }
 }

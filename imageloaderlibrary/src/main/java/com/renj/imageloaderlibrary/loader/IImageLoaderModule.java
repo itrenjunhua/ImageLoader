@@ -1,7 +1,8 @@
 package com.renj.imageloaderlibrary.loader;
 
-import android.support.annotation.NonNull;
 import android.widget.ImageView;
+
+import androidx.annotation.NonNull;
 
 import com.renj.imageloaderlibrary.config.ImageLoadConfig;
 import com.renj.imageloaderlibrary.config.ImageModuleConfig;

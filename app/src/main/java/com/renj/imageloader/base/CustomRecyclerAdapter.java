@@ -2,11 +2,12 @@ package com.renj.imageloader.base;
 
 import android.app.Fragment;
 import android.content.Context;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,19 +50,19 @@ public abstract class CustomRecyclerAdapter<T> extends RecyclerView.Adapter<Cust
         this(fragment.getActivity(), dataList, layoutID);
     }
 
-    public CustomRecyclerAdapter(@NonNull android.support.v4.app.Fragment fragment) {
+    public CustomRecyclerAdapter(@NonNull androidx.fragment.app.Fragment fragment) {
         this(fragment.getActivity());
     }
 
-    public CustomRecyclerAdapter(@NonNull android.support.v4.app.Fragment fragment, List<T> dataList) {
+    public CustomRecyclerAdapter(@NonNull androidx.fragment.app.Fragment fragment, List<T> dataList) {
         this(fragment.getActivity(), dataList);
     }
 
-    public CustomRecyclerAdapter(@NonNull android.support.v4.app.Fragment fragment, @LayoutRes int layoutID) {
+    public CustomRecyclerAdapter(@NonNull androidx.fragment.app.Fragment fragment, @LayoutRes int layoutID) {
         this(fragment.getActivity(), layoutID);
     }
 
-    public CustomRecyclerAdapter(@NonNull android.support.v4.app.Fragment fragment, List<T> dataList, @LayoutRes int layoutID) {
+    public CustomRecyclerAdapter(@NonNull androidx.fragment.app.Fragment fragment, List<T> dataList, @LayoutRes int layoutID) {
         this(fragment.getActivity(), dataList, layoutID);
     }
 

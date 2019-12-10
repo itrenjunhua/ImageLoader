@@ -1,6 +1,6 @@
 package com.renj.picasso.manager;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import com.squareup.picasso.RequestCreator;
 

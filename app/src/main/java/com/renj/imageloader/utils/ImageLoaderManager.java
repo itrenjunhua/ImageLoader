@@ -2,8 +2,9 @@ package com.renj.imageloader.utils;
 
 import android.app.Activity;
 import android.app.Application;
-import android.support.annotation.NonNull;
 import android.widget.ImageView;
+
+import androidx.annotation.NonNull;
 
 import com.renj.imageloader.R;
 import com.renj.picasso.PicassoLoaderModule;

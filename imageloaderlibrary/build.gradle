@@ -11,7 +11,7 @@ android {
         versionCode rootProject.ext.android.versionCode
         versionName rootProject.ext.android.versionName
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
     }
 
@@ -27,6 +27,4 @@ android {
 dependencies {
     // support
     implementation rootProject.ext.dependencies["androidSupportV7"]
-    // jetbrains 注解
-    implementation rootProject.ext.dependencies["jetbrainsAnnotations"]
 }

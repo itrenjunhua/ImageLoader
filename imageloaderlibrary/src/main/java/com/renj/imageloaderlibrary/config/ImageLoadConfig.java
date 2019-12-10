@@ -6,12 +6,13 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.FloatRange;
-import android.support.annotation.IntRange;
-import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentActivity;
 import android.view.View;
+
+import androidx.annotation.DrawableRes;
+import androidx.annotation.FloatRange;
+import androidx.annotation.IntRange;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 
 import com.renj.imageloaderlibrary.utils.Utils;
 
@@ -37,7 +38,7 @@ public class ImageLoadConfig {
     private Activity activity;
     private FragmentActivity fragmentActivity;
     private Fragment fragment;
-    private android.support.v4.app.Fragment fragmentV4;
+    private androidx.fragment.app.Fragment fragmentV4;
 
     /***************图片路径信息********************/
     private String url; // 网络图片路径
@@ -132,7 +133,7 @@ public class ImageLoadConfig {
         return fragment;
     }
 
-    public android.support.v4.app.Fragment getFragmentV4() {
+    public androidx.fragment.app.Fragment getFragmentV4() {
         return fragmentV4;
     }
 
@@ -249,7 +250,7 @@ public class ImageLoadConfig {
         private Activity activity;
         private FragmentActivity fragmentActivity;
         private Fragment fragment;
-        private android.support.v4.app.Fragment fragmentV4;
+        private androidx.fragment.app.Fragment fragmentV4;
 
         /***************图片路径信息********************/
         private String url; // 网络图片路径
@@ -312,7 +313,7 @@ public class ImageLoadConfig {
          * @see #activity(Activity)
          * @see #fragmentActivity(FragmentActivity)
          * @see #fragment(Fragment)
-         * @see #fragmentV4(android.support.v4.app.Fragment)
+         * @see #fragmentV4(androidx.fragment.app.Fragment)
          */
         public <T extends Builder> T context(@NonNull Context context) {
             this.context = context;
@@ -325,7 +326,7 @@ public class ImageLoadConfig {
          * @param activity {@link Activity} 对象
          * @see #fragmentActivity(FragmentActivity)
          * @see #fragment(Fragment)
-         * @see #fragmentV4(android.support.v4.app.Fragment)
+         * @see #fragmentV4(androidx.fragment.app.Fragment)
          */
         public <T extends Builder> T activity(@NonNull Activity activity) {
             this.activity = activity;
@@ -338,7 +339,7 @@ public class ImageLoadConfig {
          * @param fragmentActivity {@link FragmentActivity} 对象
          * @see #activity(Activity)
          * @see #fragment(Fragment)
-         * @see #fragmentV4(android.support.v4.app.Fragment)
+         * @see #fragmentV4(androidx.fragment.app.Fragment)
          */
         public <T extends Builder> T fragmentActivity(@NonNull FragmentActivity fragmentActivity) {
             this.fragmentActivity = fragmentActivity;
@@ -351,7 +352,7 @@ public class ImageLoadConfig {
          * @param fragment {@link Fragment} 对象
          * @see #activity(Activity)
          * @see #fragmentActivity(FragmentActivity)
-         * @see #fragmentV4(android.support.v4.app.Fragment)
+         * @see #fragmentV4(androidx.fragment.app.Fragment)
          */
         public <T extends Builder> T fragment(@NonNull Fragment fragment) {
             this.fragment = fragment;
@@ -359,14 +360,14 @@ public class ImageLoadConfig {
         }
 
         /**
-         * 指定 {@link android.support.v4.app.Fragment} 对象 ，使用 Glide 框架的时候，可以传非 {@link Context} 的其他参数
+         * 指定 {@link androidx.fragment.app.Fragment} 对象 ，使用 Glide 框架的时候，可以传非 {@link Context} 的其他参数
          *
-         * @param fragmentV4 {@link android.support.v4.app.Fragment} 对象
+         * @param fragmentV4 {@link androidx.fragment.app.Fragment} 对象
          * @see #activity(Activity)
          * @see #fragmentActivity(FragmentActivity)
          * @see #fragment(Fragment)
          */
-        public <T extends Builder> T fragmentV4(@NonNull android.support.v4.app.Fragment fragmentV4) {
+        public <T extends Builder> T fragmentV4(@NonNull androidx.fragment.app.Fragment fragmentV4) {
             this.fragmentV4 = fragmentV4;
             return (T) this;
         }

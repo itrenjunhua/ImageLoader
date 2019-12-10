@@ -1,8 +1,9 @@
 package com.renj.picasso.manager;
 
 import android.app.Fragment;
-import android.support.annotation.Nullable;
 import android.util.Log;
+
+import androidx.annotation.Nullable;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;

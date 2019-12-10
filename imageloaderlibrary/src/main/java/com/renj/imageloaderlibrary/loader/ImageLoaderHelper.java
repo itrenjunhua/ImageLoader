@@ -1,6 +1,6 @@
 package com.renj.imageloaderlibrary.loader;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.renj.imageloaderlibrary.config.ImageLoadLibrary;
 import com.renj.imageloaderlibrary.config.ImageModuleConfig;
@@ -53,7 +53,6 @@ import java.util.Map;
      *
      * @return 默认加载框架，{@link IImageLoaderModule} 子类对象
      */
-    @org.jetbrains.annotations.Contract(pure = true)
     <T extends IImageLoaderModule> T getDefaultImageLoaderModule() {
         return (T) imageModuleConfig.getDefaultImageLoaderModule();
     }

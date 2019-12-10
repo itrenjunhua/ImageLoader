@@ -1,8 +1,9 @@
 package com.renj.imageloaderlibrary.config;
 
 import android.app.Application;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
 
 import com.renj.imageloaderlibrary.loader.IImageLoaderModule;
 import com.renj.imageloaderlibrary.utils.CheckUtils;

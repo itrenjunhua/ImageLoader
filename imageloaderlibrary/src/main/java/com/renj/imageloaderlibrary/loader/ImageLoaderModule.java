@@ -1,7 +1,8 @@
 package com.renj.imageloaderlibrary.loader;
 
 import android.app.Application;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import com.renj.imageloaderlibrary.config.ImageLoadConfig;
 import com.renj.imageloaderlibrary.config.ImageLoadLibrary;
@@ -57,9 +58,8 @@ public class ImageLoaderModule {
      *
      * @param imageModuleConfig {@link ImageModuleConfig} 对象
      */
-    @org.jetbrains.annotations.Contract("null -> fail")
     public static void initImageLoaderModule(@NonNull ImageModuleConfig imageModuleConfig) {
-        CheckUtils.checkNotNull(imageModuleConfig,"ImageModuleConfig 参数不能为 null.");
+        CheckUtils.checkNotNull(imageModuleConfig, "ImageModuleConfig 参数不能为 null.");
 
         if (imageLoaderHelper == null) {
             synchronized (ImageLoaderModule.class) {
@@ -84,7 +84,6 @@ public class ImageLoaderModule {
      *
      * @return 默认加载框架，{@link IImageLoaderModule} 子类对象
      */
-    @org.jetbrains.annotations.Contract(pure = true)
     public static <T extends IImageLoaderModule> T getDefaultImageLoaderModule() {
         return (T) imageLoaderHelper.getDefaultImageLoaderModule();
     }
