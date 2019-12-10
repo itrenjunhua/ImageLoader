@@ -25,22 +25,22 @@ ext {
 
     dependencies = [
             // support
-            "androidSupportV7"    : "com.android.support:appcompat-v7:${dependVersion.androidSupportV7}",
-            "recyclerviewV7"              : "com.android.support:recyclerview-v7:${dependVersion.androidSupportV7}",
+            "androidSupportV7"        : "com.android.support:appcompat-v7:${dependVersion.androidSupportV7}",
+            "recyclerviewV7"          : "com.android.support:recyclerview-v7:${dependVersion.androidSupportV7}",
             "androidSupportConstraint": "com.android.support.constraint:constraint-layout:${dependVersion.androidSupportConstraint}",
             // test
-            "junitSupport"        : "junit:junit:${dependVersion.junitSupport}",
-            "supportTestRunner"   : "com.android.support.test:runner:${dependVersion.supportTestRunner}",
-            "supportTestEspresso" : "com.android.support.test.espresso:espresso-core:${dependVersion.supportTestEspresso}",
-            "butterknife"                 : "com.jakewharton:butterknife:${dependVersion.butterknife}",
-            "butterknifeCompiler"         : "com.jakewharton:butterknife-compiler:${dependVersion.butterknife}",
+            "junitSupport"            : "junit:junit:${dependVersion.junitSupport}",
+            "supportTestRunner"       : "com.android.support.test:runner:${dependVersion.supportTestRunner}",
+            "supportTestEspresso"     : "com.android.support.test.espresso:espresso-core:${dependVersion.supportTestEspresso}",
+            "butterknife"             : "com.jakewharton:butterknife:${dependVersion.butterknife}",
+            "butterknifeCompiler"     : "com.jakewharton:butterknife-compiler:${dependVersion.butterknife}",
             // jetbrains 注解
-            "jetbrainsAnnotations": "org.jetbrains:annotations:${dependVersion.jetbrainsAnnotations}",
+            "jetbrainsAnnotations"    : "org.jetbrains:annotations:${dependVersion.jetbrainsAnnotations}",
             // Glide 图片加载库
-            "glide"               : "com.github.bumptech.glide:glide:${dependVersion.imageGlide}",
-            "glideCompiler"       : "com.github.bumptech.glide:compiler:${dependVersion.imageGlide}",
+            "glide"                   : "com.github.bumptech.glide:glide:${dependVersion.imageGlide}",
+            "glideCompiler"           : "com.github.bumptech.glide:compiler:${dependVersion.imageGlide}",
             // Picasso 图片加载库
-            "picasso"             : "com.squareup.picasso:picasso:${dependVersion.imagePicasso}"
+            "picasso"                 : "com.squareup.picasso:picasso:${dependVersion.imagePicasso}"
 
     ]
 }

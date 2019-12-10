@@ -7,7 +7,7 @@ import android.widget.ImageView;
 import com.renj.imageloader.R;
 import com.renj.imageloader.base.BaseActivity;
 import com.renj.imageloader.base.CustomViewHolder;
-import com.renj.imageloader.base.SingleTypeAdapter;
+import com.renj.imageloader.base.CustomRecyclerAdapter;
 import com.renj.imageloader.utils.ImageLoaderManager;
 import com.renj.imageloader.utils.ImageUrl;
 
@@ -45,7 +45,7 @@ public class PicassoListActivity extends BaseActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(layoutManager);
 
-        recyclerView.setAdapter(new SingleTypeAdapter<String>(this, images, R.layout.activity_list_item) {
+        recyclerView.setAdapter(new CustomRecyclerAdapter<String>(this, images, R.layout.activity_list_item) {
             @Override
             public void setData(CustomViewHolder holder, String itemData, int position) {
                 ImageView imageView = holder.getView(R.id.image_view);
