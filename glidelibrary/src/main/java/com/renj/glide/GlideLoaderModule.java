@@ -159,25 +159,25 @@ public class GlideLoaderModule implements IImageLoaderModule {
     private RequestManager createRequestManager(@NonNull ImageLoadConfig imageLoadConfig) {
 
         if (imageLoadConfig.getFragmentV4() != null)
-            return Glide.with(imageLoadConfig.getFragmentV4());
+            return GlideApp.with(imageLoadConfig.getFragmentV4());
 
         if (imageLoadConfig.getFragment() != null)
-            return Glide.with(imageLoadConfig.getFragment());
+            return GlideApp.with(imageLoadConfig.getFragment());
 
         if (imageLoadConfig.getFragmentActivity() != null)
-            return Glide.with(imageLoadConfig.getFragmentActivity());
+            return GlideApp.with(imageLoadConfig.getFragmentActivity());
 
         if (imageLoadConfig.getActivity() != null)
-            return Glide.with(imageLoadConfig.getActivity());
+            return GlideApp.with(imageLoadConfig.getActivity());
 
         if (imageLoadConfig.getTarget() != null)
-            return Glide.with(imageLoadConfig.getTarget());
+            return GlideApp.with(imageLoadConfig.getTarget());
 
         if (imageLoadConfig.getContext() != null)
-            return Glide.with(imageLoadConfig.getContext());
+            return GlideApp.with(imageLoadConfig.getContext());
 
         if (imageModuleConfig.getApplication() != null)
-            return Glide.with(imageModuleConfig.getApplication());
+            return GlideApp.with(imageModuleConfig.getApplication());
 
         throw new NullPointerException("Glide 获取不到 Context");
     }
