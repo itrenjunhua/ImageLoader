@@ -184,17 +184,17 @@ public class GlideLoaderModule implements IImageLoaderModule {
 
     @Override
     public void pause() {
-        Glide.with(imageModuleConfig.getApplication()).pauseRequestsRecursive();
+        GlideApp.with(imageModuleConfig.getApplication()).pauseRequestsRecursive();
     }
 
     @Override
     public void resume() {
-        Glide.with(imageModuleConfig.getApplication()).resumeRequestsRecursive();
+        GlideApp.with(imageModuleConfig.getApplication()).resumeRequestsRecursive();
     }
 
     @Override
     public void clearMemoryCache() {
-        Glide.get(imageModuleConfig.getApplication()).clearMemory();
+        GlideApp.get(imageModuleConfig.getApplication()).clearMemory();
     }
 
     @Override
@@ -203,7 +203,7 @@ public class GlideLoaderModule implements IImageLoaderModule {
             @Override
             public void run() {
                 // 必须在子线程中调用
-                Glide.get(imageModuleConfig.getApplication()).clearDiskCache();
+                GlideApp.get(imageModuleConfig.getApplication()).clearDiskCache();
             }
         });
         thread.start();
