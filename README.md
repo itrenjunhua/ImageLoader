@@ -32,4 +32,21 @@
 目前，该库已经实现了使用 Picasso 和 Glide 加载图片的方法，如果需要使用其他的图片，可以模拟Picasso或者Glide的实现进行自定义扩展。
 
 
+## 混淆
+
+* imageloaderlibrary库
+
+		-keep class com.renj.imageloaderlibrary.**{*;}
+		-keep com.renj.imageloaderlibrary.**
+    
+* glidelibrary库
+
+		-keep class com.renj.glide.**{*;}
+		-keep com.renj.glide.**
+
+* picassolibrary库
+
+		-keep class com.renj.picasso.**{*;}
+		-keep com.renj.picasso.**
+
 
