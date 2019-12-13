@@ -43,10 +43,24 @@
 
 		-keep class com.renj.glide.**{*;}
 		-dontwarn com.renj.glide.**
+		
+		# Glide库混淆
+		-keep public class * implements com.bumptech.glide.module.GlideModule
+        -keep public class * extends com.bumptech.glide.module.AppGlideModule
+        -keep public enum com.bumptech.glide.load.ImageHeaderParser$** {
+          **[] $VALUES;
+          public *;
+        }
+        # for DexGuard only
+        -keepresourcexmlelements manifest/application/meta-data@value=GlideModule
 
 * picassolibrary库
 
 		-keep class com.renj.picasso.**{*;}
 		-dontwarn com.renj.picasso.**
+		
+		# picasso库混淆
+        -keep class com.squareup.picasso.** {*; }
+        -dontwarn com.squareup.picasso.**
 
 
