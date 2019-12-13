@@ -37,6 +37,13 @@
 * imageloaderlibrary库
 
 		-keep class com.renj.imageloaderlibrary.**{*;}
+		-keep public class * extends com.renj.imageloaderlibrary.config.ImageLoadConfig
+		-keep public class * implements com.renj.imageloaderlibrary.loader.IImageLoaderModule
+		-keep emum com.renj.imageloaderlibrary.config.ImageLoadLibrary{
+          **[] $VALUES;
+          public ** valueOf(java.lang.String);
+          public *;
+        }
 		-dontwarn com.renj.imageloaderlibrary.**
     
 * glidelibrary库
