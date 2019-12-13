@@ -37,16 +37,16 @@
 * imageloaderlibrary库
 
 		-keep class com.renj.imageloaderlibrary.**{*;}
-		-keep com.renj.imageloaderlibrary.**
+		-dontwarn com.renj.imageloaderlibrary.**
     
 * glidelibrary库
 
 		-keep class com.renj.glide.**{*;}
-		-keep com.renj.glide.**
+		-dontwarn com.renj.glide.**
 
 * picassolibrary库
 
 		-keep class com.renj.picasso.**{*;}
-		-keep com.renj.picasso.**
+		-dontwarn com.renj.picasso.**
 
 
